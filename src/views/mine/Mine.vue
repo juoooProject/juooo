@@ -5,7 +5,7 @@
           <span class="arrow"><</span>
         </div>
         <div class="logo-wrapper">
-          <span class="logo">JUOOO</span>
+          <span class="logo"></span>
         </div>
         <div class="arrow-wrapper">
         </div>
@@ -26,8 +26,8 @@
 </template>
 
 <script>
-  import LoginCode from '../components/loginByCode/LoginCode'
-  import LoginPwd from '../components/loginByPassword/LoginPwd'
+  import LoginCode from '../../components/loginByCode/LoginCode'
+  import LoginPwd from '../../components/loginByPassword/LoginPwd'
     export default {
         name: "Mine",
         components:{
@@ -57,6 +57,15 @@
     .logo-wrapper{
       flex: 1;
       text-align: center;
+      .logo{
+        display: inline-block;
+        width: 136px;
+        height: 35px;
+        margin: 25px auto;
+        background-image:url("icon-logo.png");
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+      }
     }
   }
   .loginWay{
