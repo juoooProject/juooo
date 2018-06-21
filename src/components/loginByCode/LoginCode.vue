@@ -8,7 +8,7 @@
           </div>
         </div>
         <div class="text-wrapper">
-          <input class="text" type="text" placeholder="手机号">
+          <input name="phoneNum" class="text" type="text" placeholder="手机号">
         </div>
       </div>
       <div class="input">
@@ -21,7 +21,10 @@
           <input class="text" type="text" placeholder="请输入验证码">
         </div>
         <div class="getCode">
-          <button class="getCodeBtn">获取验证码</button>
+          <button class="getCodeBtn" @click.stop.prevent="getCode">
+            <span v-if="!sendDisabled">获取验证码</span>
+            <span v-if="sendDisabled">{{time}}秒后获取</span>
+          </button>
         </div>
       </div>
         <div class="prompt">
@@ -37,7 +40,30 @@
 
 <script>
     export default {
-        name: "LoginCode"
+        name: "LoginCode",
+        data(){
+            return{
+                time:60,
+                sendDisabled:false
+            }
+        },
+        methods:{
+            getCode(){
+                this.sendDisabled = true;
+                let timer = setInterval(() => {
+                    if((this.time--)<= 0){
+                        this.time = 60;
+                        this.sendDisabled = false;
+                        clearInterval(timer);
+                    }
+                },1000);
+            }
+        },
+        mounted(){
+            this.$nextTick(() => {
+
+            })
+        }
     }
 </script>
 

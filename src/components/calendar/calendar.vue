@@ -3,7 +3,7 @@
     .calendar {
         margin:auto;
         width: 100%;
-        min-width:300px;
+        min-width:750px;
         background: #fff;
         font-family: "PingFang SC","Hiragino Sans GB","STHeiti","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;
         user-select:none;
@@ -78,7 +78,7 @@
         vertical-align: top;
     }
     .calendar td.week{
-        font-size:10px;
+        font-size:20px;
         pointer-events:none !important;
         cursor: default !important;
     }
@@ -94,7 +94,7 @@
         display:block;
         max-width:40px;
         height:26px;
-        font-size: 16px;
+        font-size: 26px;
         line-height:26px;
         margin:0px auto;
         border-radius:20px;
@@ -120,7 +120,6 @@
         left:0;
         right:0;
         text-align: center;
-
         padding:2px;
         font-size:8px;
         line-height: 1.2;

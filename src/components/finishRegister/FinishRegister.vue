@@ -1,7 +1,7 @@
 <template>
     <div class="finish-register">
         <div class="mine-header">
-            <div class="arrow-wrapper">
+            <div class="arrow-wrapper" @click="back">
                 <span class="icon-angle-left"></span>
             </div>
             <div class="text-wrapper">
@@ -17,7 +17,7 @@
                         <span class="icon-mobile"></span>
                     </div>
                     <div class="phone-input">
-                        <input class="text" type="text" placeholder="" value="18380591638">
+                        <input name="phoneNum" class="text" type="number" placeholder="" v-model="phoneNumber">
                     </div>
                 </div>
                 <div class="input pwd">
@@ -25,14 +25,14 @@
                         <span class="icon-lock"></span>
                     </div>
                     <div class="pwd-input">
-                        <input class="text" type="text" placeholder="设置密码">
+                        <input id="passwd" name="passWord" class="text" type="password" placeholder="设置密码">
                     </div>
                 </div>
                 <div class="prompt">
                     <p class="prompt-text">密码只能是不包含空格的6-20位字符</p>
                 </div>
                 <div class="submit">
-                    <button class="submit-btn">完成注册</button>
+                    <button @click="register" class="submit-btn">完成注册</button>
                 </div>
             </div>
         </div>
@@ -41,7 +41,33 @@
 
 <script>
     export default {
-        name: "FinishRegister"
+        name: "FinishRegister",
+        data(){
+            return{
+                phoneNumber:this.$route.query.phoneNum,
+                password:''
+            }
+        },
+        methods:{
+            register(){
+                this.$http.post('/api/register',{phoneNum:this.phoneNumber,passWord:this.password}).then((response) => {
+                    alert('register success');
+                    console.log(response)
+                })
+            },
+            back(){
+                this.$router.go(-1)
+            },
+        },
+        mounted(){
+            this.$nextTick(() => {
+                let pwdVal = $("#passwd");
+                $("#passwd").blur(()=>{
+                   this.password = $("#passwd").val()
+                    console.log(this.password)
+                })
+            })
+        }
     }
 </script>
 

@@ -17,7 +17,7 @@
                         <span class="icon-mobile"></span>
                     </div>
                     <div class="phone-input">
-                        <input class="text" type="text" placeholder="手机号">
+                        <input id="phone" name="phoneNum" class="text" type="text" placeholder="手机号" v-model="phoneNumber">
                     </div>
                 </div>
                 <div class="input image">
@@ -27,8 +27,8 @@
                     <div class="image-input">
                         <input class="text" type="text" placeholder="图形码">
                     </div>
-                    <div class="image-detail">
-
+                    <div class="identify">
+                        <s-identify></s-identify>
                     </div>
                 </div>
                 <div class="input code">
@@ -48,7 +48,7 @@
                 </div>
                 <div class="next-step">
                     <!--<button class="next-step-btn">下一步</button>-->
-                    <router-link to="/mine/finishRegister" tag="button" class="next-step-btn">下一步</router-link>
+                    <router-link :to="{name:'finishRegister',query:{phoneNum:phoneNumber}}" tag="button" class="next-step-btn">下一步</router-link>
                 </div>
                 <div class="login">
                     <span class="text">已有账号？<a href="" class="login-now">立即登录</a></span>
@@ -60,12 +60,29 @@
 </template>
 
 <script>
+    import SIdentify from '../identify/identify'
     export default {
         name: "Register",
+        data(){
+            return{
+                phoneNumber:''
+            }
+        },
         methods:{
             back(){
                 this.$router.go(-1)
-            }
+            },
+
+        },
+        mounted(){
+            this.$nextTick(() => {
+                $('#phone').blur(() => {
+                    this.phoneNumber = $('#phone').val();
+                })
+            })
+        },
+        components:{
+            SIdentify
         }
     }
 </script>
@@ -140,6 +157,13 @@
                         font-size: 24px;
                         color: #666;
                     }
+                }
+                .identify{
+                    position: absolute;
+                    right: 30px;
+                    top: 15px;
+                    width: 240px;
+                    height: 60px;
                 }
                 .code-input{
                     border-bottom: none;

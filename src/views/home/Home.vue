@@ -2,7 +2,7 @@
   <div class="home">
     <!--<router-link class="to-address" tag="button" to="/home/address">全国</router-link>-->
     <!--<router-view ></router-view>-->
-    <calendar-main></calendar-main>
+    <!--<calendar-main v-if=""></calendar-main>-->
   </div>
 </template>
 
@@ -28,10 +28,10 @@ export default {
 </script>
 <style lang="less" scoped>
   .home{
+    position: relative;
     height: 100%;
     .to-address{
       position: relative;
-      z-index: -1;
     }
   }
 </style>

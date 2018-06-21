@@ -1,7 +1,7 @@
 <template>
     <div class="mine">
       <div class="mine-header">
-        <div class="arrow-wrapper">
+        <div class="arrow-wrapper" @click="toHome">
           <span class="icon-angle-left"></span>
         </div>
         <div class="logo-wrapper">
@@ -11,16 +11,18 @@
         </div>
       </div>
       <div class="loginWay">
-        <div class="pwd active">
+        <div class="pwd" @click="addActive" :class="{'active':state%2==0}">
           <span class="pwd-text">密码登录</span>
         </div>
-        <div class="code">
+        <div class="code" @click="addActive" :class="{'active':state%2==1}">
           <span class="code-text">验证码登录</span>
         </div>
       </div>
       <div class="input-main">
-        <login-pwd></login-pwd>
-        <login-code></login-code>
+
+          <login-pwd v-show="state%2==0"></login-pwd>
+          <login-code v-show="state%2==1"></login-code>
+
       </div>
       <div class="mine-footer">
         <!--子路由-->
@@ -48,6 +50,19 @@
   import LoginPwd from '../../components/loginByPassword/LoginPwd'
     export default {
         name: "Mine",
+        data(){
+          return{
+              state:0
+          }
+        },
+        methods:{
+          addActive(){
+              this.state++;
+          },
+          toHome(){
+              this.$router.push('/home')
+          }
+        },
         components:{
           LoginCode,
           LoginPwd

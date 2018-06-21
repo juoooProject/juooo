@@ -1,7 +1,7 @@
 <template>
     <div class="find-back-pwd">
         <div class="mine-header">
-            <div class="arrow-wrapper">
+            <div class="arrow-wrapper" @click="back">
                 <span class="icon-angle-left"></span>
             </div>
             <div class="text-wrapper">
@@ -12,7 +12,7 @@
         </div>
         <div class="step-by-step">
             <div class="step">
-                <span class="one-step active" :class="active">1.输入账号</span>
+                <span class="one-step active" :class="">1.输入账号</span>
                 <span class="right">&gt;</span>
                 <span class="two-step">2.填写验证码</span>
                 <span class="right">&gt;</span>
@@ -43,6 +43,11 @@
         data(){
             return{
                 showFlag:false
+            }
+        },
+        methods:{
+            back(){
+                this.$router.go(-1)
             }
         }
     }

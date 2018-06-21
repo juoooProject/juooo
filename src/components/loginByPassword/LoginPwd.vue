@@ -1,5 +1,5 @@
 <template>
-    <div class="loginByPwd" v-if="showFlag">
+    <div class="loginByPwd" v-if="">
       <form action="" class="password-login">
         <div class="input">
           <div class="icon-wrapper">
@@ -8,7 +8,7 @@
             </div>
           </div>
           <div class="text-wrapper">
-            <input class="text" type="text" placeholder="手机号/邮箱">
+            <input id="user" class="text" value="" type="text" placeholder="手机号/邮箱" v-model="username">
           </div>
         </div>
         <div class="input">
@@ -18,15 +18,15 @@
             </div>
           </div>
           <div class="pwd-wrapper">
-            <input class="text" type="password" placeholder="密码">
+            <input id="pwd" class="text" type="password" placeholder="密码" v-model="password">
           </div>
         </div>
-        <div class="prompt">
+        <div class="prompt" v-show="showSign">
           <span></span>
-          <p class="prompt-text">请输入正确的手机号/邮箱</p>
+          <p class="prompt-text">{{showPrompt}}</p>
         </div>
         <div class="submit">
-          <button class="submit-btn">登录</button>
+          <button class="submit-btn" @click="login">登录</button>
         </div>
       </form>
     </div>
@@ -37,8 +37,67 @@
         name: "LoginPwd",
         data(){
             return{
-                showFlag:false
+                showFlag:false,
+                password:'',
+                username:'',
+                existUser:false,
+                existPwd:false,
+                showSign:false
             }
+        },
+        created(){
+
+        },
+        methods:{
+            show(){
+                return this.showSign;
+            },
+            login(){
+                this.$http.post('/api/login',{phoneNum:this.phoneNumber,passWord:this.password}).then((response) => {
+                    console.log(response)
+                })
+            }
+        },
+        computed:{
+            showPrompt(){
+                if(this.existUser == false && this.existPwd == true || (this.existUser == false && this.existPwd == false)){
+                    return '请输入正确的手机号/邮箱';
+                }
+                if(this.existPwd == false && this.existPwd == true){
+                    return '密码只能是不包含空格的6-20位字符!';
+                }
+            }
+        },
+        mounted(){
+            //手机正则："^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\\d{8}$"
+            //邮箱正则：^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$
+            // pwd : ^[A-Z0-9[^ ]]{6,20}$
+            this.$nextTick(() => {
+                var phoneReg = /^(13[0-9]|14[5|7]|15[0-3]|[5-9]|18[0-9])\d{8}$/;
+                var emailReg = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;
+                var pwdReg = /^[\\p{Punct}a-zA-Z0-9]{6,20}$/;
+                console.log(this.showSign)
+                // var isMatch = false;
+                $('#pwd').blur(function(){
+                    this.username = $('#user').val();
+                    this.password = $('#pwd').val();
+                    if(phoneReg.test(this.username) || emailReg.test(this.username)){
+                        this.existUser = true;
+                    }else{
+                        this.existUser = false;
+                    }
+                    if(pwdReg.test(this.password)){
+                        this.existPwd = true;
+                    }else{
+                        this.existPwd = false;
+                    }
+                    if((!this.existPwd) || (!this.existUser) || ((!this.existUser) && (!this.existPwd))){
+                        this.showSign = true;
+                        console.log(this.showSign)
+                    }
+                })
+
+            })
         }
     }
 </script>
