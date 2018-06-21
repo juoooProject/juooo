@@ -2,7 +2,7 @@
     <div class="mine">
       <div class="mine-header">
         <div class="arrow-wrapper">
-          <span class="arrow"><</span>
+          <span class="icon-angle-left"></span>
         </div>
         <div class="logo-wrapper">
           <span class="logo"></span>
@@ -22,6 +22,24 @@
         <login-pwd></login-pwd>
         <login-code></login-code>
       </div>
+      <div class="mine-footer">
+        <!--子路由-->
+        <div class="footer-link">
+          <router-link to="/mine/register" class="registerNow">立即注册</router-link>
+          <router-link to="/mine/findBackPwd" class="forgetPwd">忘记密码？</router-link>
+        </div>
+        <div class="otherLoginWay">
+          <div class="left-split"></div>
+          <div class="middle">其他登录方式</div>
+          <div class="right-split"></div>
+        </div>
+        <div class="login-way-main">
+          <div class="qq-way"></div>
+          <div class="bd-way"></div>
+          <div class="wb-way"></div>
+        </div>
+      </div>
+      <router-view></router-view>
     </div>
 </template>
 
@@ -39,9 +57,10 @@
 
 <style lang="less" scoped>
 .mine{
-  position:relative;
+  position: fixed;
+  z-index: 100;
   width:100%;
-  height:100%;
+  min-height:100%;
   background: #f6f6f6;
   .mine-header{
     display: flex;
@@ -53,6 +72,12 @@
     background:#fdfdfd;
     .arrow-wrapper{
       flex:0 0 10%;
+      .icon-angle-left{
+        font-size: 60px;
+        line-height: 85px;
+        font-weight: 400;
+        color:#212121
+      }
     }
     .logo-wrapper{
       flex: 1;
@@ -103,6 +128,65 @@
           color: #ff7919;
           border-bottom: 2px solid #ff7919;
         }
+      }
+    }
+  }
+  .mine-footer{
+    margin: 22px 0 0;
+    .footer-link{
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      height: 45px;
+      &>a{
+        display: inline-block;
+        position: absolute;
+        width: 30%;
+        font-size: 28px;
+        height: 50px;
+        line-height: 50px;
+        color: #666;
+      }
+      .registerNow{
+        margin-left: 0;
+        left: 0;
+      }
+      .forgetPwd{
+        margin-right: 0;
+        right: 0;
+      }
+    }
+    .otherLoginWay{
+      display: flex;
+      color: #999;
+      font-size: 23px;
+      margin-top: 150px;
+      &>div{
+        flex:1
+      }
+    }
+    .login-way-main{
+      display: flex;
+      margin-top: 60px;
+      width: 45%;
+      margin-left: 27.5%;
+      height: 100px;
+      text-align: center;
+      justify-content: space-around;
+      &>div{
+        width: 100px;
+        height: 100px;
+        background-repeat: no-repeat;
+        background-size: 100px 100px;
+      }
+      .qq-way{
+         background-image: url('qq.png');
+       }
+      .bd-way{
+        background-image: url('bd.png');
+      }
+      .wb-way{
+        background-image: url('wb.png');
       }
     }
   }

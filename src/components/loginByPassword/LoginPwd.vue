@@ -1,5 +1,5 @@
 <template>
-    <div class="loginByPwd">
+    <div class="loginByPwd" v-if="showFlag">
       <form action="" class="password-login">
         <div class="input">
           <div class="icon-wrapper">
@@ -26,7 +26,7 @@
           <p class="prompt-text">请输入正确的手机号/邮箱</p>
         </div>
         <div class="submit">
-          <input type="submit" value="登录">
+          <button class="submit-btn">登录</button>
         </div>
       </form>
     </div>
@@ -34,19 +34,24 @@
 
 <script>
     export default {
-        name: "LoginPwd"
+        name: "LoginPwd",
+        data(){
+            return{
+                showFlag:false
+            }
+        }
     }
 </script>
-
 <style lang="less" scoped>
 .loginByPwd{
-  padding: 15px 15px 0;
+  padding-top: 15px;
   .input{
     display: flex;
     width: 100%;
     height: 90px;
     line-height: 90px;
     background:#fff;
+    color: #666;
     .icon-wrapper{
       flex: 0 0 12%;
       width:12%;
@@ -58,14 +63,14 @@
         margin-top: 20px;
         .icon-user,.icon-lock {
           font-size: 32px;
-          color: rgba(47,53,59,0.5)
+          color:#d8d8d8;
         }
       }
     }
     .text-wrapper,.pwd-wrapper{
       flex: 1;
       box-sizing:border-box;
-      margin-right: 4%;
+      margin-right: 5%;
       height: 100%;
       border-bottom: 1px solid #e7e7e7;
       .text{
@@ -73,7 +78,7 @@
         width: 100%;
         height:60px;
         line-height:60px;
-        font-size: 16px;
+        font-size: 24px;
       }
     }
     .pwd-wrapper{
@@ -82,7 +87,45 @@
   }
   .prompt{
     color: #b3b3b3;
-
+    &>p{
+      width:100%;
+      margin: 32px 0;
+      font-size: 23px;
+      line-height: 23px;
+      text-align: left;
+      text-indent: 30px;
+    }
+  }
+  .submit{
+    width: 90%;
+    margin: 2% 5%;
+    .submit-btn{
+      display: block;
+      width: 100%;
+      color: #999;
+      background-color: #e6e6e6;
+      cursor: not-allowed;
+      border: none;
+      outline: none;
+      font-size: 32px;
+      height: 75px;
+      line-height: 75px;
+      letter-spacing: 10px;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      border-radius: 5px;
+      font-weight: 700;
+    }
+    &.btn-clock{
+      display: block;
+      border: 1px solid #ff7919;
+      -webkit-border-radius: .128rem;
+      border-radius: .128rem;
+      width: 100%;
+      font-size: .68267rem;
+      color: #fff;
+      background-color: #ff7919;
+    }
   }
 }
 </style>

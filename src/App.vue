@@ -1,9 +1,9 @@
 <template>
   <div id="app">
-    <router-view/>
+    <router-view></router-view>
     <div class="footer-nav">
       <div class="nav-item">
-        <router-link to="/">
+        <router-link to="/home">
           <p class="icon home"></p>
           <p class="text">首页</p>
         </router-link>
@@ -47,11 +47,14 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
-    min-height:100%;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
     .footer-nav {
       position: fixed;
       bottom:0;
       left:0;
+      z-index: -1;
       width: 100%;
       height:100px;
       display: flex;
@@ -96,6 +99,9 @@
           }
         }
       }
+    }
+    .address-wrapper{
+
     }
   }
 </style>
