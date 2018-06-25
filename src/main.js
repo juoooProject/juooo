@@ -6,8 +6,11 @@ import router from './router'
 import './common/less/reset.less'
 import 'lib-flexible/flexible'
 import './common/less/style.less'
-
+import axios from 'axios'
+import SIdentify from './components/identify/identify'
+Vue.use(SIdentify)
 Vue.config.productionTip = false
+Vue.prototype.$http = axios
 
 /* eslint-disable no-new */
 new Vue({
