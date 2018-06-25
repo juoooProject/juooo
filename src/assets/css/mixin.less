@@ -1,0 +1,33 @@
+.bg-img(@url){
+  background-image: url("@{url}@2x.png");
+  @media only screen and (-webkit-min-device-pixel-ratio: 3.0){
+    background-image: url("@{url}@3x.png");
+  }
+}
+
+.border-bottom(@color){
+  /*类似于js的函数*/
+  position: relative;
+  &:after{
+    display: block;
+    content: "";
+    width: 100%;
+    height: 1px;
+    position: absolute;
+    bottom: 0;
+    background-color: @color;
+  }
+  @media only screen and (-webkit-min-device-pixel-ratio: 2.0){
+    /*像素点为2.0*/
+    &:after{
+      transform: scale(0.5);
+    }
+
+  }
+  @media only screen and (-webkit-min-device-pixel-ratio: 3.0){
+    /*像素点为3.0*/
+    &:after{
+      transform: scale(0.3333);
+    }
+  }
+}

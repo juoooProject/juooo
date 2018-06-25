@@ -43,6 +43,7 @@
   width:100%;
   height:100%;
   background: #f6f6f6;
+  z-index: 10;
   .mine-header{
     display: flex;
     width: 100%;
