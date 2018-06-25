@@ -1,6 +1,6 @@
 <template>
     <div class="mine">
-      <div class="mine-wrapper">
+      <div class="mine-wrapper" v-if="!logined">
         <div class="mine-header">
           <div class="arrow-wrapper" @click="toHome">
             <span class="icon-angle-left"></span>
@@ -42,7 +42,7 @@
         </div>
         <router-view></router-view>
       </div>
-      <my-page :phoneNumber="phoneNumber" v-if="logined==true"></my-page>
+      <my-page :phoneNumber="phoneNumber" :logined="logined" v-if="logined"></my-page>
     </div>
 </template>
 
@@ -76,20 +76,24 @@
         },
         created(){
             //this.logined = window.localStorage.loginState;
+            this.$nextTick(() => {
+                Bus.$on('phone',(phone)=>{
+                    this.phoneNumber = phone;
+                })
+                Bus.$on('loginOut',(loginOut)=>{
+                    this.logined = loginOut
+                })
+                if(sessionStorage.getItem("user")){
+                    this.logined = true
+                    console.log(1)
+                }else{
+                    this.logined = false
+                }
 
+            })
         },
         mounted(){
-          this.$nextTick(() => {
-              Bus.$on('phone',(phone)=>{
-                  this.phoneNumber = phone;
-              })
-              this.logined = loadFromLocal(this.phoneNumber,'loginSate',false)
-              console.log(this.logined)
-              // Bus.$on('isLogin',(loginState)=>{
-              //     this.logined = loginState
-              // })
 
-          })
         }
     }
 </script>

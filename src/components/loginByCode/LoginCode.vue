@@ -92,7 +92,7 @@
           }
         }
       }
-      .text-wrapper{
+      .text-wrapper,.codeInput{
         flex: 1;
         box-sizing:border-box;
         margin-right: 5%;
@@ -103,8 +103,11 @@
           width: 100%;
           height:60px;
           line-height:60px;
-          font-size: 16px;
+          font-size: 20px;
         }
+      }
+      .codeInput{
+        border-bottom:none;
       }
       .getCode{
         position: absolute;

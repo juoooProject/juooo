@@ -1,6 +1,7 @@
 <template>
   <div id="app">
       <router-view></router-view>
+
     <div class="footer-nav">
       <div class="nav-item">
         <router-link to="/home">

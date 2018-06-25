@@ -67,7 +67,7 @@
 </template>
 
 <script>
-    import {saveToLocal, loadFromLocal} from '../../common/js/store';
+    import Bus from '../../common/js/bus'
     export default {
         name: "accountSetting",
         data(){
@@ -80,8 +80,10 @@
                 this.$router.go(-1)
             },
             loginOut(){
+                Bus.$emit('loginOut',this.isLogin);
+                sessionStorage.removeItem('user')
                 this.$router.push('/mine');
-                saveToLocal(this.phoneNumber,'loginState',this.isLogin);
+                console.log(sessionStorage.getItem('user'))
             }
         },
         mounted(){

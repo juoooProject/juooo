@@ -35,8 +35,10 @@
 
 <script>
   import Bus from '../../common/js/bus'
-  import {saveToLocal, loadFromLocal} from '../../common/js/store';
   import {phoneReg,emailReg,pwdReg} from '../../common/js/inputReg'
+  const ERR_OK=1;
+  const PHONE_ERR='请输入正确的手机号/邮箱';
+  const PWD_ERR = '密码只能是不包含空格的6-20位字符!';
     export default {
         name: "LoginPwd",
         props:{
@@ -58,7 +60,7 @@
             }
         },
         created(){
-
+            // this.$router.dispatch()
         },
         methods:{
             show(){
@@ -71,12 +73,14 @@
                     param.append('passWord',this.password)
                     this.$http.post('/api/login',param).then((response) => {
                         console.log(response)
-                        if(response.data.status == 1){
+                        if(response.data.status == ERR_OK){
                             console.log('登录成功')
                             //跳转个人中心界面
+                            this.$router.push('/home');
                             this.loginState = true;
                             Bus.$emit('phone',this.phoneNumber)
-                            saveToLocal(this.phoneNumber,'loginState',true);
+                            //saveToLocal(this.phoneNumber,'loginState',true);
+                            sessionStorage.setItem('user',this.phoneNumber)
 
                         }else{
                             console.log('登录失败')
@@ -92,13 +96,13 @@
         computed:{
             showPrompt(){
                 if(this.existUser == false ){
-                    return '请输入正确的手机号/邮箱';
+                    return PHONE_ERR;
                 }
                 if(this.existUser == false && this.existPwd == false){
-                    return '请输入正确的手机号/邮箱';
+                    return PHONE_ERR;
                 }
                 if(this.existPwd == false ){
-                    return '密码只能是不包含空格的6-20位字符!';
+                    return PWD_ERR;
                 }
                 if(this.isOk == false){
                     return this.msg;
