@@ -4,6 +4,7 @@
     </div>
 </template>
 <script>
+    import Bus from '../../common/js/bus'
     export default{
         name: 'SIdentify',
         props: {
@@ -72,6 +73,7 @@
                 this.identifyCode = ''
                 this.codeArr.shift()
                 this.makeCode(this.identifyCodes, 4)
+                Bus.$emit('getCode',this.codeArr[this.codeArr.length-1])
             },
             makeCode (o, l) {
                 for (let i = 0; i < l; i++) {

@@ -25,7 +25,7 @@
                         <span class="icon-mail"></span>
                     </div>
                     <div class="image-input">
-                        <input class="text" type="text" placeholder="图形码">
+                        <input class="text" type="text" placeholder="图形码" v-model="code1">
                     </div>
                     <div class="identify">
                         <s-identify></s-identify>
@@ -36,19 +36,27 @@
                         <span class="icon-mail"></span>
                     </div>
                     <div class="code-input">
-                        <input class="text" type="text" placeholder="输入验证码">
+                        <input id="codeInput" class="text" type="text" placeholder="输入验证码" v-model="code2">
                     </div>
                     <div class="get-code">
-                        <button class="get-code-btn">获取验证码</button>
+                        <button class="get-code-btn" @click.stop.prevent="getCode">
+                            <span v-if="!sendDisabled">获取验证码</span>
+                            <span v-if="sendDisabled">{{time}}秒后获取</span>
+                        </button>
                     </div>
                 </div>
 
                 <div class="protocol">
                     <span class="text">注册代表您已同意</span><a href="" class="protocol-link">聚橙网服务协议</a>
                 </div>
+                <div class="prompt" v-show="showSign">
+                    <p class="prompt-text">
+                        <i class="icon ion-help-circled"></i>{{showPrompt}}
+                    </p>
+                </div>
                 <div class="next-step">
                     <!--<button class="next-step-btn">下一步</button>-->
-                    <router-link :to="{name:'finishRegister',query:{phoneNum:phoneNumber}}" tag="button" class="next-step-btn">下一步</router-link>
+                    <button tag="button" class="next-step-btn" :class="{'active':could}">下一步</button>
                 </div>
                 <div class="login">
                     <span class="text">已有账号？<a href="" class="login-now">立即登录</a></span>
@@ -60,25 +68,102 @@
 </template>
 
 <script>
+    import Bus from '../../common/js/bus'
     import SIdentify from '../identify/identify'
+    import {phoneReg,emailReg,pwdReg} from '../../common/js/inputReg'
     export default {
         name: "Register",
         data(){
             return{
-                phoneNumber:''
+                phoneNumber:'',
+                time:60,
+                sendDisabled:false,
+                showSign:false,
+                phoneIsRight:false,  //手机号正确匹配
+                codeNum:'',
+                code1:'',
+                code2:'',
+                code1Err:false,
+                code2Err:false,
+                could:false
             }
         },
         methods:{
             back(){
                 this.$router.go(-1)
             },
-
+            getCode(){
+                this.sendDisabled = true;
+                let timer = setInterval(() => {
+                    if((this.time--)<= 0){
+                        this.time = 60;
+                        this.sendDisabled = false;
+                        clearInterval(timer);
+                    }
+                },1000);
+            }
+        },
+        created(){
+            Bus.$on('getCode',(code)=>{
+                this.codeNum = code;
+                console.log(this.codeNum)
+            })
+        },
+        computed:{
+            showPrompt(){
+                if(this.phoneIsRight == false){
+                    return '请输入正确的手机号';
+                }
+                if(this.code1Err){
+                    return "请输入正确的图形验证码";
+                }
+                if(this.code2Err){
+                    return '请输入正确的验证码';
+                }
+            }
         },
         mounted(){
             this.$nextTick(() => {
-                $('#phone').blur(() => {
-                    this.phoneNumber = $('#phone').val();
+                const nextStepBtn = $('.next-step-btn');
+                const phoneInput = $('#phone');
+                phoneInput.on('input',() => {
+                    let val = phoneInput.val();
+                    console.log(val)
+                    if(!phoneReg.test(val)){
+                        console.log(1)
+                        this.phoneIsRight = false;
+                        this.showSign = true;
+                    }else{
+                        this.phoneIsRight = true;
+                        this.showSign = false;
+                    }
                 })
+                console.log(this.showSign)
+
+                let codeInp = $('#codeInput');
+                codeInp.on('blur',()=>{
+                    if (this.code1Err==false && this.code2Err==false && this.phoneIsRight==true && this.code1 !=='' && this.code2 !=='')
+                    {
+                        this.could = true;
+                    }
+                })
+                nextStepBtn.on('touchstart',() => {
+                    //路由跳转
+                    this.showSign = false;
+                    if (this.code1!==this.codeNum){
+                        this.code1Err = true
+                        this.showSign = true;
+                    }else if (this.code2!==this.codeNum){
+                        this.code1Err = false
+                        this.showSign = true;
+                        this.code2Err = true;
+                    } else if (this.code1Err==false && this.code2Err==false && this.phoneIsRight==true && this.code1 !=='' && this.code2 !==''){
+                        this.could = true;
+                        this.$router.push({path:'/mine/finishRegister',query:{phoneNum:this.phoneNumber}})
+                    }
+
+                })
+
             })
         },
         components:{
@@ -203,6 +288,17 @@
                     text-indent: 5px;
                     color: #b3b3b3;
                     text-decoration: underline;
+                }
+            }
+            .prompt{
+                color: #b3b3b3;
+                &>p{
+                    width:100%;
+                    margin: 32px 0;
+                    font-size: 23px;
+                    line-height: 23px;
+                    text-align: left;
+                    text-indent: 30px;
                 }
             }
             .next-step{

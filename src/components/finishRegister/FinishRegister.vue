@@ -25,14 +25,14 @@
                         <span class="icon-lock"></span>
                     </div>
                     <div class="pwd-input">
-                        <input id="passwd" name="passWord" class="text" type="password" placeholder="设置密码">
+                        <input id="passwd" name="passWord" class="text" type="password" placeholder="设置密码" v-model="password">
                     </div>
                 </div>
-                <div class="prompt">
-                    <p class="prompt-text">密码只能是不包含空格的6-20位字符</p>
+                <div class="prompt" v-show="showSign">
+                    <p class="prompt-text"><i class="icon ion-help-circled"></i>{{showPrompt}}</p>
                 </div>
                 <div class="submit">
-                    <button @click="register" class="submit-btn">完成注册</button>
+                    <button @click="register" class="submit-btn" :class="{'active':couldRegister}">完成注册</button>
                 </div>
             </div>
         </div>
@@ -40,31 +40,51 @@
 </template>
 
 <script>
+    import {pwdReg} from '../../common/js/inputReg'
     export default {
         name: "FinishRegister",
         data(){
             return{
                 phoneNumber:this.$route.query.phoneNum,
-                password:''
+                password:'',
+                showSign:false,
+                couldRegister:false
+            }
+        },
+        computed:{
+            showPrompt(){
+                if(this.showSign == true){
+                    return '密码只能是不包含空格的6-20位字符';
+                }
             }
         },
         methods:{
             register(){
-                this.$http.post('/api/register',{phoneNum:this.phoneNumber,passWord:this.password}).then((response) => {
-                    alert('register success');
-                    console.log(response)
-                })
+                if(this.couldRegister == true){
+                    console.log(1)
+                    this.$router.push('/mine')
+                    let param = new URLSearchParams()
+                    param.append('phoneNum',this.phoneNumber)
+                    param.append('passWord',this.password)
+                    this.$http.post('/api/register',param).then((response) => {
+                        console.log(response.data)
+                    })
+                }
             },
             back(){
                 this.$router.go(-1)
-            },
+            }
         },
         mounted(){
             this.$nextTick(() => {
                 let pwdVal = $("#passwd");
-                $("#passwd").blur(()=>{
-                   this.password = $("#passwd").val()
-                    console.log(this.password)
+                pwdVal.on('input',()=>{
+                    if(!pwdReg.test(this.password) && this.password !== ''){
+                        this.showSign = true;
+                    }else{
+                        this.showSign = false;
+                        this.couldRegister = true;
+                    }
                 })
             })
         }

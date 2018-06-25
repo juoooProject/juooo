@@ -7,6 +7,7 @@ import Register from '../components/register/Register'
 import FinishRegister from '../components/finishRegister/FinishRegister'
 import FindBackPwd from '../components/findBackPwd/FindBackPwd'
 import AddressMain from '../components/address/AddressMain'
+import AccountSetting from '../components/accountSetting/AccountSetting'
 Vue.use(Router)
 
 export default new Router({
@@ -48,6 +49,11 @@ export default new Router({
               path:'findBackPwd',
               name:'findBackPwd',
               component:FindBackPwd
+          },
+          {
+              path:'accountSetting',
+              name:'accountSetting',
+              component:AccountSetting
           }
       ]
     }
