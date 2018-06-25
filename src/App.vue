@@ -11,7 +11,7 @@
         </router-link>
       </div>
       <div class="nav-item">
-        <router-link to="/performance">
+        <router-link :to="{path:'/performance/showPerform',query:{id:-1}}">
           <p class="icon perform"></p>
           <p class="text">演出库</p>
         </router-link>

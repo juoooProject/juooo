@@ -3,10 +3,12 @@
       <my-header></my-header>
        <div class="con">
            <div class="slide-wrap" ref="slideWrap">
-               <div class="slide-con" ref="slideCon">
-                   <img :src="item" alt="" v-for="item in slideimg">
-               </div>
-               <div class="page"><span v-for="(item,index) in pageArr" :class="{cur:index==curIndex}" ref="circle" @click="clickChange(index)"></span></div>
+              <!--<div class="slide-innner">-->
+                  <div class="slide-con" ref="slideCon">
+                      <img :src="item.imgSrc" alt="" v-for="(item,index) in slideimg" @click="gotoPage(index,item.keyWords)">
+                  </div>
+                  <div class="dots"><span v-for="(item,index) in dots" :class="{cur:index==curIndex}" ref="circle" @click="clickChange(index)"></span></div>
+              <!--</div>-->
            </div>
            <ul class="perform-wrap">
                <li>
@@ -44,6 +46,7 @@
 <script>
 // @ is an alias to /src
 import MyHeader from "../components/head/myHead"
+import BScroll from "better-scroll"
 export default {
   name: 'home',
   data(){
@@ -53,44 +56,37 @@ export default {
           curFlag:false,
           curIndex:0,
           timer:0,
-          dx:0,
-          timer2:0
+          loop:true,
+          autoPlay:true,
+          interval:2000,
+          dots:[]
       }
   },
   created(){
       this.$http.get("/api/slide").then(({data})=>{
           console.log(data);
-          this.slideimg = data[0].slideimg;
-          this.pageArr = data[0].slideimg.slice(0,6);
+          this.slideimg = data;
+          this.dots = new Array(this.slideimg.length-1);
+          this.$nextTick(()=>{
+              let width =0;
+              let sliderWidth = 100;
+              for(let i = 0; i < this.slideimg.length; i ++){
+                  width += sliderWidth;
+              }
+              if(this.loop){
+                  width += 2*sliderWidth;
+              }
+              console.log(width);
+              this.$refs.slideCon.style.width = 700 + '%';
+              console.log(sliderWidth);
+          })
       })
   },
   mounted(){
-      this.$nextTick(()=>{
-          var slideCon = this.$refs.slideCon;
-          var wrap = this.$refs.slideWrap;
-          var that = this;
-          setTimeout(()=> {
-              this.timer = setInterval(play,10);
-          },2000);
-          function play() {
-             that.dx-=5;
-             if(that.dx%100==0){
-                 //清除计时器 暂停播放
-                 clearInterval(that.timer);
-                 setTimeout(function(){
-                     that.timer=setInterval(play,10);
-                 },2000)
-                that.curIndex = -that.dx/100;
-                if(that.curIndex == 6){
-                    that.curIndex=0;
-                }
+      console.log(this.slideimg)
+       this.$nextTick(()=>{
 
-             }
-             if(that.dx==-600){
-                 that.dx=0;
-             }
-             slideCon.style.left=that.dx+"%";
-         }
+          this.init();
 
       })
   },
@@ -98,18 +94,64 @@ export default {
        MyHeader
   },
   methods:{
-      clickChange(index){
-          var timer = setInterval(function () {
-              for(var i = 0; i <= timer;i++){
-                  clearInterval(i);
+      init(){
+          this.scroll = new BScroll(this.$refs.slideWrap,{
+              click:true,
+              scrollX:true,
+              snap: {
+                  loop: true,
+                  threshold: 0,
+                  easing: {
+                      style: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                      fn: function(t) {
+                          return t * (2 - t)
+                      }
+                  }
               }
-          },20)
-          this.curIndex=index;
-          this.dx=-this.curIndex*100;
-          $(".slide-con").animate({
-              left:-this.curIndex*100+"%"
-          });
+          })
+          this.play();
+          this.scroll.on('scrollEnd', () => {
+              let pageIndex = this.scroll.getCurrentPage().pageX;
+              this.curIndex = pageIndex;
+              if(this.autoPlay) {
+                  this.play();
+              }
+          })
+          this.scroll.on('beforeScrollStart', () => {
+              if(this.autoPlay){
+                  clearTimeout(this.timer);
+              }
+          })
+      },
+      play(){
+          let pageIndex = this.curIndex + 1
+          if(pageIndex==7){
+              pageIndex=0;
+              this.scroll.goToPage(pageIndex, 0 , 0.01);
+          }
+          var vm = this;
+          this.timer = setTimeout(() => {
+              this.scroll.goToPage(pageIndex, 0 , 400);//跳转到的页数 初始化页数 滑动总时间
+          },this.interval);
+      },
+      clickChange(index){
+          this.scroll.goToPage(index, 0 , 400)
+      },
+      gotoPage(index,key){
+          this.$http.get(`api/search?keys=${key}`).then(({data})=>{
+              console.log(data.searchList[0].performType);
+              // this.curIndex=1;
+              this.$router.push({
+                  path:"/performance/showPerform",
+                  query:{
+                      id:data.searchList[0].performType
+                  }
+              });
+          }).catch((err)=>{
+              console.log(err);
+          })
       }
+
   }
 }
 </script>
@@ -123,41 +165,43 @@ export default {
             width: 100%;
             height: 310px;
             overflow:hidden;
-            .slide-con{
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 700%;
-                height: 310px;
-                display: flex;
-                img{
-                    flex: 1;
-                    height: 100%;
-                }
-            }
-            .page{
-                position: absolute;
-                bottom: 20px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: 200px;
-                left: 0;
-                right: 0;
-                margin: auto;
-                span{
-                    display: inline-block;
-                    width: 12px;
-                    height: 12px;
-                    margin:0 9px;
-                    border-radius: 50%;
-                    background-color: #999;
-                    &.cur{
-                        background-color: white;
+            /*.slide-inner{*/
+                .slide-con{
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    /*width: 700%;*/
+                    height: 310px;
+                    display: flex;
+                    img{
+                        width: 750px;
+                        height: 100%;
                     }
                 }
+                .dots{
+                    position: absolute;
+                    bottom: 20px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 200px;
+                    left: 0;
+                    right: 0;
+                    margin: auto;
+                    span{
+                        display: inline-block;
+                        width: 12px;
+                        height: 12px;
+                        margin:0 9px;
+                        border-radius: 50%;
+                        background-color: #999;
+                        &.cur{
+                            background-color: white;
+                        }
+                    }
 
-            }
+                }
+            /*}*/
         }
         .perform-wrap{
             width: 100%;

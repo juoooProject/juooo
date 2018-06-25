@@ -29,10 +29,9 @@
         watch: {
             '$route' (to, from) {
                 // 对路由变化作出响应...
-                console.log(this.$route.query.id);
                 this.$http.get("/api/performances").then(({data})=>{
                     if(data.status){
-                        if(this.$route.query.id=='-1'){
+                        if(this.$route.query.id==-1){
                             this.listArr=data.allList;
                         }else {
                             this.listArr=data.allList.filter((value,index)=> {
@@ -78,6 +77,45 @@
 
         },
         created(){
+            this.$http.get("/api/performances").then(({data})=> {
+                if (data.status) {
+                    console.log(this.$route.query.id == -1)
+                    if (this.$route.query.id == -1) {
+                        console.log(data.allList)
+                        this.listArr = data.allList;
+                    }
+
+                }
+                var arr = [];
+                this.listArr.forEach((item,i)=>{
+                    item.siteAll.forEach((value,index)=>{
+                        let o = {};
+                        o.site = value;
+                        o.other = item;
+                        arr.push(o)
+                    })
+                })
+                arr.forEach((value,index)=>{
+                    var str1 = value.site.date;
+                    var str2 = value.site.time;
+                    var str = str1+" "+str2;
+                    var date =  new Date(str);
+                    var time = date.getTime();
+                    value.realTime=time;
+                    value.priceLen=value.site.price.length;
+                })
+                function compare(property){
+                    return function(a,b){
+                        var value1 = a[property];
+                        var value2 = b[property];
+                        return value1 - value2;
+                    }
+                }
+                // console.log(arr.sort(compare('realTime')))
+                this.listArr=arr.sort(compare('realTime'));
+
+            });
+
 
         },
         mounted(){
@@ -87,6 +125,11 @@
                 //     click:true
                 // })
             })
+        },
+        computed:{
+            data(){
+                return this.$route.query.id;
+            }
         }
     }
 </script>

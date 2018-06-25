@@ -1,4 +1,5 @@
 <template>
+    <!--<router-view></router-view>-->
     <div class="performWrap">
         <div class="navbar-top">
             <div class="left">
@@ -6,7 +7,7 @@
                 <i class="icon ion-chevron-down"></i>
             </div>
             <div class="right">
-                <div class="search-btn" @click="searchShow=true">
+                <div class="search-btn" @click="gotoSearch">
                     <i class="icon ion-android-search"></i>
                     <span>搜索演出,艺人或场馆</span>
                 </div>
@@ -39,25 +40,32 @@
             </ul>
         </div>
         <div class="splite"></div>
-        <div ref="listWrap" class="listWrap"><router-view></router-view></div>
+        <!--<show-perform v-if="allFlag==true"></show-perform>-->
+        <div ref="listWrap" class="listWrap">
+                <router-view></router-view>
+        </div>
     </div>
 </template>
 
 <script>
-    import ShowPerformance from "../components/showPerform/showPerform"
     import BScroll from "better-scroll"
     import Search from "../components/search/Search"
+    import ShowPerform from "../components/showPerform/showPerform"
 export default {
   name: 'Performance',
   data(){
       return{
           curIndex:0,
           searchShow:false,
-          isFlag:false
+          isFlag:false,
+          listArr:[],
+          allFlag:true
       }
   },
   created(){
+      console.log(this.$route.query)
       this.$http.get("/api/performances").then(({data})=>{
+          this.listArr=data.allList;
       }).catch((err)=>{
           console.error(err);
       });
@@ -74,10 +82,16 @@ export default {
       })
   },
   methods:{
+      gotoSearch(){
+         this.$router.push({
+             path:"/search"
+         })
+      },
       gotoAll(){
           this.curIndex=0;
+          this.allFlag=true;
           this.$router.push({
-              path:"/performance/showPerform",
+              path:"/performance",
               query:{
                   id:-1
               }
@@ -85,8 +99,9 @@ export default {
       },
       gotoSing(){
           this.curIndex=1;
+          this.allFlag=false;
           this.$router.push({
-              path:"/performance/showPerform",
+              path:"/performance",
               query:{
                   id:0
               }
@@ -94,8 +109,9 @@ export default {
       },
       gotoMusic(){
           this.curIndex=2;
+          this.allFlag=false;
           this.$router.push({
-              path:"/performance/showPerform",
+              path:"/performance",
               query:{
                   id:1
               }
@@ -103,8 +119,9 @@ export default {
       },
       gotoDrama(){
           this.curIndex=3;
+          this.allFlag=false;
           this.$router.push({
-              path:"/performance/showPerform",
+              path:"/performance",
               query:{
                   id:2
               }
@@ -112,8 +129,9 @@ export default {
       },
       gotoChild(){
           this.curIndex=4;
+          this.allFlag=false;
           this.$router.push({
-              path:"/performance/showPerform",
+              path:"/performance",
               query:{
                   id:3
               }
@@ -121,8 +139,9 @@ export default {
       },
       gotoMusicial(){
           this.curIndex=5;
+          this.allFlag=false;
           this.$router.push({
-              path:"/performance/showPerform",
+              path:"/performance",
               query:{
                   id:4
               }
@@ -130,8 +149,9 @@ export default {
       },
       gotoDance(){
           this.curIndex=6;
+          this.allFlag=false;
           this.$router.push({
-              path:"/performance/showPerform",
+              path:"/performance",
               query:{
                   id:5
               }
@@ -139,8 +159,9 @@ export default {
       },
       gotoOpera(){
           this.curIndex=7;
+          this.allFlag=false;
           this.$router.push({
-              path:"/performance/showPerform",
+              path:"/performance",
               query:{
                   id:6
               }
@@ -148,8 +169,9 @@ export default {
       },
       gotoShow(){
           this.curIndex=8;
+          this.allFlag=false;
           this.$router.push({
-              path:"/performance/showPerform",
+              path:"/performance",
               query:{
                   id:7
               }
@@ -160,7 +182,7 @@ export default {
       }
   },
   components:{
-      ShowPerformance,
+      ShowPerform,
       Search
   }
 }
