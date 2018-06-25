@@ -104,12 +104,6 @@
           height:60px;
           line-height:60px;
           font-size: 20px;
-
-
-
-
-
-
         }
       }
       .codeInput{
