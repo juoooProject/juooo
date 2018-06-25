@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <router-view/>
+    <!--中间路由展示区-->
+    <router-view></router-view>
+    <!--底部菜单-->
     <div class="footer-nav">
       <div class="nav-item">
         <router-link to="/">
@@ -9,7 +11,7 @@
         </router-link>
       </div>
       <div class="nav-item">
-        <router-link to="/performance">
+        <router-link :to="{path:'/performance/showPerform',query:{id:-1}}">
           <p class="icon perform"></p>
           <p class="text">演出库</p>
         </router-link>
@@ -25,7 +27,6 @@
 </template>
 <script>
   // @ is an alias to /src
-
   export default {
     name: 'app',
     data(){
@@ -33,10 +34,11 @@
         tabShow: false
       }
     },
+    methods:{
+    },
     computed:{
     },
     components: {
-
     }
   }
 </script>
@@ -48,14 +50,18 @@
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     min-height:100%;
+    width: 100%;
+    height: 100%;
     .footer-nav {
       position: fixed;
       bottom:0;
       left:0;
+      z-index: 11;
       width: 100%;
       height:100px;
       display: flex;
       border-top: 1px solid #e6e6e6;/*no*/
+      background-color: white;
       .nav-item{
         flex:1;
         height:100px;
