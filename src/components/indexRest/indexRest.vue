@@ -20,17 +20,17 @@
         <div class="touring">
             <div class="touring-title">
                 <div class="limit-left">巡回演出</div>
-                <div class="limit-right">更多巡演 ></div>
+                <div class="limit-right" @click="goToMoreTour">更多巡演 ></div>
             </div>
-            <tour-performance :length="Len" :tourList="tourList"></tour-performance>
+            <tour-performance :length="Len" :tourList="tourList" :minLen="minLen"></tour-performance>
         </div>
 
         <div class="hot-performance">
             <div class="hot-title"> 热门演出 </div>
-            <hot-performance :tourList="tourList" :hotLength="hotLength"></hot-performance>
+            <hot-performance :tourList="tourList" :hotLength="hotLength" :minLen="minLen"></hot-performance>
         </div>
 
-        <div class="footer">查看全部演出 ></div>
+        <div class="footer" @click="goToPerformance">查看全部演出 ></div>
 
         <p class="blank"></p>
 
@@ -50,7 +50,8 @@
           return {
               tourList:[],
               Len:4,
-              hotLength:10
+              hotLength:10,
+              minLen:5
           }
         },
         created(){
@@ -61,6 +62,19 @@
                 }
                 console.log(data)
             })
+        },
+        methods:{
+            goToPerformance(){
+                this.$router.push({
+                    path:"/performance/showPerform?id=-1"
+                })
+            },
+            goToMoreTour(){
+                this.$router.push({
+                    path:"/moreTour",
+
+                })
+            }
         }
     }
 </script>
@@ -180,6 +194,6 @@
     }
     .blank{
         width: 100%;
-        height: 120px;
+        height: 300px;
     }
 </style>

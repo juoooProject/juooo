@@ -2,7 +2,7 @@
     <div class="wrapper-list" ref="wrapperList">
         <div class="wrapper">
             <div class="student-banner">
-                <span class="icon icon-arrow_lift"></span>
+                <span class="icon icon-arrow_lift" @click="goToBack"></span>
                 <span>学生票专区</span>
                 <div @click.stop.prevent="isShowCover = !isShowCover"><span></span><span></span><span></span></div>
             </div>
@@ -110,6 +110,8 @@
 
                 </div>
 
+            <div class="no-more">没有更多了</div>
+
         </div>
 
         <cover-choose v-if="isShowCover"></cover-choose>
@@ -143,9 +145,7 @@ var timer = null;
            }
 
         },
-        computed:{
 
-        },
         created(){
             //console.log(this.isShowCover)
             this.$nextTick(()=>{
@@ -239,7 +239,7 @@ var timer = null;
                 probeType:3,
 
             })
-            let lunboScroll = new BScroll(this.$refs.lunbo,{
+            new BScroll(this.$refs.lunbo,{
                 scrollX:true,
                 scrollY:false,
                 probeType:3,
@@ -255,6 +255,9 @@ var timer = null;
 
         },
         methods:{
+            goToBack(){
+                this.$router.go(-1)
+            },
             showCover(){
                 this.isShowCover = true;
             },
@@ -367,14 +370,23 @@ var timer = null;
     @import "../css/style.css";
 
 
+    .no-more{
+        height: 200px;
+        width: 100%;
+        padding-top: 100px;
+        background: #F3F4F3;
+    }
 
     .wrapper-list{
         height: 100%;
+        /*margin-top: 50px;*/
     }
     .wrapper{
         position: absolute;
         width: 100%;
         height: 100%;
+        overflow: scroll;
+
         /*z-index: 55;*/
     }
 

@@ -5,7 +5,7 @@
           <span class="arrow"><</span>
         </div>
         <div class="logo-wrapper">
-          <span class="logo">JUOOO</span>
+          <span class="logo"></span>
         </div>
         <div class="arrow-wrapper">
         </div>
@@ -43,6 +43,7 @@
   width:100%;
   height:100%;
   background: #f6f6f6;
+  z-index: 10;
   .mine-header{
     display: flex;
     width: 100%;
@@ -57,6 +58,15 @@
     .logo-wrapper{
       flex: 1;
       text-align: center;
+      .logo{
+        display: inline-block;
+        width: 136px;
+        height: 35px;
+        margin: 25px auto;
+        background-image:url("icon-logo.png");
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+      }
     }
   }
   .loginWay{

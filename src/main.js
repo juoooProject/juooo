@@ -3,13 +3,19 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import store from './store'
 import './common/less/reset.less'
 import 'lib-flexible/flexible'
+import  "./assets/js/tween"
 import './common/less/style.less'
+
 import axios from 'axios';
 Vue.prototype.$http = axios;
 Vue.prototype.$api="/api";
 import $ from "jquery"
+
+
+import "./assets/css/mixin.less"
 
 Vue.config.productionTip = false
 
@@ -17,6 +23,7 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

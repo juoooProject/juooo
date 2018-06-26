@@ -1,7 +1,7 @@
 <template>
     <!--由于获取数据是异步的,要先判断数据是否已经获取到,才能进行渲染-->
     <div class="tour-wrapper" v-if="tourList[0]">
-        <div class="tour" v-for="(item,index) in tourList" v-if="index<length && item.siteAll.length<5">
+        <div class="tour" v-for="(item,index) in tourList" v-if="index<length && item.siteAll.length<minLen">
             <div class="tour-left">
                 <img  :src="item.imgUrl" alt="">
             </div>
@@ -25,6 +25,7 @@
         props:{
             length:Number,
             tourList:Array,
+            minLen:Number
 
         },
 
@@ -35,7 +36,7 @@
 
 <style scoped lang="less">
     .tour{
-        height: 240px;
+        /*height: 240px;*/
         padding: 15px 0;
         border-bottom: 1px solid #F2F3F2;
         border-top: 1px solid #F2F3F2;

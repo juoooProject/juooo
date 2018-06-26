@@ -2,7 +2,7 @@
     <div class="specialize-wrapper">
         <div class="wrapper">
             <div class="student-banner">
-                <span class="icon icon-arrow_lift"></span>
+                <span class="icon icon-arrow_lift" @click="goToBack"></span>
                 <span>聚特惠</span>
                 <div @click="isShowCover=!isShowCover"><span></span><span></span><span></span></div>
             </div>
@@ -253,6 +253,10 @@
         },
 
         methods:{
+            goToBack(){
+                this.$router.go(-1)
+            },
+
             isAll(e){
               this.$nextTick(()=>{
                   $(e.target).css({
@@ -419,6 +423,7 @@
         position: absolute;
         width: 100%;
         height: 100%;
+        overflow: scroll;
     }
     .student-banner{
         position: fixed;
@@ -481,8 +486,8 @@
     .timely-pic{
         margin-bottom: 20px;
         text-align: left;
-        padding: 10px 16px 12.5px;
-        width: 300px;
+        padding: 20px;
+        width: 325px;
         background: white;
         .pic{
             width: 280px;
@@ -741,10 +746,13 @@
                 width: 300%;
                 height: 74px;
                 line-height: 74px;
-
                 background: white;
                 display: flex;
                 justify-content: space-around;
+                &>li:nth-child(1){
+                    color:#F66048;
+                    border-bottom:1px solid #F66048;
+                }
                 li{
                     width: 100px;
                     text-align: center;

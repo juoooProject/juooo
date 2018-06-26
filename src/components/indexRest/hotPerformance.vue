@@ -34,7 +34,7 @@
 <style scoped lang="less">
 
     .hot{
-        height: 240px;
+        /*height: 240px;*/
         padding: 15px 0;
         border-bottom: 1px solid #F2F3F2;
         overflow: hidden;
