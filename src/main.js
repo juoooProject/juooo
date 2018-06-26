@@ -6,6 +6,10 @@ import router from './router'
 import './common/less/reset.less'
 import 'lib-flexible/flexible'
 import './common/less/style.less'
+import axios from 'axios';
+Vue.prototype.$http = axios;
+Vue.prototype.$api="/api";
+import $ from "jquery"
 
 Vue.config.productionTip = false
 

@@ -26,8 +26,8 @@
 </template>
 
 <script>
-  import LoginCode from '../components/loginByCode/LoginCode'
-  import LoginPwd from '../components/loginByPassword/LoginPwd'
+  import LoginCode from '../../components/loginByCode/LoginCode'
+  import LoginPwd from '../../components/loginByPassword/LoginPwd'
     export default {
         name: "Mine",
         components:{

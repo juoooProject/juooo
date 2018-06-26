@@ -3,6 +3,7 @@ const path = require('path')
 const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
+const webpack = require("webpack");
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -11,6 +12,25 @@ function resolve (dir) {
 
 
 module.exports = {
+    // devServer:{
+    //     proxy:{
+    //         '/api': {
+    //             target: 'http://10.80.13.78:8088',
+    //             changeOrigin:true,
+    //             pathRewrite:{
+    //                 '^/api':''//这里理解成用‘/api'代替target里面的地址，后面组件中我们掉接口时直接用api代替
+    //                 //比如我要调用'http://40.00.100.133:3002/user/login'，直接写‘/api/user/login'即可
+    //             }
+    //         }
+    //     }
+    // },
+    // plugins: [
+    //     new webpack.optimize.CommonsChunkPlugin('common.js'),
+    //     new webpack.ProvidePlugin({
+    //         jQuery: "jquery",
+    //         $: "jquery"
+    //     })
+    // ],
   context: path.resolve(__dirname, '../'),
   entry: {
     app: './src/main.js'
@@ -67,6 +87,7 @@ module.exports = {
       }
     ]
   },
+
   node: {
     // prevent webpack from injecting useless setImmediate polyfill because Vue
     // source contains it (although only uses it if it's native).
