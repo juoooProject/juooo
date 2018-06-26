@@ -1,42 +1,38 @@
 <template>
   <div class="home">
-      <my-header></my-header>
+      <div class="head-wrap">
+          <!--顶部导航-->
+          <div class="navbar-top">
+              <div class="left">
+                  <span>全国</span>
+                  <i class="icon ion-chevron-down"></i>
+              </div>
+              <div class="right">
+                  <div class="search-btn" @click="gotoSearch">
+                      <i class="icon ion-android-search"></i>
+                      <span>搜索演出,艺人或场馆</span>
+                  </div>
+              </div>
+          </div>
+      </div>
        <div class="con">
            <div class="slide-wrap" ref="slideWrap">
-              <!--<div class="slide-innner">-->
                   <div class="slide-con" ref="slideCon">
                       <img :src="item.imgSrc" alt="" v-for="(item,index) in slideimg" @click="gotoPage(index,item.keyWords)">
                   </div>
                   <div class="dots"><span v-for="(item,index) in dots" :class="{cur:index==curIndex}" ref="circle" @click="clickChange(index)"></span></div>
-              <!--</div>-->
            </div>
            <ul class="perform-wrap">
-               <li>
-                   <img src="../assets/img/sing.png" alt="">
-                   <span>演唱会</span>
-               </li>
-               <li>
-                   <img src="../assets/img/music.png" alt="">
-                   <span>音乐会</span>
-               </li>
-               <li>
-                   <img src="../assets/img/show.png" alt="">
-                   <span>舞台剧</span>
-               </li>
-               <li>
-                   <img src="../assets/img/drama.png" alt="">
-                   <span>音乐剧</span>
-               </li>
-               <li>
-                   <img src="../assets/img/child.png" alt="">
-                   <span>儿童</span>
+               <li v-for="(item,index) in classMap" @click="gotoPage(index,item.word)">
+                   <img :src="item.src" alt="">
+                   <span>{{item.word}}</span>
                </li>
            </ul>
            <ul class="activity-wrap">
-               <li><img src="../assets/img/calendar.png" alt=""><span>日历</span></li>
-               <li><img src="../assets/img/jutehui.png" alt=""><span>聚特惠</span></li>
-               <li><img src="../assets/img/student.png" alt=""><span>学生专区</span></li>
-               <li><img src="../assets/img/card.png" alt=""><span>欢聚橙卡</span></li>
+               <li><img src="../../assets/img/calendar.png" alt=""><span>日历</span></li>
+               <li><img src="../../assets/img/jutehui.png" alt=""><span>聚特惠</span></li>
+               <li><img src="../../assets/img/student.png" alt=""><span>学生专区</span></li>
+               <li><img src="../../assets/img/card.png" alt=""><span>欢聚橙卡</span></li>
            </ul>
        </div>
        
@@ -45,8 +41,9 @@
 
 <script>
 // @ is an alias to /src
-import MyHeader from "../components/head/myHead"
+import MyHeader from "../../components/head/myHead"
 import BScroll from "better-scroll"
+import Search from '../../components/search/Search'
 export default {
   name: 'home',
   data(){
@@ -59,7 +56,9 @@ export default {
           loop:true,
           autoPlay:true,
           interval:2000,
-          dots:[]
+          dots:[],
+          classMap:[{src:'http://10.80.13.78:8088/img/sing.png',word:'演唱会'},{src:'http://10.80.13.78:8088/img/music.png',word:'音乐会'},{src:'http://10.80.13.78:8088/img/show.png',word:'舞台剧'},{src:'http://10.80.13.78:8088/img/drama.png',word:'音乐剧'},{src:'http://10.80.13.78:8088/img/child.png',word:'儿童'}],
+          searchShow:false
       }
   },
   created(){
@@ -91,7 +90,8 @@ export default {
       })
   },
   components: {
-       MyHeader
+       MyHeader,
+       Search
   },
   methods:{
       init(){
@@ -139,16 +139,23 @@ export default {
       },
       gotoPage(index,key){
           this.$http.get(`api/search?keys=${key}`).then(({data})=>{
-              console.log(data.searchList[0].performType);
-              // this.curIndex=1;
+              console.log(data.searchList);
+              this.curIndex=1;
               this.$router.push({
                   path:"/performance/showPerform",
                   query:{
-                      id:data.searchList[0].performType
+                      id:data.searchList[0].performType,
+                      key:key
                   }
               });
           }).catch((err)=>{
               console.log(err);
+          })
+      },
+      gotoSearch(){
+          this.$store.state.footShow=false;
+          this.$router.push({
+              path:"/search"
           })
       }
 
@@ -157,6 +164,70 @@ export default {
 </script>
 
 <style lang="less" scoped>
+    .head-wrap{
+        .navbar-top{
+            position: fixed;
+            left: 0;
+            top: 0;
+            display: flex;
+            justify-content:center;
+            height: 90px;
+            width: 100%;
+            .left{
+                width: 120px;
+                font-size: 0;
+                margin-right: 32px;
+                text-align: right;
+                span{
+                    display: inline-block;
+                    height: 100%;
+                    font-size: 28px;
+                    line-height:90px;
+                    text-align: center;
+                    margin-right: 10px;
+                }
+                .icon{
+                    font-size:14px;
+                    color: #999;
+                }
+            }
+            .right{
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                width: 570px;
+                height: 100%;
+                .search-btn{
+                    width: 100%;
+                    height: 60px;
+                    background-color: #f2f2f2;
+                    border-radius: 28px;
+                    font-size: 26px;
+                    line-height: 60px;
+                    color: #999;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    .icon{
+                        font-size:30px;
+                    }
+                    span{
+                        display: inline-block;
+                        margin-left: 20px;
+                    }
+                }
+            }
+        }
+        .search-wrap{
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 22;
+            background-color: #fff;
+        }
+    }
     .con{
         position: relative;
         top: 90px;

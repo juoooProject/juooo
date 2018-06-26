@@ -1,10 +1,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '../views/Home.vue'
-import Performance from '../views/Performance'
-import Mine from '../views/Mine'
+
 import Search from '../components/search/Search'
 import ShowPerform from "../components/showPerform/showPerform"
+
+import Home from '../views/home/Home.vue'
+import Performance from '../views/performance/Performance'
+import Mine from '../views/mine/Mine'
+
+
 Vue.use(Router)
 
 export default new Router({
@@ -14,13 +18,7 @@ export default new Router({
       path: '/',
       name: 'home',
       component: Home,
-      children:[
-          {
-            path:"/",
-            name:"search",
-            component:Search
-          }
-      ]
+
     },
     {
       path: '/performance',
@@ -42,6 +40,11 @@ export default new Router({
       path: '/mine',
       name: 'mine',
       component: Mine
-    }
+    },
+      {
+          path: '/search',
+          name: 'search',
+          component: Search
+      }
   ]
 })

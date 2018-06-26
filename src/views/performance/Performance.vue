@@ -1,5 +1,4 @@
 <template>
-    <!--<router-view></router-view>-->
     <div class="performWrap">
         <div class="navbar-top">
             <div class="left">
@@ -12,58 +11,48 @@
                     <span>搜索演出,艺人或场馆</span>
                 </div>
             </div>
-            <div class="menus" @click="">
+            <div class="menus" @click="sortShow=true">
                 <i class="icon ion-android-menu"></i>
             </div>
         </div>
-        <div class="search-wrap" v-show="searchShow" >
-            <search></search>
-        </div>
-        <div class="sortWrap">
+        <div class="sortWrap" v-show="sortShow">
              <ul class="sortType">
                  <span class="tri"></span>
-                 <li @click="sortChange">推荐排序<i class="icon ion-checkmark-round" v-show="isFlag"></i></li>
-                 <li>事件排序</li>
+                 <li @click="sortChange(0)">推荐排序<i class="icon ion-checkmark-round" v-show="isFlag"></i></li>
+                 <li @click="sortChange(1)">时间排序<i class="icon ion-checkmark-round" v-show="!isFlag"></i></li>
              </ul>
         </div>
         <div class="topWrap" ref="topWrap">
             <ul class="topbar">
-                <li @click="gotoAll" :class="{active:curIndex==0}">全部</li>
-                <li @click="gotoSing" :class="{active:curIndex==1}">演唱会</li>
-                <li @click="gotoMusic" :class="{active:curIndex==2}">音乐会</li>
-                <li @click="gotoDrama" :class="{active:curIndex==3}">话剧歌剧</li>
-                <li @click="gotoChild" :class="{active:curIndex==4}">儿童亲子</li>
-                <li @click="gotoMusicial" :class="{active:curIndex==5}">音乐剧</li>
-                <li @click="gotoDance" :class="{active:curIndex==6}">舞蹈芭蕾</li>
-                <li @click="gotoOpera" :class="{active:curIndex==7}">戏曲综艺</li>
-                <li @click="gotoShow" :class="{active:curIndex==8}">展览</li>
+                <li @click="gotoList(index)" :class="{active:curIndex==index}" v-for="(item,index) in type">{{item}}</li>
             </ul>
         </div>
         <div class="splite"></div>
-        <!--<show-perform v-if="allFlag==true"></show-perform>-->
         <div ref="listWrap" class="listWrap">
-                <router-view></router-view>
+            <router-view></router-view>
         </div>
     </div>
 </template>
 
 <script>
     import BScroll from "better-scroll"
-    import Search from "../components/search/Search"
-    import ShowPerform from "../components/showPerform/showPerform"
+    import Search from "../../components/search/Search"
+    import ShowPerform from "../../components/showPerform/showPerform"
 export default {
   name: 'Performance',
   data(){
       return{
           curIndex:0,
           searchShow:false,
-          isFlag:false,
+          isFlag:true,
           listArr:[],
-          allFlag:true
+          allFlag:true,
+          sortShow:false,
+          type:["全部","演唱会","音乐会","话剧歌剧","儿童亲子","音乐剧","舞蹈芭蕾","戏曲综艺","展览"]
       }
   },
   created(){
-      console.log(this.$route.query)
+      console.log(this.$route)
       this.$http.get("/api/performances").then(({data})=>{
           this.listArr=data.allList;
       }).catch((err)=>{
@@ -80,104 +69,27 @@ export default {
       this.listScroll = new BScroll(listWrap,{
           click:true
       })
+
   },
   methods:{
       gotoSearch(){
+          this.$store.state.footShow=false;
          this.$router.push({
              path:"/search"
          })
       },
-      gotoAll(){
-          this.curIndex=0;
-          this.allFlag=true;
+      gotoList(index){
+          this.curIndex=index;
           this.$router.push({
               path:"/performance",
               query:{
-                  id:-1
+                  id:index-1
               }
           });
       },
-      gotoSing(){
-          this.curIndex=1;
-          this.allFlag=false;
-          this.$router.push({
-              path:"/performance",
-              query:{
-                  id:0
-              }
-          });
-      },
-      gotoMusic(){
-          this.curIndex=2;
-          this.allFlag=false;
-          this.$router.push({
-              path:"/performance",
-              query:{
-                  id:1
-              }
-          });
-      },
-      gotoDrama(){
-          this.curIndex=3;
-          this.allFlag=false;
-          this.$router.push({
-              path:"/performance",
-              query:{
-                  id:2
-              }
-          });
-      },
-      gotoChild(){
-          this.curIndex=4;
-          this.allFlag=false;
-          this.$router.push({
-              path:"/performance",
-              query:{
-                  id:3
-              }
-          });
-      },
-      gotoMusicial(){
-          this.curIndex=5;
-          this.allFlag=false;
-          this.$router.push({
-              path:"/performance",
-              query:{
-                  id:4
-              }
-          });
-      },
-      gotoDance(){
-          this.curIndex=6;
-          this.allFlag=false;
-          this.$router.push({
-              path:"/performance",
-              query:{
-                  id:5
-              }
-          });
-      },
-      gotoOpera(){
-          this.curIndex=7;
-          this.allFlag=false;
-          this.$router.push({
-              path:"/performance",
-              query:{
-                  id:6
-              }
-          });
-      },
-      gotoShow(){
-          this.curIndex=8;
-          this.allFlag=false;
-          this.$router.push({
-              path:"/performance",
-              query:{
-                  id:7
-              }
-          });
-      },
-      sortChange(){
+      sortChange(index){
+           this.isFlag=!this.isFlag;
+           this.sortShow=false;
 
       }
   },
@@ -264,7 +176,7 @@ export default {
             height: 100%;
             background-color: rgba(0,0,0,0.2);
             z-index: 88;
-            display: none;
+            /*display: none;*/
             .sortType{
                 position: absolute;
                 right: 16px;
@@ -298,7 +210,7 @@ export default {
             }
         }
         .search-wrap{
-            position: absolute;
+            position: fixed;
             left: 0;
             top: 0;
             width: 100%;

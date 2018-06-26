@@ -3,7 +3,7 @@
     <!--中间路由展示区-->
     <router-view></router-view>
     <!--底部菜单-->
-    <div class="footer-nav">
+    <div class="footer-nav" v-show="$store.state.footShow">
       <div class="nav-item">
         <router-link to="/">
           <p class="icon home"></p>

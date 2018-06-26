@@ -65,9 +65,7 @@
                             return value1 - value2;
                         }
                     }
-                    // console.log(arr.sort(compare('realTime')))
                     this.listArr=arr.sort(compare('realTime'));
-                    console.log(this.listArr);
                 }).catch((err)=>{
                     console.error(err);
                 });
@@ -83,6 +81,16 @@
                     if (this.$route.query.id == -1) {
                         console.log(data.allList)
                         this.listArr = data.allList;
+                    }else {
+                        var arr = [];
+                        data.allList.forEach((value, index)=> {
+                            value.keyWords.forEach((key,i)=> {
+                                if(key.indexOf(this.$route.query.key)>=0){
+                                    arr.push(value);
+                                }
+                            })
+                        })
+                        this.listArr=arr;
                     }
 
                 }

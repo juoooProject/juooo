@@ -13,8 +13,10 @@
                 </div>
             </div>
         </div>
-        <div class="search-wrap" v-show="searchShow" >
-            <search></search>
+        <div class="search-wrap" v-show="searchShow">
+            <keep-alive>
+                <search></search>
+            </keep-alive>
         </div>
     </div>
 </template>
@@ -23,6 +25,9 @@
     import Search from "../search/Search"
     export default {
         name: "my-head",
+        props(){
+
+        },
         data(){
             return{
                 searchShow:false
@@ -30,6 +35,11 @@
         },
         components:{
             Search
+        },
+        methods:{
+            showSearch(){
+                this.$refs.search.show();
+            }
         }
     }
 </script>

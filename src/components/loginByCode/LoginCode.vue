@@ -2,11 +2,11 @@
     <div class="code">
       <form action="">
       <div class="loginMsg">
-        <span class="phone-icon"></span>
+        <span class="icon-mobile"></span>
         <input type="text" placeholder="手机号">
       </div>
       <div class="codeMsg">
-        <span class="code-icon"></span>
+        <span class="icon-envelop"></span>
         <input type="text" placeholder="请输入验证码">
         <input type="button" value="获取验证码">
       </div>
