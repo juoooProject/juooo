@@ -1,5 +1,6 @@
 <template>
     <div class="performWrap">
+        <foot></foot>
         <div class="navbar-top">
             <div class="left">
                 <span>全国</span>
@@ -18,8 +19,8 @@
         <div class="sortWrap" v-show="sortShow">
              <ul class="sortType">
                  <span class="tri"></span>
-                 <li @click="sortChange(0)">推荐排序<i class="icon ion-checkmark-round" v-show="isFlag"></i></li>
-                 <li @click="sortChange(1)">时间排序<i class="icon ion-checkmark-round" v-show="!isFlag"></i></li>
+                 <li @click="sortChange('0')">推荐排序<i class="icon ion-checkmark-round" v-show="isFlag"></i></li>
+                 <li @click="sortChange('1')">时间排序<i class="icon ion-checkmark-round" v-show="!isFlag"></i></li>
              </ul>
         </div>
         <div class="topWrap" ref="topWrap">
@@ -38,6 +39,7 @@
     import BScroll from "better-scroll"
     import Search from "../../components/search/Search"
     import ShowPerform from "../../components/showPerform/showPerform"
+    import Foot from '../../components/foot/foot'
 export default {
   name: 'Performance',
   data(){
@@ -48,11 +50,11 @@ export default {
           listArr:[],
           allFlag:true,
           sortShow:false,
-          type:["全部","演唱会","音乐会","话剧歌剧","儿童亲子","音乐剧","舞蹈芭蕾","戏曲综艺","展览"]
+          type:["全部","演唱会","音乐会","话剧歌剧","儿童亲子","音乐剧","舞蹈芭蕾","戏曲综艺","展览"],
+          sortType:0
       }
   },
   created(){
-      console.log(this.$route)
       this.$http.get("/api/performances").then(({data})=>{
           this.listArr=data.allList;
       }).catch((err)=>{
@@ -70,10 +72,10 @@ export default {
           click:true
       })
 
+
   },
   methods:{
       gotoSearch(){
-          this.$store.state.footShow=false;
          this.$router.push({
              path:"/search"
          })
@@ -90,12 +92,28 @@ export default {
       sortChange(index){
            this.isFlag=!this.isFlag;
            this.sortShow=false;
-
+           if(index=='0'){
+               this.$router.push({
+                   path:"/performance",
+                   query:{
+                       id:this.curIndex-1
+                   }
+               });
+           }else {
+               this.$router.push({
+                   path:"/performance",
+                   query:{
+                       id:this.curIndex-1,
+                       sort:1
+                   }
+               });
+           }
       }
   },
   components:{
       ShowPerform,
-      Search
+      Search,
+      Foot
   }
 }
 </script>

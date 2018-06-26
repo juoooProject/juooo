@@ -35,7 +35,7 @@
                <li><img src="../../assets/img/card.png" alt=""><span>欢聚橙卡</span></li>
            </ul>
        </div>
-       
+       <foot></foot>
   </div>
 </template>
 
@@ -44,6 +44,7 @@
 import MyHeader from "../../components/head/myHead"
 import BScroll from "better-scroll"
 import Search from '../../components/search/Search'
+import Foot from '../../components/foot/foot'
 export default {
   name: 'home',
   data(){
@@ -91,7 +92,8 @@ export default {
   },
   components: {
        MyHeader,
-       Search
+       Search,
+       Foot
   },
   methods:{
       init(){
@@ -153,7 +155,6 @@ export default {
           })
       },
       gotoSearch(){
-          this.$store.state.footShow=false;
           this.$router.push({
               path:"/search"
           })

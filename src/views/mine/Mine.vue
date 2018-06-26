@@ -22,17 +22,20 @@
         <login-pwd></login-pwd>
         <login-code></login-code>
       </div>
+      <foot></foot>
     </div>
 </template>
 
 <script>
   import LoginCode from '../../components/loginByCode/LoginCode'
   import LoginPwd from '../../components/loginByPassword/LoginPwd'
+  import Foot from '../../components/foot/foot'
     export default {
         name: "Mine",
         components:{
           LoginCode,
-          LoginPwd
+          LoginPwd,
+          Foot
         }
     }
 </script>
