@@ -98,6 +98,7 @@
                 performDateByTime:[],
                 dataAll:[],
                 filterDatas:[],
+                defaultDatas:[],
                 perLen:0,
                 showTime:''
                 //computedDate:''
@@ -132,7 +133,6 @@
         computed:{
             filterData(){
                 var dateArr =this.defDate.split('.');
-                console.log(dateArr.length)
                 var mon = this.addZero(dateArr[1]+'');
                 var day = this.addZero(dateArr[2]+'');
                 this.showTime =  dateArr[0]+'-'+mon+'-'+day;
@@ -140,7 +140,14 @@
                 this.filterDatas=[];
                 this.dataAll.forEach((list)=>{
                     list.siteAll.forEach((site)=>{
-                        if((site.city == this.$store.state.calendarCity) && (site.date ==this.showTime )){
+                        if((site.city == this.$store.state.calendarCity)  && (this.$store.state.calendarCity !=='全国') && (site.date ==this.showTime )){
+                            let o = {};
+                            o.all = list;
+                            o.siteAll = site;
+                            this.filterDatas.push(o)
+
+                        }
+                        if((this.$store.state.calendarCity == '全国') && (site.date == this.showTime )){
                             let o = {};
                             o.all = list;
                             o.siteAll = site;
@@ -148,7 +155,9 @@
                         }
                     })
                 })
-
+                if(this.filterDatas.length == 0){
+                    this.filterDatas = this.defaultDatas;
+                }
                 return this.filterDatas;
             }
         },
@@ -161,11 +170,20 @@
                 this.value = [this._year,this._month,this._day];
                 this.defDate = this.value.join('.');
                 this.$http.get('/api/performances').then((data) => {
-                    console.log(data.data)
-                    console.log(this.defDate)
                     if(data.data.status == 1){
-
                         this.dataAll = data.data.allList;
+                        this.dataAll.forEach((list)=>{
+                            if(list.siteAll.length >= 10){
+                                list.siteAll.forEach((site)=>{
+                                    let o = {};
+                                    o.all = list;
+                                    o.siteAll = site;
+                                    this.defaultDatas.push(o)
+                                })
+                            }
+                        })
+                        console.log(this.defaultDatas)
+                        return this.defaultDatas;
                     }
                 }).catch((err)=>{
                     console.error(err);
