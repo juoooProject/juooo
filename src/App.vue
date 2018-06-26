@@ -1,8 +1,8 @@
 <template>
   <div id="app">
       <router-view></router-view>
-
-    <div class="footer-nav">
+    <!--底部菜单-->
+    <div class="footer-nav" v-show="$store.state.footShow">
       <div class="nav-item">
         <router-link to="/home">
           <p class="icon home"></p>
@@ -10,7 +10,7 @@
         </router-link>
       </div>
       <div class="nav-item">
-        <router-link to="/performance">
+        <router-link :to="{path:'/performance/showPerform',query:{id:-1}}">
           <p class="icon perform"></p>
           <p class="text">演出库</p>
         </router-link>
@@ -26,7 +26,6 @@
 </template>
 <script>
   // @ is an alias to /src
-
   export default {
     name: 'app',
     data(){
@@ -40,7 +39,6 @@
     computed:{
     },
     components: {
-
     }
   }
 </script>
@@ -54,16 +52,20 @@
     width: 100%;
     height: 100%;
     overflow: hidden;
+    min-height:100%;
+    width: 100%;
+    height: 100%;
     .footer-nav {
       position: fixed;
       bottom:0;
       left:0;
-      z-index: 1;
+      z-index: 11;
       width: 100%;
       height:100px;
       display: flex;
       background: #fff;
       border-top: 1px solid #e6e6e6;/*no*/
+      background-color: white;
       .nav-item{
         flex:1;
         height:100px;

@@ -3,14 +3,18 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import store from './store'
 import './common/less/reset.less'
 import 'lib-flexible/flexible'
+import  "./assets/js/tween"
 import './common/less/style.less'
 import axios from 'axios'
 import SIdentify from './components/identify/identify'
 Vue.use(SIdentify)
+import "./assets/css/mixin.less"
+import $ from "jquery"
+Vue.prototype.$http = axios; //将axios作为Vue的原型来使用
 Vue.config.productionTip = false
-Vue.prototype.$http = axios
 
 /* eslint-disable no-new */
 // router.beforeEach((to,from,next)=>{
@@ -27,6 +31,7 @@ Vue.prototype.$http = axios
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

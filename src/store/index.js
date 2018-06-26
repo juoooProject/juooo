@@ -4,35 +4,38 @@ Vue.use(Vuex)
 const key = 'user'
 // console.log(Vuex);
 //实例化一个状态仓库
+Vue.use(Vuex)
 export default new Vuex.Store({
-    //四个配置项
-    state(){
-        /*初始化所有组件共享的状态，与data功能相仿*/
-        return {
-            user:null
-        }
+    state: {
+        footShow:true,
+        currentCity:'全国',
+        calendarCity:'全国',
+        showCalendarAddress:false//演出日历地址显示
     },
-    getters:{
-        /*对于state中的数据进行再次处理，类似组件中的computed*/
-        getStorage:(state)=>{
-            if(!state.user){
-                state.user = JSON.parse(localStorage.getItem(key))
-            }
-            return state.user;
-        }
+    mutations: {
+        // getSeller(state,seller){
+        //     state.seller = seller;
+        // },
+        // cartListShow(state,item){
+        //     if(item != ""){
+        //         state.cartFlag = !state.cartFlag;
+        //     }
+        //
+        // },
+        // disappear(state){
+        //     state.cartFlag = false;
+        // }
     },
-    mutations:{
-        /*类似methods 不能做异步 */
-        $_setStorage(state,value){
-            state.user = value
-            localStorage.setItem(key,JSON.stringify(value))
-        },
-        $_removeStorage(state){
-            state.user = null
-            localStorage.removeItem(key)
-        }
-    },
-    actions:{
-
+    actions: {
+    //     fetchSeller({commit}){
+    //         axios.get("api/seller").then(({data})=>{
+    //             if(data.status){
+    //                 console.log(data.seller);
+    //                 commit("getSeller",data.seller);
+    //             }
+    //         }).catch((err)=>{
+    //             console.error(err);
+    //         })
+    //     }
     }
 })

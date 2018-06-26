@@ -1,17 +1,24 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+
+import Search from '../components/search/Search'
+import ShowPerform from "../components/showPerform/showPerform"
+
 import Home from '../views/home/Home.vue'
 import Performance from '../views/performance/Performance'
 import Mine from '../views/mine/Mine'
+
 import Register from '../components/register/Register'
 import FinishRegister from '../components/finishRegister/FinishRegister'
 import FindBackPwd from '../components/findBackPwd/FindBackPwd'
 import AddressMain from '../components/address/AddressMain'
 import AccountSetting from '../components/accountSetting/AccountSetting'
+import CalendarMain from '../components/calendar/CalendarMain'
 Vue.use(Router)
 
+
 export default new Router({
-    mode:'history',
+  mode:"history",
   routes: [
     {
       path: '/home',
@@ -28,7 +35,18 @@ export default new Router({
     {
       path: '/performance',
       name: 'performance',
-      component: Performance
+      component: Performance,
+      children:[
+          {
+              path:"/",
+              redirect:"showPerform"
+          },
+          {
+            path:"showPerform",
+            name:"showPerform",
+            component:ShowPerform
+          }
+      ]
     },
     {
       path: '/mine',
@@ -56,6 +74,16 @@ export default new Router({
               component:AccountSetting
           }
       ]
-    }
+    },
+      {
+          path: '/search',
+          name: 'search',
+          component: Search
+      },
+      {
+          path: '/calendarMain',
+          name: 'calendarMain',
+          component: CalendarMain
+      }
   ]
 })

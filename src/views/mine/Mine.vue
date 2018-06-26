@@ -99,144 +99,145 @@
 </script>
 
 <style lang="less" scoped>
-.mine{
-  position: fixed;
-  width:100%;
-  height:100%;
-  background: #f6f6f6;
-  z-index: 100;
-  .mine-wrapper{
-    position: relative;
+.mine {
+    position: fixed;
+    width: 100%;
+    height: 100%;
     background: #f6f6f6;
     z-index: 100;
-    .mine-header{
-      display: flex;
-      width: 100%;
-      height: 85px;
-      line-height: 85px;
-      border-bottom: 1px solid #e7e7e7;
-      color: #212121;
-      background:#fdfdfd;
-      .arrow-wrapper{
-        flex:0 0 10%;
-        .icon-angle-left{
-          font-size: 60px;
-          line-height: 85px;
-          font-weight: 400;
-          color:#212121
-        }
-      }
-      .logo-wrapper{
-        flex: 1;
-        text-align: center;
-        .logo{
-          display: inline-block;
-          width: 136px;
-          height: 35px;
-          margin: 25px auto;
-          background-image:url("icon-logo.png");
-          background-repeat: no-repeat;
-          background-size: 100% 100%;
-        }
-      }
-    }
-    .loginWay{
-      display: flex;
-      height: 78px;
-      width:100%;
-      font-size: 30px;
-      color: #212121;
-      font-weight: 400;
-      background-color: #fff;
-      line-height: 78px;
-      .pwd{
-        height: 100%;
-        flex: 0 0 50%;
-        .pwd-text{
-          display: inline-block;
-          height: 100%;
-        }
-        &.active{
-          .pwd-text{
-            color: #ff7919;
-            border-bottom: 2px solid #ff7919;
-          }
-        }
-      }
-      .code{
-        height: 100%;
-        flex: 0 0 50%;
-        .code-text{
-          display: inline-block;
-          height: 100%;
-        }
-        &.active{
-          .code-text{
-            color: #ff7919;
-            border-bottom: 2px solid #ff7919;
-          }
-        }
-      }
-    }
-    .mine-footer{
-      margin: 22px 0 0;
-      .footer-link{
+    .mine-wrapper {
         position: relative;
-        overflow: hidden;
-        width: 100%;
-        height: 45px;
-        &>a{
-          display: inline-block;
-          position: absolute;
-          width: 30%;
-          font-size: 28px;
-          height: 50px;
-          line-height: 50px;
-          color: #666;
+        background: #f6f6f6;
+        z-index: 100;
+        .mine-header {
+          display: flex;
+          width: 100%;
+          height: 85px;
+          line-height: 85px;
+          border-bottom: 1px solid #e7e7e7;
+          color: #212121;
+          background: #fdfdfd;
+          .arrow-wrapper {
+            flex: 0 0 10%;
+            .icon-angle-left {
+              font-size: 60px;
+              line-height: 85px;
+              font-weight: 400;
+              color: #212121
+            }
+          }
+          .logo-wrapper {
+            flex: 1;
+            text-align: center;
+            .logo {
+              display: inline-block;
+              width: 136px;
+              height: 35px;
+              margin: 25px auto;
+              background-image: url("icon-logo.png");
+              background-repeat: no-repeat;
+              background-size: 100% 100%;
+            }
+            /*z-index: 10;*/
+          }
         }
-        .registerNow{
-          margin-left: 0;
-          left: 0;
-        }
-        .forgetPwd{
-          margin-right: 0;
-          right: 0;
-        }
-      }
-      .otherLoginWay{
-        display: flex;
-        color: #999;
-        font-size: 23px;
-        margin-top: 150px;
-        &>div{
-          flex:1
-        }
-      }
-      .login-way-main{
-        display: flex;
-        margin-top: 60px;
-        width: 45%;
-        margin-left: 27.5%;
-        height: 100px;
-        text-align: center;
-        justify-content: space-around;
-        &>div{
-          width: 100px;
-          height: 100px;
-          background-repeat: no-repeat;
-          background-size: 100px 100px;
-        }
-        .qq-way{
-          background-image: url('qq.png');
-        }
-        .bd-way{
-          background-image: url('bd.png');
-        }
-        .wb-way{
-          background-image: url('wb.png');
-        }
-      }
+        .loginWay {
+                display: flex;
+                height: 78px;
+                width: 100%;
+                font-size: 30px;
+                color: #212121;
+                font-weight: 400;
+                background-color: #fff;
+                line-height: 78px;
+                .pwd {
+                  height: 100%;
+                  flex: 0 0 50%;
+                  .pwd-text {
+                    display: inline-block;
+                    height: 100%;
+                  }
+                  &.active {
+                    .pwd-text {
+                      color: #ff7919;
+                      border-bottom: 2px solid #ff7919;
+                    }
+                  }
+                }
+                .code {
+                  height: 100%;
+                  flex: 0 0 50%;
+                  .code-text {
+                    display: inline-block;
+                    height: 100%;
+                  }
+                  &.active {
+                    .code-text {
+                      color: #ff7919;
+                      border-bottom: 2px solid #ff7919;
+                    }
+                  }
+                }
+              }
+        .mine-footer {
+                margin: 22px 0 0;
+                .footer-link {
+                  position: relative;
+                  overflow: hidden;
+                  width: 100%;
+                  height: 45px;
+                  & > a {
+                    display: inline-block;
+                    position: absolute;
+                    width: 30%;
+                    font-size: 28px;
+                    height: 50px;
+                    line-height: 50px;
+                    color: #666;
+                  }
+                  .registerNow {
+                    margin-left: 0;
+                    left: 0;
+                  }
+                  .forgetPwd {
+                    margin-right: 0;
+                    right: 0;
+                  }
+                }
+                .otherLoginWay {
+                  display: flex;
+                  color: #999;
+                  font-size: 23px;
+                  margin-top: 150px;
+                  & > div {
+                    flex: 1
+                  }
+                }
+                .login-way-main {
+                  display: flex;
+                  margin-top: 60px;
+                  width: 45%;
+                  margin-left: 27.5%;
+                  height: 100px;
+                  text-align: center;
+                  justify-content: space-around;
+                  & > div {
+                    width: 100px;
+                    height: 100px;
+                    background-repeat: no-repeat;
+                    background-size: 100px 100px;
+                  }
+                  .qq-way {
+                    background-image: url('qq.png');
+                  }
+                  .bd-way {
+                    background-image: url('bd.png');
+                  }
+                  .wb-way {
+                    background-image: url('wb.png');
+                  }
+                }
+              }
     }
-  }
 }
 </style>

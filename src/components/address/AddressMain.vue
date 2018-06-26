@@ -1,7 +1,7 @@
 <template>
     <div class="address-wrapper" >
         <div class="mine-header">
-            <div class="arrow-wrapper">
+            <div class="arrow-wrapper" @click="back">
                 <span class="icon-angle-left"></span>
             </div>
             <div class="text-wrapper">
@@ -15,7 +15,7 @@
                 <div class="city-wrapper">
                     <div class="current city">
                         <p class="text">当前城市</p>
-                        <div class="current-city">全国</div>
+                        <div class="current-city">{{this.$store.state.currentCity}}</div>
                     </div>
                     <div class="position city">
                         <p class="text">定位城市</p>
@@ -26,7 +26,7 @@
                     <div class="popular city">
                         <p class="text">热门城市</p>
                         <div class="popular-city" >
-                            <span v-for="city in popularCitys">{{city}}</span>
+                            <span @click="checkPopular(city)" v-for="city in popularCitys">{{city}}</span>
                         </div>
                     </div>
                 </div>
@@ -35,7 +35,7 @@
                     <div class="city-all" ref="cityAll">
                         <div class="city-group-wrapper" v-for="group in cityAll" ref="cityGroup">
                             <p class="letter">{{group.letter}}</p>
-                            <div class="city-one" v-for="city in group.citys"><p class="city-data">{{city}}</p></div>
+                            <div @click="checkPopular(city)" class="city-one" v-for="city in group.citys"><p class="city-data">{{city}}</p></div>
                         </div>
                     </div>
                 </div>
@@ -56,34 +56,22 @@
         name: "address-main",
         data(){
             return {
-                popularCitys:["全国","深圳","广州","北京","上海","成都","重庆","武汉"],
-                letters:['A','B','C','D','F'],
-                cityAll:[
-                    {
-                        letter:'A',
-                        citys:["澳门","安顺"]
-                    },
-                    {
-                        letter:'B',
-                        citys:["滨州","蚌埠","保定","北京","百色","包头","白银"]
-                    },
-                    {
-                        letter:'C',
-                        citys:["郴州", "成都", "长春", "重庆", "长沙", "常州", "滁州", "潮州"]
-                    },
-                    {
-                        letter:'D',
-                        citys:["德阳", "德州", "东莞", "都江堰", "大连", "大理", "大庆", "大同", "东营", "达州"]
-                    } ,
-                    {
-                        letter:'F',
-                        citys:["福建", "龙岩", "佛山", "釜山", "福州"]
-                    }
-                ]
+                popularCitys:[],
+                letters:[],
+                cityAll:[]
             }
         },
         created(){
-
+            this.$http.get('/api/address').then(({data})=>{
+                console.log(data)
+                if(data.address){
+                    this.cityAll = data.address.cityAll
+                    data.address.cityAll.forEach((city)=>{
+                        this.letters.push(city.letter)
+                    })
+                    this.popularCitys = data.address.popular;
+                }
+            })
         },
         methods:{
           selectLetter(index){
@@ -93,7 +81,15 @@
               this.addressScroll.scrollToElement(el,300);
               console.log(el)
               console.log(this.addressScroll)
-          }
+          },
+            back(){
+              this.$router.go(-1)
+            },
+            checkPopular(city){
+                this.$router.go(-1)
+                console.log(1)
+                this.$store.state.currentCity = city;
+            }
         },
         mounted(){
             this.addressScroll = new BScroll(this.$refs.addressWrapper,{
@@ -141,29 +137,30 @@
     }
     .city-main{
         position:absolute;
-        top: 0;
+        top: 84px;
         left: 0;
         z-index: 100;
         height:100%;
         width: 100%;
         overflow: hidden;
         .city-container{
+            padding-top:30px;
             .city-wrapper{
-                margin-top: 84px;
+                margin-top: 0;
                 background: #fff;
                 padding: 0px 60px 0 30px;
                 .city{
+                    margin-bottom: 25px;
                     .text{
                         color: #999;
                         height:22px;
-                        margin-top:30px;
+                        margin-bottom: 30px;
                         line-height: 22px;
                         font-size: 15px;
                         text-align: left;
                     }
                     .current-city,.position-city{
                         height: 60px;
-                        margin-top: 30px;
                         line-height: 60px;
                         font-size: 25px;
                         background-color: #f5f5f5;

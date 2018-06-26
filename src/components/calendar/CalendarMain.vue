@@ -2,7 +2,7 @@
     <div class="calendar-main">
         <!--头部-->
         <div class="mine-header">
-            <div class="arrow-wrapper" @click="">
+            <div class="arrow-wrapper" @click="back">
                 <span class="icon-angle-left"></span>
             </div>
             <div class="text-wrapper">
@@ -29,7 +29,7 @@
                                 @selectMonth="selectMonth"
                                 @selectYear="selectYear"></calendar>
                         <div class="address" @click="showCalendarAddress">
-                            <span>全国</span>
+                            <span>{{this.$store.state.calendarCity}}</span>
                             <span class="icon-angle-left"></span>
                         </div>
                     </div>
@@ -39,81 +39,23 @@
                 <div class="filter-result">
                     <div class="perform-detail">
                         <span class="time">{{defDate}}</span>
-                        <div class="text">共有<span>13</span>场演出(主办演出<span>8</span>场)</div>
+                        <div class="text">共有<span>{{filterData.length}}</span>场演出</div>
+                        <!--//(主办演出<span>8</span>场)-->
+                        <span v-if="false">今天没有相关演出，为你推荐</span>
                     </div>
                     <ul>
-                        <li class="perform-data">
+                        <li class="perform-data"  v-for="list in filterData">
                             <div class="left-image">
-                                <img width="86" height="115" src="http://image.juooo.com/group1/M00/01/0F/rAoKmVqT6DiARLaGAACelcqXRfY181.jpg" alt="">
+                                <img width="86" height="115" :src="list.all.imgUrl" alt="">
                             </div>
                             <div class="right-data">
-                                <div class="title">[沈阳]【小橙堡】印象莫奈：时光映迹艺术展 沈阳站</div>
+                                <div class="title">{{list.all.title}} -{{$store.state.calendarCity}}站</div>
                                 <div class="detail">
-                                    <p class="time">时间：2018.03.30-2018.06.06</p>
-                                    <p>场馆：沈阳玖伍文化城</p>
+                                    <p class="time">{{list.siteAll.date}}</p>
+                                    <p>场馆：{{list.siteAll.place}}</p>
                                 </div>
                                 <div class="price">
-                                    <span>￥79 - 199</span>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="perform-data">
-                            <div class="left-image">
-                                <img width="86" height="115" src="http://image.juooo.com/group1/M00/01/0F/rAoKmVqT6DiARLaGAACelcqXRfY181.jpg" alt="">
-                            </div>
-                            <div class="right-data">
-                                <div class="title">[沈阳]【小橙堡】印象莫奈：时光映迹艺术展 沈阳站</div>
-                                <div class="detail">
-                                    <p class="time">时间：2018.03.30-2018.06.06</p>
-                                    <p>场馆：沈阳玖伍文化城</p>
-                                </div>
-                                <div class="price">
-                                    <span>￥79 - 199</span>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="perform-data">
-                            <div class="left-image">
-                                <img width="86" height="115" src="http://image.juooo.com/group1/M00/01/0F/rAoKmVqT6DiARLaGAACelcqXRfY181.jpg" alt="">
-                            </div>
-                            <div class="right-data">
-                                <div class="title">[沈阳]【小橙堡】印象莫奈：时光映迹艺术展 沈阳站</div>
-                                <div class="detail">
-                                    <p class="time">时间：2018.03.30-2018.06.06</p>
-                                    <p>场馆：沈阳玖伍文化城</p>
-                                </div>
-                                <div class="price">
-                                    <span>￥79 - 199</span>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="perform-data">
-                            <div class="left-image">
-                                <img width="86" height="115" src="http://image.juooo.com/group1/M00/01/0F/rAoKmVqT6DiARLaGAACelcqXRfY181.jpg" alt="">
-                            </div>
-                            <div class="right-data">
-                                <div class="title">[沈阳]【小橙堡】印象莫奈：时光映迹艺术展 沈阳站</div>
-                                <div class="detail">
-                                    <p class="time">时间：2018.03.30-2018.06.06</p>
-                                    <p>场馆：沈阳玖伍文化城</p>
-                                </div>
-                                <div class="price">
-                                    <span>￥79 - 199</span>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="perform-data">
-                            <div class="left-image">
-                                <img width="86" height="115" src="http://image.juooo.com/group1/M00/01/0F/rAoKmVqT6DiARLaGAACelcqXRfY181.jpg" alt="">
-                            </div>
-                            <div class="right-data">
-                                <div class="title">[沈阳]【小橙堡】印象莫奈：时光映迹艺术展 沈阳站</div>
-                                <div class="detail">
-                                    <p class="time">时间：2018.03.30-2018.06.06</p>
-                                    <p>场馆：沈阳玖伍文化城</p>
-                                </div>
-                                <div class="price">
-                                    <span>￥79 - 199</span>
+                                    <span>￥{{list.siteAll.price[0]}} - {{list.siteAll.price[list.siteAll.price.length-1]}}</span>
                                 </div>
                             </div>
                         </li>
@@ -121,8 +63,8 @@
                 </div>
             </div>
         </div>
-        <div class="cover" v-show="addressShow"></div>
-        <calendar-address v-if="addressShow"></calendar-address>
+        <div class="cover" v-show="this.$store.state.showCalendarAddress"></div>
+        <calendar-address v-if="this.$store.state.showCalendarAddress"></calendar-address>
     </div>
 </template>
 
@@ -153,15 +95,22 @@
                 },
                 addressShow:false,
                 defDate:'',
-
+                performDateByTime:[],
+                dataAll:[],
+                filterDatas:[],
+                perLen:0,
+                showTime:''
+                //computedDate:''
+                //this.$store.state.calendarCity
             }
         },
         methods:{
             showCalendarAddress(){
-                this.addressShow = !this.addressShow;
+                this.$store.state.showCalendarAddress = true;
             },
             select(value){
                 this.defDate = value.join(".");
+                this.computedDate = value;
             },
             selectMonth(month,year){
                 console.log(year,month)
@@ -169,9 +118,39 @@
             selectYear(year){
                 console.log(year)
             },
+            back(){
+                this.$router.go(-1)
+                this.$store.state.showCalendarAddress = false;
+            },
+            addZero(str){
+                return ('00'+str).substr(str.length);
+            },
+            computedDate(defTime){
+
+            }
         },
         computed:{
+            filterData(){
+                var dateArr =this.defDate.split('.');
+                console.log(dateArr.length)
+                var mon = this.addZero(dateArr[1]+'');
+                var day = this.addZero(dateArr[2]+'');
+                this.showTime =  dateArr[0]+'-'+mon+'-'+day;
 
+                this.filterDatas=[];
+                this.dataAll.forEach((list)=>{
+                    list.siteAll.forEach((site)=>{
+                        if((site.city == this.$store.state.calendarCity) && (site.date ==this.showTime )){
+                            let o = {};
+                            o.all = list;
+                            o.siteAll = site;
+                            this.filterDatas.push(o)
+                        }
+                    })
+                })
+
+                return this.filterDatas;
+            }
         },
         created(){
             this.$nextTick(() => {
@@ -181,19 +160,26 @@
                 this._day = time.getDate();
                 this.value = [this._year,this._month,this._day];
                 this.defDate = this.value.join('.');
+                this.$http.get('/api/performances').then((data) => {
+                    console.log(data.data)
+                    console.log(this.defDate)
+                    if(data.data.status == 1){
+
+                        this.dataAll = data.data.allList;
+                    }
+                }).catch((err)=>{
+                    console.error(err);
+                })
+
             })
 
-          this.$http.get('/api/performances').then((data) => {
-              console.log(data.data);
-              if(data.status == 1){}
-          }).catch((err)=>{
-              console.error(err);
-          })
+
         },
         mounted(){
             new BScroll(this.$refs.calendarContainer,{
                 click:true
             })
+
         }
     }
 </script>
@@ -262,7 +248,7 @@
                         z-index: 200;
                         top: 0;
                         right: 20px;
-                        width: 100px;
+                        width: 150px;
                         height: 50px;
                         &>span{
                             display: inline-block;
