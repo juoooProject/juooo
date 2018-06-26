@@ -25,9 +25,9 @@
                                 :end="calendar1.end"
                                 :weeks="calendar1.weeks"
                                 :months="calendar1.months"
-                                @select="calendar1.select"
-                                @selectMonth="calendar1.selectMonth"
-                                @selectYear="calendar1.selectYear"></calendar>
+                                @select="select"
+                                @selectMonth="selectMonth"
+                                @selectYear="selectYear"></calendar>
                         <div class="address" @click="showCalendarAddress">
                             <span>全国</span>
                             <span class="icon-angle-left"></span>
@@ -38,7 +38,7 @@
                 <!--渲染数据-->
                 <div class="filter-result">
                     <div class="perform-detail">
-                        <span class="time">2018.6.21</span>
+                        <span class="time">{{defDate}}</span>
                         <div class="text">共有<span>13</span>场演出(主办演出<span>8</span>场)</div>
                     </div>
                     <ul>
@@ -139,34 +139,55 @@
         data(){
             return {
                 calendar1:{
-                    value:[2017,7,20], //默认日期
+                    value:[], //默认日期
                     // lunar:true, //显示农历
                     weeks:['日', '一', '二', '三', '四', '五', '六'],
                     months:['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11','12'],
                     events:{
                     },
-                    select(value){
-                        console.log(value.toString());
-                    },
-                    selectMonth(month,year){
-                        console.log(year,month)
-                    },
-                    selectYear(year){
-                        console.log(year)
-                    },
+                    _year:2018,
+                    _month:6,
+                    _day:26,
+
                     timestamp:Date.now()
                 },
-                addressShow:false
+                addressShow:false,
+                defDate:'',
+
             }
         },
         methods:{
             showCalendarAddress(){
                 this.addressShow = !this.addressShow;
-            }
+            },
+            select(value){
+                this.defDate = value.join(".");
+            },
+            selectMonth(month,year){
+                console.log(year,month)
+            },
+            selectYear(year){
+                console.log(year)
+            },
+        },
+        computed:{
+
         },
         created(){
-          this.$http.get('/api/address').then(({data}) => {
-              console.log(data);
+            this.$nextTick(() => {
+                var time = new Date();
+                this._year = time.getFullYear();
+                this._month = time.getMonth()+1;
+                this._day = time.getDate();
+                this.value = [this._year,this._month,this._day];
+                this.defDate = this.value.join('.');
+            })
+
+          this.$http.get('/api/performances').then((data) => {
+              console.log(data.data);
+              if(data.status == 1){}
+          }).catch((err)=>{
+              console.error(err);
           })
         },
         mounted(){
