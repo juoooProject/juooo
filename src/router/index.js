@@ -1,12 +1,18 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import Search from '../components/search/Search'
-import ShowPerform from "../components/showPerform/showPerform"
-
 import Home from '../views/home/Home.vue'
 import Performance from '../views/performance/Performance'
 import Mine from '../views/mine/Mine'
+// import Address from "../components/addAddress"
+import SpecializeArea from "../components/specializeArea"
+import StudentArea from "../components/studentArea"
+
+import Search from '../components/search/Search'
+import ShowPerform from "../components/showPerform/showPerform"
+
+import TourPerformanceDetail from "../components/indexRest/tourPerformanceDetail"
+
 
 import Register from '../components/register/Register'
 import FinishRegister from '../components/finishRegister/FinishRegister'
@@ -19,10 +25,11 @@ Vue.use(Router)
 
 export default new Router({
   mode:"history",
+
   routes: [
+
     {
-      path: '/home',
-      name: 'home',
+      path: '/',
       component: Home,
         children:[
             {
@@ -32,6 +39,16 @@ export default new Router({
             }
         ]
     },
+      {
+          path:'/specialize',
+          name:"specialize-area",
+          component:SpecializeArea
+      },
+      {
+          path:"/student",
+          name:"student-area",
+          component:StudentArea
+      },
     {
       path: '/performance',
       name: 'performance',
@@ -84,6 +101,12 @@ export default new Router({
           path: '/calendarMain',
           name: 'calendarMain',
           component: CalendarMain
+      },
+      {
+          path:"/moreTour",
+          name:"tour-performance-detail",
+          component:TourPerformanceDetail
       }
+
   ]
 })

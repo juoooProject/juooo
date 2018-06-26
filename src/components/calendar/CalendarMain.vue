@@ -182,7 +182,6 @@
                                 })
                             }
                         })
-                        console.log(this.defaultDatas)
                         return this.defaultDatas;
                     }
                 }).catch((err)=>{

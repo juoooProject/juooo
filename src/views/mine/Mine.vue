@@ -43,6 +43,9 @@
         <router-view></router-view>
       </div>
       <my-page :phoneNumber="phoneNumber" :logined="logined" v-if="logined"></my-page>
+      <div class="input-main">
+      </div>
+      <foot></foot>
     </div>
 </template>
 
@@ -51,7 +54,7 @@
   import LoginPwd from '../../components/loginByPassword/LoginPwd'
   import MyPage from '../../components/myPage/MyPage'
   import Bus from '../../common/js/bus'
-  import {saveToLocal, loadFromLocal} from '../../common/js/store';
+  import Foot from '../../components/foot/foot'
     export default {
         name: "Mine",
         data(){
@@ -72,7 +75,8 @@
         components:{
           LoginCode,
           LoginPwd,
-            MyPage
+            MyPage,
+            Foot
         },
         created(){
             //this.logined = window.localStorage.loginState;
@@ -91,9 +95,6 @@
                 }
 
             })
-        },
-        mounted(){
-
         }
     }
 </script>

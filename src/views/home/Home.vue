@@ -38,21 +38,32 @@
            </ul>
            <ul class="activity-wrap">
                <li @click="goToCalendar"><img src="../../assets/img/calendar.png" alt=""><span>日历</span></li>
-               <li><img src="../../assets/img/jutehui.png" alt=""><span>聚特惠</span></li>
-               <li><img src="../../assets/img/student.png" alt=""><span>学生专区</span></li>
+               <li @click="goToSpecialize"><img src="../../assets/img/jutehui.png" alt=""><span>聚特惠</span></li>
+
+               <li @click="goToStudent"><img src="../../assets/img/student.png" alt=""><span>学生专区</span></li>
                <li><img src="../../assets/img/card.png" alt=""><span>欢聚橙卡</span></li>
            </ul>
+           <index-rest></index-rest>
        </div>
        
 
+       <foot></foot>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
+import CalendarMain from '../../components/calendar/CalendarMain'
+import StudentArea from "../../components/studentArea"
+import SpecializeArea from "../../components/specializeArea"
+import IndexRest from "../../components/indexRest/indexRest"
+import AddAddress from "../../components/addAddress"
+import MyHeader from "../../components/head/myHead"
 import BScroll from "better-scroll"
 import Search from '../../components/search/Search'
-import CalendarMain from '../../components/calendar/CalendarMain'
+import Foot from '../../components/foot/foot'
+import OrderGoods from "../../components/orderGoods"
+
 export default {
   name: 'home',
     data(){
@@ -71,20 +82,20 @@ export default {
           searchShow:false
       }
     },
-    methods:{
-      show(){
-          this.showAddress = !this.showAddress;
-      },
-        init(){
-            this.scroll = new BScroll(this.$refs.slideWrap,{
-                click:true,
-                scrollX:true,
+    methods: {
+        show() {
+            this.showAddress = !this.showAddress;
+        },
+        init() {
+            this.scroll = new BScroll(this.$refs.slideWrap, {
+                click: true,
+                scrollX: true,
                 snap: {
                     loop: true,
                     threshold: 0,
                     easing: {
                         style: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-                        fn: function(t) {
+                        fn: function (t) {
                             return t * (2 - t)
                         }
                     }
@@ -94,54 +105,166 @@ export default {
             this.scroll.on('scrollEnd', () => {
                 let pageIndex = this.scroll.getCurrentPage().pageX;
                 this.curIndex = pageIndex;
-                if(this.autoPlay) {
+                if (this.autoPlay) {
                     this.play();
                 }
             })
             this.scroll.on('beforeScrollStart', () => {
-                if(this.autoPlay){
+                if (this.autoPlay) {
                     clearTimeout(this.timer);
                 }
             })
         },
-        play(){
+        play() {
             let pageIndex = this.curIndex + 1
-            if(pageIndex==7){
-                pageIndex=0;
-                this.scroll.goToPage(pageIndex, 0 , 0.01);
+            if (pageIndex == 7) {
+                pageIndex = 0;
+                this.scroll.goToPage(pageIndex, 0, 0.01);
             }
             var vm = this;
             this.timer = setTimeout(() => {
-                this.scroll.goToPage(pageIndex, 0 , 400);//跳转到的页数 初始化页数 滑动总时间
-            },this.interval);
+                this.scroll.goToPage(pageIndex, 0, 400);//跳转到的页数 初始化页数 滑动总时间
+            }, this.interval);
         },
-        clickChange(index){
-            this.scroll.goToPage(index, 0 , 400)
+        clickChange(index) {
+            this.scroll.goToPage(index, 0, 400)
         },
-        gotoPage(index,key){
-            this.$http.get(`api/search?keys=${key}`).then(({data})=>{
+        gotoPage(index, key) {
+            this.$http.get(`api/search?keys=${key}`).then(({data}) => {
                 console.log(data.searchList);
-                this.curIndex=1;
+                this.curIndex = 1;
                 this.$router.push({
-                    path:"/performance/showPerform",
-                    query:{
-                        id:data.searchList[0].performType,
-                        key:key
+                    path: "/performance/showPerform",
+                    query: {
+                        id: data.searchList[0].performType,
+                        key: key
                     }
                 });
-            }).catch((err)=>{
+            }).catch((err) => {
                 console.log(err);
             })
         },
-        gotoSearch(){
-            this.$store.state.footShow=false;
+        gotoSearch() {
+            this.$store.state.footShow = false;
             this.$router.push({
-                path:"/search"
+                path: "/search"
             })
         },
-        goToAddress(){
-          console.log(1)
-            this.$store.state.footShow=false;
+        goToAddress() {
+            console.log(1)
+            this.$store.state.footShow = false;
+
+        },
+    },
+  created(){
+      this.$http.get("/api/slide").then(({data})=>{
+          console.log(data);
+          this.slideimg = data;
+          this.dots = new Array(this.slideimg.length-1);
+          this.$nextTick(()=>{
+              let width =0;
+              let sliderWidth = 100;
+              for(let i = 0; i < this.slideimg.length; i ++){
+                  width += sliderWidth;
+              }
+              if(this.loop){
+                  width += 2*sliderWidth;
+              }
+              console.log(width);
+              this.$refs.slideCon.style.width = 700 + '%';
+              console.log(sliderWidth);
+          })
+      })
+  },
+  mounted(){
+      console.log(this.slideimg)
+       this.$nextTick(()=>{
+
+          this.init();
+
+      })
+  },
+  components: {
+       MyHeader,
+       Search,
+       Foot,
+       StudentArea,
+       SpecializeArea,
+       IndexRest,
+       OrderGoods,
+       AddAddress,
+      CalendarMain
+  },
+  methods:{
+      goToStudent(){
+          this.$router.push({
+              path:"/student"
+          })
+      },
+      goToSpecialize(){
+          this.$router.push({
+              path:"/specialize"
+          })
+      },
+      init(){
+          this.scroll = new BScroll(this.$refs.slideWrap,{
+              click:true,
+              scrollX:true,
+              snap: {
+                  loop: true,
+                  threshold: 0,
+                  easing: {
+                      style: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                      fn: function(t) {
+                          return t * (2 - t)
+                      }
+                  }
+              }
+          })
+          this.play();
+          this.scroll.on('scrollEnd', () => {
+              let pageIndex = this.scroll.getCurrentPage().pageX;
+              this.curIndex = pageIndex;
+              if(this.autoPlay) {
+                  this.play();
+              }
+          })
+          this.scroll.on('beforeScrollStart', () => {
+              if(this.autoPlay){
+                  clearTimeout(this.timer);
+              }
+          })
+      },
+      play(){
+          let pageIndex = this.curIndex + 1
+          if(pageIndex==7){
+              pageIndex=0;
+              this.scroll.goToPage(pageIndex, 0 , 0.01);
+          }
+          var vm = this;
+          this.timer = setTimeout(() => {
+              this.scroll.goToPage(pageIndex, 0 , 400);//跳转到的页数 初始化页数 滑动总时间
+          },this.interval);
+      },
+      clickChange(index){
+          this.scroll.goToPage(index, 0 , 400)
+      },
+      gotoPage(index,key){
+          this.$http.get(`api/search?keys=${key}`).then(({data})=>{
+              console.log(data.searchList);
+              this.curIndex=1;
+              this.$router.push({
+                  path:"/performance/showPerform",
+                  query:{
+                      id:data.searchList[0].performType,
+                      key:key
+                  }
+              });
+          }).catch((err)=>{
+              console.log(err);
+          })
+      },
+      gotoSearch(){
           this.$router.push({
               path:'/home/address'
           })
@@ -150,53 +273,22 @@ export default {
             this.$router.push({
                 path:'/calendarMain'
             })
-        }
+        },
+      goToAddress(){
+          this.$router.push({
+              path:'/address'
+          })
+      }
     },
-    created(){
-        this.$http.get("/api/slide").then(({data})=>{
-        console.log(data);
-        this.slideimg = data;
-        this.dots = new Array(this.slideimg.length-1);
-        this.$nextTick(()=>{
-            let width =0;
-            let sliderWidth = 100;
-            for(let i = 0; i < this.slideimg.length; i ++){
-                width += sliderWidth;
-            }
-            if(this.loop){
-                width += 2*sliderWidth;
-            }
-            console.log(width);
-            this.$refs.slideCon.style.width = 700 + '%';
-            console.log(sliderWidth);
-        })
-    })
-    },
-    mounted(){
-        console.log(this.slideimg)
-            this.$nextTick(()=>{
-
-            this.init();
-
-        })
-    },
-  components: {
-      CalendarMain,
-      Search
-  }
 }
 </script>
-<style lang="less" scoped>
-  .home{
-    position: relative;
-    height: 100%;
-    .to-address{
-      position: relative;
-    }
-  }
-</style>
+
+
 
 <style lang="less" scoped>
+    .home{
+        height: 100%;
+    }
     .head-wrap{
         .navbar-top{
             position: fixed;
@@ -264,6 +356,8 @@ export default {
     .con{
         position: relative;
         top: 90px;
+        height: 100%;
+        overflow: scroll;
         .slide-wrap{
             position: relative;
             width: 100%;
@@ -315,7 +409,7 @@ export default {
             padding-top: 25px;
             /*height: 110px;*/
             li{
-                flex: 1;
+                /*flex: 1;*/
                 img{
                     width: 64px;
                     height: 64px;
@@ -340,6 +434,7 @@ export default {
                 background-color: #f2f2f2;
                 line-height: 80px;
                 border-radius: 10px;
+                text-align: center;
                 &:last-child{
                     margin: 0;
                 }

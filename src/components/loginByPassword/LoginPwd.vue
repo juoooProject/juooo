@@ -76,7 +76,7 @@
                         if(response.data.status == ERR_OK){
                             console.log('登录成功')
                             //跳转个人中心界面
-                            this.$router.push('/home');
+                            this.$router.push('/');
                             this.loginState = true;
                             Bus.$emit('phone',this.phoneNumber)
                             //saveToLocal(this.phoneNumber,'loginState',true);

@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
-const key = 'user'
 // console.log(Vuex);
 //实例化一个状态仓库
 Vue.use(Vuex)
@@ -10,7 +9,8 @@ export default new Vuex.Store({
         footShow:true,
         currentCity:'全国',
         calendarCity:'全国',
-        showCalendarAddress:false//演出日历地址显示
+        showCalendarAddress:false,//演出日历地址显示
+        sortType:0
     },
     mutations: {
         // getSeller(state,seller){

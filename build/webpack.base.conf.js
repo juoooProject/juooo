@@ -19,7 +19,7 @@ module.exports = {
                     //比如我要调用'http://40.00.100.133:3002/user/login'，直接写‘/api/user/login'即可
                 }
             }
-        },
+        }
     },
     plugins: [
         new webpack.optimize.CommonsChunkPlugin('common.js'),
@@ -28,6 +28,7 @@ module.exports = {
             $: "jquery"
         })
     ],
+
   context: path.resolve(__dirname, '../'),
   entry: {
     app: './src/main.js'
@@ -84,6 +85,7 @@ module.exports = {
       }
     ]
   },
+
   node: {
     // prevent webpack from injecting useless setImmediate polyfill because Vue
     // source contains it (although only uses it if it's native).

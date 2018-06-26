@@ -1,5 +1,6 @@
 <template>
     <div class="performWrap">
+        <foot></foot>
         <div class="navbar-top">
             <div class="left">
                 <span>全国</span>
@@ -38,66 +39,95 @@
     import BScroll from "better-scroll"
     import Search from "../../components/search/Search"
     import ShowPerform from "../../components/showPerform/showPerform"
-export default {
-  name: 'Performance',
-  data(){
-      return{
-          curIndex:0,
-          searchShow:false,
-          isFlag:true,
-          listArr:[],
-          allFlag:true,
-          sortShow:false,
-          type:["全部","演唱会","音乐会","话剧歌剧","儿童亲子","音乐剧","舞蹈芭蕾","戏曲综艺","展览"]
-      }
-  },
-  created(){
-      console.log(this.$route)
-      this.$http.get("/api/performances").then(({data})=>{
-          this.listArr=data.allList;
-      }).catch((err)=>{
-          console.error(err);
-      });
-  },
-  mounted(){
-      let topWrapper = this.$refs.topWrap;
-      this.topScroll = new BScroll(topWrapper,{
-          click:true,
-          scrollX:true
-      })
-      let listWrap = this.$refs.listWrap;
-      this.listScroll = new BScroll(listWrap,{
-          click:true
-      })
+    import Foot from '../../components/foot/foot'
+    export default {
+        name: 'Performance',
+        data() {
+            return {
+                curIndex: 0,
+                searchShow: false,
+                isFlag: true,
+                listArr: [],
+                allFlag: true,
+                sortShow: false,
+                type: ["全部", "演唱会", "音乐会", "话剧歌剧", "儿童亲子", "音乐剧", "舞蹈芭蕾", "戏曲综艺", "展览"],
+                sortType: 0
+            }
+        },
+        created() {
+            this.$http.get("/api/performances").then(({data}) => {
+                this.listArr = data.allList;
+            }).catch((err) => {
+                console.error(err);
+            });
+        },
+        mounted() {
+            let topWrapper = this.$refs.topWrap;
+            this.topScroll = new BScroll(topWrapper, {
+                click: true,
+                scrollX: true
+            })
+            let listWrap = this.$refs.listWrap;
+            this.listScroll = new BScroll(listWrap, {
+                click: true
+            })
 
-  },
-  methods:{
-      gotoSearch(){
-          this.$store.state.footShow=false;
-         this.$router.push({
-             path:"/search"
-         })
-      },
-      gotoList(index){
-          this.curIndex=index;
-          this.$router.push({
-              path:"/performance",
-              query:{
-                  id:index-1
-              }
-          });
-      },
-      sortChange(index){
-           this.isFlag=!this.isFlag;
-           this.sortShow=false;
 
-      }
-  },
-  components:{
-      ShowPerform,
-      Search
-  }
-}
+        },
+        methods: {
+            gotoSearch() {
+                this.$router.push({
+                    path: "/search"
+                })
+            },
+            gotoList(index) {
+                this.curIndex = index;
+                if (this.sortType == 0) {
+                    this.$router.push({
+                        path: "/performance",
+                        query: {
+                            id: this.curIndex - 1
+                        }
+                    });
+                } else {
+                    this.$router.push({
+                        path: "/performance",
+                        query: {
+                            id: this.curIndex - 1,
+                            sort: 1
+                        }
+                    });
+                }
+            },
+            sortChange(index) {
+                this.isFlag = !this.isFlag;
+                this.sortShow = false;
+                this.sortType=index;
+                if (this.sortType == 0) {
+                    this.$router.push({
+                        path: "/performance",
+                        query: {
+                            id: this.curIndex - 1
+                        }
+                    });
+                } else {
+                    this.$router.push({
+                        path: "/performance",
+                        query: {
+                            id: this.curIndex - 1,
+                            sort: 1
+                        }
+                    });
+                }
+            }
+        },
+        components: {
+            ShowPerform,
+            Search,
+            Foot
+        }
+    }
+
 </script>
 
 <style lang="less" scoped>
