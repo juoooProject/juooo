@@ -8,10 +8,15 @@ import './common/less/reset.less'
 import 'lib-flexible/flexible'
 import  "./assets/js/tween"
 import './common/less/style.less'
-import "./assets/css/mixin.less"
-import axios from "axios";
+
+import axios from 'axios';
+Vue.prototype.$http = axios;
+Vue.prototype.$api="/api";
 import $ from "jquery"
-Vue.prototype.$http = axios; //将axios作为Vue的原型来使用
+
+
+import "./assets/css/mixin.less"
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

@@ -30,8 +30,6 @@
             '$route' (to, from) {
                 // 对路由变化作出响应...
                 this.$http.get("/api/performances").then(({data})=>{
-                    console.log(this.$route.query,typeof this.$route.query.sort);
-
                     if(data.status){
                         if(this.$route.query.id==-1){
                             this.listArr=data.allList;

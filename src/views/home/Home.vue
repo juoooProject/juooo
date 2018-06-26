@@ -30,21 +30,29 @@
            </ul>
            <ul class="activity-wrap">
                <li><img src="../../assets/img/calendar.png" alt=""><span>日历</span></li>
-               <li><img src="../../assets/img/jutehui.png" alt=""><span>聚特惠</span></li>
-               <li><img src="../../assets/img/student.png" alt=""><span>学生专区</span></li>
+               <li @click="goToSpecialize"><img src="../../assets/img/jutehui.png" alt=""><span>聚特惠</span></li>
+
+               <li @click="goToStudent"><img src="../../assets/img/student.png" alt=""><span>学生专区</span></li>
                <li><img src="../../assets/img/card.png" alt=""><span>欢聚橙卡</span></li>
            </ul>
+           <index-rest></index-rest>
        </div>
        <foot></foot>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
+
+import StudentArea from "../../components/studentArea"
+import SpecializeArea from "../../components/specializeArea"
+import IndexRest from "../../components/indexRest/indexRest"
+import AddAddress from "../../components/addAddress"
 import MyHeader from "../../components/head/myHead"
 import BScroll from "better-scroll"
 import Search from '../../components/search/Search'
 import Foot from '../../components/foot/foot'
+import OrderGoods from "../../components/orderGoods"
+
 export default {
   name: 'home',
   data(){
@@ -93,9 +101,24 @@ export default {
   components: {
        MyHeader,
        Search,
-       Foot
+       Foot,
+       StudentArea,
+       SpecializeArea,
+       IndexRest,
+       OrderGoods,
+       AddAddress,
   },
   methods:{
+      goToStudent(){
+          this.$router.push({
+              path:"/student"
+          })
+      },
+      goToSpecialize(){
+          this.$router.push({
+              path:"/specialize"
+          })
+      },
       init(){
           this.scroll = new BScroll(this.$refs.slideWrap,{
               click:true,
@@ -160,11 +183,16 @@ export default {
           })
       }
 
+
   }
 }
 </script>
 
+
 <style lang="less" scoped>
+    .home{
+        height: 100%;
+    }
     .head-wrap{
         .navbar-top{
             position: fixed;
@@ -232,6 +260,8 @@ export default {
     .con{
         position: relative;
         top: 90px;
+        height: 100%;
+        overflow: scroll;
         .slide-wrap{
             position: relative;
             width: 100%;
@@ -283,7 +313,7 @@ export default {
             padding-top: 25px;
             /*height: 110px;*/
             li{
-                flex: 1;
+                /*flex: 1;*/
                 img{
                     width: 64px;
                     height: 64px;
@@ -308,6 +338,7 @@ export default {
                 background-color: #f2f2f2;
                 line-height: 80px;
                 border-radius: 10px;
+                text-align: center;
                 &:last-child{
                     margin: 0;
                 }
@@ -323,3 +354,4 @@ export default {
         }
     }
 </style>
+

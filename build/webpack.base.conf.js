@@ -13,7 +13,7 @@ module.exports = {
     devServer:{
         proxy:{
             '/api': {
-                target: 'http://localhost:8088',
+                target: 'http://10.80.13.78:8088',
                 changeOrigin:true,
                 pathRewrite:{
                     '^/api':''//这里理解成用‘/api'代替target里面的地址，后面组件中我们掉接口时直接用api代替
@@ -29,6 +29,7 @@ module.exports = {
             $: "jquery"
         })
     ],
+
   context: path.resolve(__dirname, '../'),
   entry: {
     app: './src/main.js'
@@ -85,6 +86,7 @@ module.exports = {
       }
     ]
   },
+
   node: {
     // prevent webpack from injecting useless setImmediate polyfill because Vue
     // source contains it (although only uses it if it's native).
