@@ -2,7 +2,7 @@
   <div class="home">
     <!--<router-link class="to-address" tag="button" to="/home/address">全国</router-link>-->
     <!--<router-view ></router-view>-->
-    <!--<calendar-main v-if=""></calendar-main>-->
+    <calendar-main v-if=""></calendar-main>
   </div>
 </template>
 

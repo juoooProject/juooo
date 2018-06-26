@@ -223,7 +223,7 @@
                 </svg>
             </span>
                 <div class="calendar-info" @click.stop="changeYear">
-                    <span class="year">{{year}}</span><span class="month">.{{month}}</span>
+                    <span class="year">{{year}}</span><span class="month">.{{month+1}}</span>
                 </div>
 
             </div>
