@@ -14,18 +14,41 @@ import ShowPerform from "../components/showPerform/showPerform"
 import TourPerformanceDetail from "../components/indexRest/tourPerformanceDetail"
 import TimelySale from "../components/indexRest/timelySale"
 
-
+import Register from '../components/register/Register'
+import FinishRegister from '../components/finishRegister/FinishRegister'
+import FindBackPwd from '../components/findBackPwd/FindBackPwd'
+import AddressMain from '../components/address/AddressMain'
+import AccountSetting from '../components/accountSetting/AccountSetting'
+import CalendarMain from '../components/calendar/CalendarMain'
 Vue.use(Router)
+
 
 export default new Router({
   mode:"history",
 
   routes: [
+
     {
       path: '/',
-      name: 'home',
       component: Home,
+        children:[
+            {
+                path:'address',
+                name:'address',
+                component:AddressMain
+            }
+        ]
     },
+      {
+          path:'/specialize',
+          name:"specialize-area",
+          component:SpecializeArea
+      },
+      {
+          path:"/student",
+          name:"student-area",
+          component:StudentArea
+      },
     {
       path: '/performance',
       name: 'performance',
@@ -45,12 +68,39 @@ export default new Router({
     {
       path: '/mine',
       name: 'mine',
-      component: Mine
+      component: Mine,
+      children:[
+          {
+              path:'register',
+              name:'register',
+              component:Register
+          },
+          {
+              path:'finishRegister',
+              name:'finishRegister',
+              component:FinishRegister
+          },
+          {
+              path:'findBackPwd',
+              name:'findBackPwd',
+              component:FindBackPwd
+          },
+          {
+              path:'accountSetting',
+              name:'accountSetting',
+              component:AccountSetting
+          }
+      ]
     },
       {
           path: '/search',
           name: 'search',
           component: Search
+      },
+      {
+          path: '/calendarMain',
+          name: 'calendarMain',
+          component: CalendarMain
       },
       {
           path:"/moreTour",

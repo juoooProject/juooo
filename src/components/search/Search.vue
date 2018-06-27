@@ -40,7 +40,6 @@
                 this.searchShow=true;
             },
             getList(item){
-                this.$store.state.footShow=true;
                 this.$http.get(`api/search?keys=${item}`).then(({data})=>{
                     console.log(data);
                     if(item!=""){
@@ -82,7 +81,6 @@
                  this.history.splice(index,1);
             },
             goToLast(){
-                this.$store.state.footShow=true;
                 this.$router.go(-1);
             }
 

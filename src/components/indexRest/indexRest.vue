@@ -51,11 +51,13 @@
               tourList:[],
               Len:4,
               hotLength:10,
-              minLen:5
+              minLen:5,
+              
+
           }
         },
         created(){
-            this.$http.get("api/performances").then(({data})=>{
+            this.$http.get("/api/performances").then(({data})=>{
                 if (data.status == 1){
                     this.tourList = data.allList
 
