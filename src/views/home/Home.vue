@@ -6,7 +6,7 @@
     <!--<index-rest></index-rest>-->
     <!--<order-goods></order-goods>-->
     <!--<add-address></add-address>-->
-        <router-view></router-view>
+        <!--<router-view></router-view>-->
 
       <div class="head-wrap">
           <!--顶部导航-->
@@ -76,7 +76,7 @@ export default {
           autoPlay:true,
           interval:2000,
           dots:[],
-          classMap:[{src:'http://10.80.13.78:8088/img/sing.png',word:'演唱会'},{src:'http://10.80.13.78:8088/img/music.png',word:'音乐会'},{src:'http://10.80.13.78:8088/img/show.png',word:'舞台剧'},{src:'http://10.80.13.78:8088/img/drama.png',word:'音乐剧'},{src:'http://10.80.13.78:8088/img/child.png',word:'儿童'}],
+          classMap:[{src:'http://10.80.13.228:8088/img/sing.png',word:'演唱会'},{src:'http://10.80.13.228:8088/img/music.png',word:'音乐会'},{src:'http://10.80.13.228:8088/img/show.png',word:'舞台剧'},{src:'http://10.80.13.228:8088/img/drama.png',word:'音乐剧'},{src:'http://10.80.13.228:8088/img/child.png',word:'儿童'}],
           searchShow:false
       }
   },

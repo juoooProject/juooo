@@ -12,7 +12,7 @@ import Search from '../components/search/Search'
 import ShowPerform from "../components/showPerform/showPerform"
 
 import TourPerformanceDetail from "../components/indexRest/tourPerformanceDetail"
-
+import TimelySale from "../components/indexRest/timelySale"
 
 
 Vue.use(Router)
@@ -25,20 +25,6 @@ export default new Router({
       path: '/',
       name: 'home',
       component: Home,
-        children:[
-            {
-                path:'specialize',
-                name:"specialize-area",
-                component:SpecializeArea
-            },
-            {
-                path:"student",
-                name:"student-area",
-                component:StudentArea
-            },
-
-        ]
-
     },
     {
       path: '/performance',
@@ -70,6 +56,23 @@ export default new Router({
           path:"/moreTour",
           name:"tour-performance-detail",
           component:TourPerformanceDetail
+      },
+      {
+          path:'/specialize',
+          name:"specialize-area",
+          component:SpecializeArea
+      },
+      {
+          path:"/student",
+          name:"student-area",
+          component:StudentArea
+      },
+      {
+          path:"/timely",
+          name:"timely-sale",
+          component:TimelySale
+
+
       }
 
   ]

@@ -164,7 +164,7 @@
             </div>
         </div>
 
-        <cover-choose v-if="isShowCover" :isShowCover="isShowCover"></cover-choose>
+        <cover-choose v-if="isShowCover" @isShow="getShow"></cover-choose>
 
     </div>
 </template>
@@ -253,6 +253,9 @@
         },
 
         methods:{
+            getShow(bol){
+                this.isShowCover =  bol;
+            },
             goToBack(){
                 this.$router.go(-1)
             },

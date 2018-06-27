@@ -4,10 +4,10 @@
             <div class="student-banner">
                 <span class="icon icon-arrow_lift" @click="goToBack"></span>
                 <span>学生票专区</span>
-                <div @click.stop.prevent="isShowCover = !isShowCover"><span></span><span></span><span></span></div>
+                <div @click.stop.prevent="isShowCover = true"><span></span><span></span><span></span></div>
             </div>
 
-            <div class="student-lunbo" ref="lunbo" @touchstart.stop.prevent @touchend="flag=true">
+            <div class="student-lunbo" ref="lunbo">
                 <div class="container">
                     <img src="../img/1.jpg" alt="">
                     <img src="../img/1.jpg" alt="">
@@ -114,7 +114,7 @@
 
         </div>
 
-        <cover-choose v-if="isShowCover"></cover-choose>
+        <cover-choose @isShow="getShow" v-if="isShowCover"></cover-choose>
 
     </div>
 </template>
@@ -149,9 +149,11 @@ var timer = null;
         created(){
             //console.log(this.isShowCover)
             this.$nextTick(()=>{
-                this.$on('isShow',(isShow)=>{
-                    this.isShowCover = isShow;
-                })
+                //是监听当前组件发布的事件
+
+                // this.$on('isShow',(isShow)=>{
+                //     this.isShowCover = isShow;
+                // })
             })
 
             this.$http.get("api/student").then(({data})=>{
@@ -227,10 +229,7 @@ var timer = null;
                         $(".classify").removeClass("Fix")
                     }
                 })
-                $('.student-lunbo').on('touchstart',()=>{
-                    console.log(1)
-                    this.flag = false;
-                })
+
             })
 
             new BScroll(this.$refs.imgsList,{
@@ -255,6 +254,10 @@ var timer = null;
 
         },
         methods:{
+
+            getShow(bol){
+               this.isShowCover =  bol;
+            },
             goToBack(){
                 this.$router.go(-1)
             },
