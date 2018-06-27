@@ -83,7 +83,7 @@
               console.log(this.addressScroll)
           },
             back(){
-              this.$router.go(-1)
+              this.$router.push('/');
             },
             checkPopular(city){
                 this.$router.go(-1)

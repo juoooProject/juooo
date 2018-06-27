@@ -45,7 +45,6 @@
       <my-page :phoneNumber="phoneNumber" :logined="logined" v-if="logined"></my-page>
       <div class="input-main">
       </div>
-      <foot></foot>
     </div>
 </template>
 
@@ -69,7 +68,7 @@
               this.state++;
           },
           toHome(){
-              this.$router.push('/home')
+              this.$router.push('/')
           }
         },
         components:{

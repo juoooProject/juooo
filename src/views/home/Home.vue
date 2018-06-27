@@ -1,12 +1,10 @@
 <template>
   <div class="home">
 
-    <!--<router-link class="to-address" tag="button" to="/home/address">全国</router-link>-->
     <keep-alive>
         <router-view ></router-view>
     </keep-alive>
 
-    <!--<calendar-main v-if=""></calendar-main>-->
 
       <div class="head-wrap">
           <!--顶部导航-->
@@ -78,7 +76,7 @@ export default {
           autoPlay:true,
           interval:2000,
           dots:[],
-          classMap:[{src:'http://10.80.13.78:8088/img/sing.png',word:'演唱会'},{src:'http://10.80.13.78:8088/img/music.png',word:'音乐会'},{src:'http://10.80.13.78:8088/img/show.png',word:'舞台剧'},{src:'http://10.80.13.78:8088/img/drama.png',word:'音乐剧'},{src:'http://10.80.13.78:8088/img/child.png',word:'儿童'}],
+          classMap:[{src:'http://10.80.13.228:8088/img/sing.png',word:'演唱会'},{src:'http://10.80.13.228:8088/img/music.png',word:'音乐会'},{src:'http://10.80.13.228:8088/img/show.png',word:'舞台剧'},{src:'http://10.80.13.228:8088/img/drama.png',word:'音乐剧'},{src:'http://10.80.13.228:8088/img/child.png',word:'儿童'}],
           searchShow:false
       }
     },
