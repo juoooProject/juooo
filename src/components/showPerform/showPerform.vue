@@ -1,9 +1,9 @@
 <template>
     <div class="showList">
         <ul>
-            <li v-for="(item,index) in listArr" :key="index" class="singleList">
+            <li v-for="(item,index) in listArr" :key="index" class="singleList" @click="goToTicket(item)">
                 <div class="avatar">
-                    <img width="89" height="119" :src="item.other.imgUrl" alt="">
+                    <img :src="item.other.imgUrl" alt="" width="89" height="119">
                 </div>
                 <div class="detail-box">
                     <div class="title">{{item.other.title}}-{{item.site.city}}站</div>
@@ -31,25 +31,25 @@
         watch: {
             '$route' (to, from) {
                 // 对路由变化作出响应...
+                this.$store.commit('changeType',this.$route.query.id);
                 this.$http.get("/api/performances").then(({data})=>{
                     if(data.status){
+                        var arr = [];
+                        arr = this.sortList(data.allList);
                         if(this.$route.query.id==-1){
-                            this.listArr=data.allList;
+                            this.listArr=arr;
                         }else {
-                            this.listArr=data.allList.filter((value,index)=> {
-                                return value.performType==this.$route.query.id;
+                            this.listArr=arr.filter((value,index)=> {
+                                return value.other.performType==this.$route.query.id;
                             })
                         }
                     }
                     if(this.$route.query.sort == 1){
                         var now = new Date();
                         var nowTime = now.getTime();
-                        this.listArr = this.sortList(this.listArr);
                         this.listArr=this.listArr.filter(function (value,index) {
                             return value.realTime>=nowTime;
                         })
-                    }else {
-                        this.listArr = this.sortList(this.listArr);
                     }
 
                 }).catch((err)=>{
@@ -57,32 +57,37 @@
                 });
             }
         },
-        methods:{
-
-        },
         created(){
+            this.$store.commit('changeType',this.$route.query.id);
             this.$http.get("/api/performances").then(({data})=> {
                 if (data.status) {
                     if (this.$route.query.id == -1) {
-                        this.listArr = data.allList;
-                    }else {
                         var arr = [];
-                        data.allList.forEach((value, index)=> {
-                            value.keyWords.forEach((key,i)=> {
-                                if(key.indexOf(this.$route.query.key)>=0){
-                                    arr.push(value);
-                                }
-                            })
+                        arr = data.allList;
+                        this.listArr = this.sortList(arr);
+                    }else {
+                        // this.listArr = data.allList;
+                        var arr = [];
+                        arr = this.sortList(data.allList);
+                        this.listArr=arr.filter((value,index)=> {
+                            return value.other.performType==this.$route.query.id;
                         })
-                        this.listArr=arr;
+                        console.log(this.listArr)
+                         var arr2 = [];
+                         if(this.$route.query.key!=undefined){
+                            this.listArr.forEach((value, index)=> {
+                                value.other.keyWords.forEach((key,i)=> {
+                                    if(key.indexOf(this.$route.query.key)>=0){
+                                        arr2.push(value);
+                                    }
+                                })
+                            })
+                            this.listArr = arr2;
+                        }
                     }
 
                 }
-                this.listArr = this.sortList(this.listArr);
-
-
             });
-
 
         },
         mounted(){
@@ -102,11 +107,13 @@
         methods:{
             sortList(list){
                 var arr = [];
+                var k = 1;
                 list.forEach((item,i)=>{
                     item.siteAll.forEach((value,index)=>{
                         let o = {};
                         o.site = value;
                         o.other = item;
+                        o.id=k++;
                         arr.push(o)
                     })
                 })
@@ -127,6 +134,15 @@
                     }
                 }
                 return arr.sort(compare('realTime'))
+            },
+            goToTicket(item){
+                 // this.$store.commit('getTicket',item);
+                 this.$router.push({
+                     path:"/ticket",
+                     query:{
+                         id:item.id
+                     }
+                 })
             }
         }
     }
@@ -143,14 +159,14 @@
                 display: flex;
                 padding: 15px 0;
                 border-bottom: 1px solid #e6e6e6;
-                .avatar{
-                    flex: 0 0 89px;
-                    width: 178px;
-                    height: 238px;
-                    img{
-                        display: block;
-                    }
-                }
+               .avatar{
+                   flex: 0 0 89px;
+                   width: 178px;
+                   height: 238px;
+                   img{
+                       display: block;
+                   }
+               }
                 .detail-box{
                     flex: 1;
                     padding-left: 30px;

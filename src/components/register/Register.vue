@@ -59,7 +59,7 @@
                     <button tag="button" class="next-step-btn" :class="{'active':could}">下一步</button>
                 </div>
                 <div class="login">
-                    <span class="text">已有账号？<a href="" class="login-now">立即登录</a></span>
+                    <span class="text">已有账号？<a href="" @click.stop.prevent="loginNow" class="login-now">立即登录</a></span>
                 </div>
             </div>
         </div>
@@ -101,6 +101,9 @@
                         clearInterval(timer);
                     }
                 },1000);
+            },
+            loginNow(){
+                this.$router.push('/mine')
             }
         },
         created(){

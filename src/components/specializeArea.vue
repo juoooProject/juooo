@@ -230,8 +230,6 @@
                 // console.log(this.imgList)
                 // console.log(this.dateList)
                 // console.log(this.cityList)
-                console.log(data)
-                console.log(this.cityTmp)
 
                 this.$nextTick(()=>{
                     $(".timely-pic").eq(2).css("display","none")
@@ -439,6 +437,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        padding: 0 30px;
         .icon{
             display: inline-block;
             width: 20px;

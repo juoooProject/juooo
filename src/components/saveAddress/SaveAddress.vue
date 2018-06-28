@@ -1,8 +1,8 @@
 <template>
     <div class="save-address">
         <div class="mine-header">
-            <div class="arrow-wrapper" @click="">
-                <span class="icon-angle-left"></span>
+            <div class="arrow-wrapper" @click="back">
+                <span class="icon icon-arrow_lift"></span>
             </div>
             <div class="text-wrapper">
                 <span class="text">新增收货地址</span>
@@ -12,11 +12,11 @@
         </div>
         <div class="message">
             <div class="username">
-                <input type="text" placeholder="姓名" v-model="user">
+                <input type="text" placeholder="姓名" v-model="username">
                 <i v-if="user" @click="move" class="icon ion-close-circled"></i>
             </div>
             <div class="phone" >
-                <input type="number" placeholder="手机号" v-model="phoneNumber">
+                <input class="phone-input" type="number" placeholder="手机号" v-model="phoneNumber">
                 <i v-if="phoneNumber" @click="move" class="icon ion-close-circled"></i>
             </div>
 
@@ -27,10 +27,15 @@
             </div>
 
             <div class="detail">
-                <input class="detail-address" type="text" placeholder="详细地址"></input>
+                <input v-model="detail" class="detail-address" type="text" placeholder="详细地址"></input>
             </div>
         </div>
-        <div class="save">保存并使用</div>
+        <div class="prompt" v-if="showFlag">
+            <p class="prompt-text">
+                <i class="icon ion-help-circled"></i>您输入的手机号不符合规范
+            </p>
+        </div>
+        <div class="save" @click="saveAddress">保存并使用</div>
         <div class="picker-show" v-show="addressShow">
             <div class="city-picker">
                 <span class="cancel" @click="hideChoose">取消</span>
@@ -44,6 +49,7 @@
 </template>
 
 <script>
+    import {phoneReg,emailReg,pwdReg} from '../../common/js/inputReg'
     //import {mapState,mapMutations,mapActions} from 'vuex'
     import ChooseAddress from  './ChooseAddress'
     export default {
@@ -53,10 +59,12 @@
         },
         data() {
             return{
-                user:'',
+                username:'',
                 phoneNumber:'',
+                detail:'',
                 addressShow:false,
-                hasChoosed:false
+                hasChoosed:false,
+                showFlag:false
             }
         },
         methods:{
@@ -77,9 +85,43 @@
                 if(this.phoneNumber !== ""){
                     this.phoneNumber = ''
                 }
+            },
+            back(){
+                this.$router.push({
+                    path:'/orderGoods',
+                    query:{
+                        id:this.$route.query.id
+                    }
+                })
+            },
+            saveAddress(){
+                if(this.username!=='' && this.phoneNumber!=='' && this.detail!==''){
+                    this.$store.commit('getDetailAddress', {
+                        username: this.username,
+                        phone: this.phoneNumber,
+                        detail: this.detail
+                    })
+                    this.$router.push({
+                        path:'/orderGoods',
+                        query:{
+                            id:this.$route.query.id
+                        }
+                    })
+                }
+
             }
         },
         mounted(){
+            this.$nextTick(()=>{
+                let phoneInp = $('.phone-input');
+                phoneInp.on('input',()=>{
+                    if(!phoneReg.test(this.phoneNumber) && this.phoneNumber!==''){
+                        this.showFlag = true;
+                    }else{
+                        this.showFlag = false;
+                    }
+                })
+            })
 
         }
     }
@@ -106,8 +148,8 @@
         background:#fdfdfd;
         .arrow-wrapper{
             flex:0 0 10%;
-            .icon-angle-left{
-                font-size: 60px;
+            .icon-arrow_lift{
+                font-size: 30px;
                 line-height: 85px;
                 font-weight: 400;
                 color:#212121
@@ -181,11 +223,23 @@
             }
         }
     }
+    .prompt{
+        margin-top: 150px;
+        color: #b3b3b3;
+        &>p{
+            width:100%;
+            margin: 32px 0;
+            font-size: 23px;
+            line-height: 23px;
+            text-align: left;
+            text-indent: 30px;
+        }
+    }
     .save{
         height: 90px;
         line-height: 90px;
         width: 80%;
-        margin-top: 200px;
+        margin-top: 150px;
         margin-left: 10%;
         font-size:30px;
         font-weight: 500;

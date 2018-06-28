@@ -39,7 +39,7 @@
                <li @click="goToSpecialize"><img src="../../assets/img/jutehui.png" alt=""><span>聚特惠</span></li>
 
                <li @click="goToStudent"><img src="../../assets/img/student.png" alt=""><span>学生专区</span></li>
-               <li><img src="../../assets/img/card.png" alt=""><span>欢聚橙卡</span></li>
+               <li @click="goToCard"><img src="../../assets/img/card.png" alt=""><span>欢聚橙卡</span></li>
            </ul>
            <index-rest></index-rest>
        </div>
@@ -159,7 +159,6 @@ export default {
    // },
   created(){
       this.$http.get("/api/slide").then(({data})=>{
-          console.log(data);
           this.slideimg = data;
           this.dots = new Array(this.slideimg.length-1);
           this.$nextTick(()=>{
@@ -171,14 +170,11 @@ export default {
               if(this.loop){
                   width += 2*sliderWidth;
               }
-              console.log(width);
               this.$refs.slideCon.style.width = 700 + '%';
-              console.log(sliderWidth);
           })
       })
   },
   mounted(){
-      console.log(this.slideimg)
        this.$nextTick(()=>{
           this.init();
       })
@@ -204,6 +200,11 @@ export default {
       goToSpecialize(){
           this.$router.push({
               path:"/specialize"
+          })
+      },
+      goToCard(){
+          this.$router.push({
+              path:"/happyCard"
           })
       },
       init(){

@@ -6,6 +6,9 @@ Vue.use(Vuex)
 Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
+        sortType:0,
+        ticketCon:[],
+        curType:-1,
         footShow:true,
         currentCity:'全国',
         calendarCity:'全国',
@@ -15,6 +18,25 @@ export default new Vuex.Store({
             province:'',
             city:'',
             country:''
+        },
+        total:{
+            totalPrice:0,
+            totalCount:0
+        },
+        good:{
+            title:'',
+            city:'',
+            imgUrl:'',
+            place:'',
+            time:{
+                ymd:'',
+                ms:''
+            }
+        },
+        sendAddress:{
+            username:'',
+            phone:'',
+            detail:''
         }
     },
     mutations: {
@@ -30,10 +52,35 @@ export default new Vuex.Store({
         changeCalendarCity(state,value){
             state.calendarCity = value;
         },
-        changeAddress(state,addressObj){
+        changeAddress(state,addressObj) {
             state.address.province = addressObj.province;
             state.address.city = addressObj.city;
             state.address.country = addressObj.country;
+        },
+        getTicket(state,ticket){
+            state.ticketCon = ticket;
+        },
+        changeType(state,type){
+            state.curType=type;
+        },
+        saveOne(state,options){
+            state.good.title = options.title;
+            state.good.city = options.city;
+            state.good.imgUrl = options.imgUrl;
+            state.good.place = options.place;
+            state.good.time.ymd = options.time.ymd;
+            state.good.time.ms = options.time.ms;
+        },
+        calculateTotalPrice(state,options){
+            state.total.totalPrice = 0;
+            state.total.totalCount = 0;
+            state.total.totalPrice = options.totalPrice;
+            state.total.totalCount = options.totalCount;
+        },
+        getDetailAddress(state,options){
+            state.sendAddress.username = options.username;
+            state.sendAddress.phone = options.phone;
+            state.sendAddress.detail = options.detail;
         }
         // cartListShow(state,item){
         //     if(item != ""){
@@ -56,5 +103,6 @@ export default new Vuex.Store({
     //             console.error(err);
     //         })
     //     }
+
     }
 })
