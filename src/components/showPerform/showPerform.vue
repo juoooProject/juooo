@@ -171,6 +171,7 @@
                    }
                }
                 .detail-box{
+                    flex: 1;
                     padding-left: 30px;
                     .title{
                         line-height: 36px;

@@ -1,10 +1,13 @@
 <template>
   <div class="home">
+
+<router-view></router-view>
+
       <div class="head-wrap">
           <!--顶部导航-->
           <div class="navbar-top">
-              <div class="left">
-                  <span>全国</span>
+              <div class="left" @click="goToAddress">
+                  <span>{{this.$store.state.currentCity}}</span>
                   <i class="icon ion-chevron-down"></i>
               </div>
               <div class="right">
@@ -29,7 +32,7 @@
                </li>
            </ul>
            <ul class="activity-wrap">
-               <li><img src="../../assets/img/calendar.png" alt=""><span>日历</span></li>
+               <li @click="goToCalendar"><img src="../../assets/img/calendar.png" alt=""><span>日历</span></li>
                <li @click="goToSpecialize"><img src="../../assets/img/jutehui.png" alt=""><span>聚特惠</span></li>
 
                <li @click="goToStudent"><img src="../../assets/img/student.png" alt=""><span>学生专区</span></li>
@@ -37,12 +40,15 @@
            </ul>
            <index-rest></index-rest>
        </div>
+       
+
        <foot></foot>
   </div>
 </template>
 
 <script>
-
+// @ is an alias to /src
+import CalendarMain from '../../components/calendar/CalendarMain'
 import StudentArea from "../../components/studentArea"
 import SpecializeArea from "../../components/specializeArea"
 import IndexRest from "../../components/indexRest/indexRest"
@@ -55,8 +61,9 @@ import OrderGoods from "../../components/orderGoods"
 
 export default {
   name: 'home',
-  data(){
+    data(){
       return{
+        showAddress:false,
           slideimg:[],
           pageArr:[],
           curFlag:false,
@@ -69,7 +76,81 @@ export default {
           classMap:[{src:'http://10.80.13.228:8088/img/sing.png',word:'演唱会'},{src:'http://10.80.13.228:8088/img/music.png',word:'音乐会'},{src:'http://10.80.13.228:8088/img/show.png',word:'舞台剧'},{src:'http://10.80.13.228:8088/img/drama.png',word:'音乐剧'},{src:'http://10.80.13.228:8088/img/child.png',word:'儿童'}],
           searchShow:false
       }
-  },
+    },
+    methods: {
+        show() {
+            this.showAddress = !this.showAddress;
+        },
+        init() {
+            this.scroll = new BScroll(this.$refs.slideWrap, {
+                click: true,
+                scrollX: true,
+                snap: {
+                    loop: true,
+                    threshold: 0,
+                    easing: {
+                        style: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                        fn: function (t) {
+                            return t * (2 - t)
+                        }
+                    }
+                }
+            })
+            this.play();
+            this.scroll.on('scrollEnd', () => {
+                let pageIndex = this.scroll.getCurrentPage().pageX;
+                this.curIndex = pageIndex;
+                if (this.autoPlay) {
+                    this.play();
+                }
+            })
+            this.scroll.on('beforeScrollStart', () => {
+                if (this.autoPlay) {
+                    clearTimeout(this.timer);
+                }
+            })
+        },
+        play() {
+            let pageIndex = this.curIndex + 1
+            if (pageIndex == 7) {
+                pageIndex = 0;
+                this.scroll.goToPage(pageIndex, 0, 0.01);
+            }
+            var vm = this;
+            this.timer = setTimeout(() => {
+                this.scroll.goToPage(pageIndex, 0, 400);//跳转到的页数 初始化页数 滑动总时间
+            }, this.interval);
+        },
+        clickChange(index) {
+            this.scroll.goToPage(index, 0, 400)
+        },
+        gotoPage(index, key) {
+            this.$http.get(`api/search?keys=${key}`).then(({data}) => {
+                console.log(data.searchList);
+                this.curIndex = 1;
+                this.$router.push({
+                    path: "/performance/showPerform",
+                    query: {
+                        id: data.searchList[0].performType,
+                        key: key
+                    }
+                });
+            }).catch((err) => {
+                console.log(err);
+            })
+        },
+        gotoSearch() {
+            this.$store.state.footShow = false;
+            this.$router.push({
+                path: "/search"
+            })
+        },
+        goToAddress() {
+            console.log(1)
+            this.$store.state.footShow = false;
+
+        },
+    },
   created(){
       this.$http.get("/api/slide").then(({data})=>{
           this.slideimg = data;
@@ -103,6 +184,7 @@ export default {
        IndexRest,
        OrderGoods,
        AddAddress,
+      CalendarMain
   },
   methods:{
       goToStudent(){
@@ -180,14 +262,23 @@ export default {
       },
       gotoSearch(){
           this.$router.push({
-              path:"/search"
+              path:'/home/address'
+          })
+        },
+        goToCalendar(){
+            this.$router.push({
+                path:'/calendarMain'
+            })
+        },
+      goToAddress(){
+          this.$router.push({
+              path:'/address'
           })
       }
-
-
-  }
+    },
 }
 </script>
+
 
 
 <style lang="less" scoped>

@@ -6,7 +6,6 @@
             </div>
             <div class="hot-right">
                 <p class="title">{{hot.other.title}}</p>
-                <!--{{item.siteAll[0].date}}-{{item.siteAll[item.siteAll.length-1].date}}-->
                 <p class="hot-date">{{hot.other.timePeriod}}</p>
                 <div class="hot-place">
                     <span>[{{hot.site.city}}]</span>
@@ -70,13 +69,11 @@
                     }
                     var arr = uniqeByKeys(arr,['_id']);
                     this.tourList=arr;
-
                 }
             });
         },
         methods:{
             goToTicket(item){
-                // this.$store.commit('getTicket',item);
                 this.$router.push({
                     path:"/ticket",
                     query:{
@@ -127,8 +124,6 @@
                     margin-right: 10px;
 
                 }
-
-
             }
             .hot-price{
                 color: red;

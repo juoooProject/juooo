@@ -4,10 +4,10 @@
             <div class="student-banner">
                 <span class="icon icon-arrow_lift" @click="goToBack"></span>
                 <span>学生票专区</span>
-                <div @click.stop.prevent="isShowCover = !isShowCover"><span></span><span></span><span></span></div>
+                <div @click.stop.prevent="isShowCover = true"><span></span><span></span><span></span></div>
             </div>
 
-            <div class="student-lunbo" ref="lunbo" @touchstart.stop.prevent @touchend="flag=true">
+            <div class="student-lunbo" ref="lunbo">
                 <div class="container">
                     <img src="../img/1.jpg" alt="">
                     <img src="../img/1.jpg" alt="">
@@ -114,7 +114,7 @@
 
         </div>
 
-        <cover-choose v-if="isShowCover"></cover-choose>
+        <cover-choose @isShow="getShow" v-if="isShowCover"></cover-choose>
 
     </div>
 </template>
@@ -148,66 +148,66 @@ var timer = null;
 
         created() {
             //console.log(this.isShowCover)
+
             this.$nextTick(() => {
                 this.$on('isShow', (isShow) => {
                     this.isShowCover = isShow;
                 })
-            })
-
-            this.$http.get("api/all").then(({data}) => {
-                if(data.status){
-                    var res = [];
-                    res = data.allList;
-                    // this.tourList = res[0];
-                    // this.showCount=res[0].other.siteAll.length;
-                    var arr = [];
-                    res.forEach((value, index) => {
-                        if (value.other.stuSupports == true) {
-                            arr.push(value);
-                        }
-                    })
-
-                    //将对象元素转换成字符串以作比较
-                    function obj2key(obj, keys) {
-                        var n = keys.length,
-                            key = [];
-                        while (n--) {
-                            key.push(obj[keys[n]]);
-                        }
-                        return key.join('|');
-                    }
-
-                    //去重操作
-                    function uniqeByKeys(array, keys) {
+                this.$http.get("api/all").then(({data}) => {
+                    if (data.status) {
+                        var res = [];
+                        res = data.allList;
+                        // this.tourList = res[0];
+                        // this.showCount=res[0].other.siteAll.length;
                         var arr = [];
-                        var hash = {};
-                        for (var i = 0, j = array.length; i < j; i++) {
-                            var k = obj2key(array[i].other, keys);
-                            if (!(k in hash)) {
-                                hash[k] = true;
-                                arr.push(array[i]);
+                        res.forEach((value, index) => {
+                            if (value.other.stuSupports == true) {
+                                arr.push(value);
                             }
+                        })
+
+                        //将对象元素转换成字符串以作比较
+                        function obj2key(obj, keys) {
+                            var n = keys.length,
+                                key = [];
+                            while (n--) {
+                                key.push(obj[keys[n]]);
+                            }
+                            return key.join('|');
                         }
-                        return arr;
+
+                        //去重操作
+                        function uniqeByKeys(array, keys) {
+                            var arr = [];
+                            var hash = {};
+                            for (var i = 0, j = array.length; i < j; i++) {
+                                var k = obj2key(array[i].other, keys);
+                                if (!(k in hash)) {
+                                    hash[k] = true;
+                                    arr.push(array[i]);
+                                }
+                            }
+                            return arr;
+                        }
+
+                        var arr = uniqeByKeys(arr, ['_id']);
+                        this.studentList = arr;
+                        this.studentTmp = arr;
+                        arr.forEach((value) => {
+                            this.tmp.push(value.site.city);
+                        })
+                        const s = new Set();
+
+                        this.tmp.forEach(x => s.add(x));
+
+                        for (let i of s) {
+
+                            this.cityList.push(i)
+                        }
+
                     }
 
-                    var arr = uniqeByKeys(arr, ['_id']);
-                    this.studentList = arr;
-                    this.studentTmp = arr;
-                    arr.forEach((value)=>{
-                        this.tmp.push(value.site.city);
-                    })
-                    const s = new Set();
-
-                    this.tmp.forEach(x => s.add(x));
-
-                    for (let i of s) {
-
-                        this.cityList.push(i)
-                    }
-
-                }
-
+                })
             })
         },
 
@@ -254,10 +254,7 @@ var timer = null;
                         $(".classify").removeClass("Fix")
                     }
                 })
-                $('.student-lunbo').on('touchstart',()=>{
-                    console.log(1)
-                    this.flag = false;
-                })
+
             })
 
             new BScroll(this.$refs.imgsList,{
@@ -282,6 +279,10 @@ var timer = null;
 
         },
         methods:{
+
+            getShow(bol){
+               this.isShowCover =  bol;
+            },
             goToBack(){
                 this.$router.go(-1)
             },
@@ -396,8 +397,6 @@ var timer = null;
                 })
             }
         }
-
-
 
 
     }
