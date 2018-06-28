@@ -25,50 +25,24 @@
         name: "hot-performance",
         props:{
             hotLength:Number
+
             // tourList:Array,
         },
         data(){
           return{
-                tourList:[]
+                data:[]
           }
+        },
+        watch:{
+           city(){
+
+           }
         },
         created(){
             this.$http.get("/api/all").then(({data})=> {
+
                 if (data.status) {
-                    var res = [];
-                    res=data.allList;
-                    // this.tourList = res[0];
-                    // this.showCount=res[0].other.siteAll.length;
-                    var arr = [];
-                    res.forEach((value,index)=>{
-                        if(value.other.siteAll.length>=4){
-                            arr.push(value);
-                        }
-                    })
-                    //将对象元素转换成字符串以作比较
-                    function obj2key(obj, keys){
-                        var n = keys.length,
-                            key = [];
-                        while(n--){
-                            key.push(obj[keys[n]]);
-                        }
-                        return key.join('|');
-                    }
-                    //去重操作
-                    function uniqeByKeys(array,keys){
-                        var arr = [];
-                        var hash = {};
-                        for (var i = 0, j = array.length; i < j; i++) {
-                            var k = obj2key(array[i].other, keys);
-                            if (!(k in hash)) {
-                                hash[k] = true;
-                                arr .push(array[i]);
-                            }
-                        }
-                        return arr ;
-                    }
-                    var arr = uniqeByKeys(arr,['_id']);
-                    this.tourList=arr;
+                    this.data = data.allList;
                 }
             });
         },
@@ -81,6 +55,55 @@
                     }
                 })
             }
+        },
+        computed:{
+            city(){
+                if(this.$store.state.currentCity != "全国"){
+                    this.$store.state.isShowTour = false;
+                }else{
+                    this.$store.state.isShowTour = true;
+                }
+                return this.$store.state.isShowTour;
+            },
+            tourList(){
+                var arr = [];
+                if(this.$store.state.currentCity == "全国"){
+                    arr = this.data;
+                }else {
+                    arr = this.data.filter((value,index)=>{
+                        return value.site.city==this.$store.state.currentCity;
+                    })
+                }
+                //将对象元素转换成字符串以作比较
+                function obj2key(obj, keys){
+                    var n = keys.length,
+                        key = [];
+                    while(n--){
+                        key.push(obj[keys[n]]);
+                    }
+                    return key.join('|');
+                }
+                //去重操作
+                function uniqeByKeys(array,keys){
+                    var arr = [];
+                    var hash = {};
+                    for (var i = 0, j = array.length; i < j; i++) {
+                        var k = obj2key(array[i].other, keys);
+                        if (!(k in hash)) {
+                            hash[k] = true;
+                            arr .push(array[i]);
+                        }
+                    }
+                    return arr ;
+                }
+                var arr = uniqeByKeys(arr,['_id']);
+                // this.tourList=arr;
+                 // var city = "";
+                 // city = this.$store.state.currentCity;
+                 return arr;
+            }
+
+
         }
     }
 </script>

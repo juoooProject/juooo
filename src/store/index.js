@@ -77,10 +77,13 @@ export default new Vuex.Store({
             state.total.totalPrice = options.totalPrice;
             state.total.totalCount = options.totalCount;
         },
-        getDetailAddress(state,options){
+        getDetailAddress(state,options) {
             state.sendAddress.username = options.username;
             state.sendAddress.phone = options.phone;
             state.sendAddress.detail = options.detail;
+        },
+        changeCity(state,city){
+            state.currentCity=city;
         }
         // cartListShow(state,item){
         //     if(item != ""){

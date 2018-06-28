@@ -86,9 +86,7 @@
 
             })
             this.listScroll.on('scrollStart',()=>{
-                console.log(this.$refs.listCon);
                 this.top = Math.abs(this.$refs.listCon.offsetTop);
-                console.log(this.top);
             })
             this.listScroll.on('scroll',(pos)=>{
                  // console.log(pos);

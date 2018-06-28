@@ -51,9 +51,9 @@
         <div class="buyNow-footer">
             <div class="buy-info">
                 <span></span>
-                <div class="ticketCount"><div class="t-num">{{this.$store.state.total.totalCount}}</div>张</div>
+                <div class="ticketCount"><div class="t-num">{{totalCount}}</div>张</div>
                 <span class="line"></span>
-                <div class="allPrice">￥<div class="p-num">{{this.$store.state.total.totalPrice}}</div></div>
+                <div class="allPrice">￥<div class="p-num">{{totalPrice}}</div></div>
             </div>
             <div class="buy-button" @click="goToBuy">
                 确定
@@ -194,9 +194,11 @@
             },
             goToBuy(){
                 console.log(1)
-                this.$store.commit('calculateTotalPrice',{
-                    totalPrice:this.totalPrice,
-                    totalCount:this.totalCount
+                this.$nextTick(()=>{
+                    this.$store.commit('calculateTotalPrice',{
+                        totalPrice:this.totalPrice,
+                        totalCount:this.totalCount
+                    })
                 })
                 this.$router.push({
                     path:"/orderGoods",
@@ -356,7 +358,7 @@
                 box-shadow: 4px 29px 65px #333;
                 background: white;
                 position: absolute;
-                bottom: 100px;
+                bottom: 150px;
                 .row{
                     display: flex;
                     justify-content: space-between;

@@ -151,14 +151,17 @@
              this.$nextTick(()=>{
                  let ticketWrap = this.$refs.ticketWrap;
              })
-            $(document).scroll(function () {
-                if($(document).scrollTop()>10){
-                    console.log($(document).scrollTop())
+            console.log($('.root'))
+            $('.root').scroll(function () {
+                console.log($('.root'))
+                if($('.root').scrollTop()>10){
+                    console.log($('.root').scrollTop())
+
                     $(".goods_navbar").css({
-                        'background':'white',
+                        'background':'#fff',
                         'border-bottom':'1px solid #ebebeb',
                     });
-                    $(".icon-arrow-left2").css('color','#212121')
+                    $(".ion-ios-arrow-left").css('color','#212121')
                     $(".icon-more").css('color','#212121')
                     $(".center").css("display",'block')
                 }else {
@@ -166,8 +169,8 @@
                         'background':'transparent',
                         'border-bottom':'none',
                     });
-                    $(".icon-arrow-left2").css('color','white')
-                    $(".icon-more").css('color','white')
+                    $(".ion-ios-arrow-left").css('color','#fff')
+                    $(".icon-more").css('color','#fff')
                     $(".center").css("display",'none')
                 }
             })
