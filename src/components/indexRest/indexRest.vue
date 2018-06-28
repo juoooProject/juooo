@@ -60,7 +60,6 @@
                     this.tourList = data.allList
 
                 }
-                console.log(data)
             })
         },
         methods:{
@@ -104,9 +103,10 @@
         }
         .limit-detail{
             width: 600px;
-            background: #eff0ef;
+            background: #f5f5f5;
             overflow: hidden;
             text-align: left;
+            border-radius: 5px;
             .limit-pic{
                 float: left;
                 width: 180px;
@@ -121,13 +121,14 @@
                 width: 360px;
                 padding: 25px;
                 p:nth-child(1){
-                    height: 78px;
+                    min-height: 39px;
                     font-size: 28px;
+                    line-height: 39px;
                     /*font-weight: 500;*/
                 }
                 p:nth-child(2){
                     margin-top: 20px;
-                    color: red;
+                    color: #F7791B;
                     font-size: 30px;
                     font-weight: 700;
                 }
@@ -146,6 +147,7 @@
                         color: white;
                         margin-left: 140px;
                         background: #F7791B;
+                        border-radius: 10px;
                     }
                 }
             }

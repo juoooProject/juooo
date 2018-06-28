@@ -11,7 +11,7 @@
                 <p class="tour-date">{{item.siteAll[0].date}}-{{item.siteAll[item.siteAll.length-1].date}}</p>
                 <div class="tour-place">
                     <span v-for="(i,index) in item.siteAll" v-if="index<5">{{i.city}}</span>
-                    <span>查看全部</span>
+                    <span @click="goToTour(item._id)">查看全部</span>
                 </div>
             </div>
         </div>
@@ -28,6 +28,16 @@
             minLen:Number
 
         },
+        methods:{
+            goToTour(id){
+                this.$router.push({
+                    path:"/tourInfo",
+                    query:{
+                        tid:id
+                    }
+                })
+            }
+        }
 
 
 

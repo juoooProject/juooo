@@ -7,7 +7,7 @@
                 <p class="text">首页</p>
             </router-link>
         </div>
-        <div class="nav-item">
+        <div class="nav-item" :class="{active:this.$store.state.curType>=-1&&this.$route.name=='showPerform'}">
             <router-link :to="{path:'/performance/showPerform',query:{id:-1}}">
                 <p class="icon perform"></p>
                 <p class="text">演出库</p>
@@ -24,7 +24,9 @@
 
 <script>
     export default {
-        name: "foot"
+        name: "foot",
+        created(){
+        }
     }
 </script>
 
@@ -44,6 +46,14 @@
             height:100px;
             line-height: 100px;
             color: #333;
+            &.active{
+                .text{
+                    color: #ff7919;
+                }
+                .icon{
+                    background-position: 0 -50px;
+                }
+            }
             a {
                 display:block;
                 color: #2c3e50;
@@ -55,6 +65,7 @@
                         background-position: 0 -50px;
                     }
                 }
+
                 .icon{
                     height: 50px;
                     width: 50px;

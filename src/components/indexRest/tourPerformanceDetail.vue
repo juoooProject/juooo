@@ -66,6 +66,7 @@
             width: 20px;
             height: 20px;
             font-size: 0.36rem;
+            margin-left: 30px;
         }
         span:nth-child(2){
             font-weight: 500;
@@ -75,13 +76,14 @@
         div{
 
             /*margin-bottom: 0.4rem;*/
+           margin-right: 30px;
             span{
                 display: inline-block;
                 width: 6px;
                 height: 6px;
                 border-radius: 50%;
                 background: black;
-                margin-right: 0.1rem;
+                margin-right: 10px;
 
 
             }
@@ -92,6 +94,7 @@
         height: 100%;
     }
     .tour-performance-detail{
+        padding: 20px 30px;
         height: 100%;
         overflow: scroll;
         margin-top: 87px;

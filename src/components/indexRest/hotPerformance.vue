@@ -1,19 +1,19 @@
 <template>
     <div class="hot-wrapper" v-if="tourList[0]">
-        <div class="hot" v-for="(hot,index) in tourList" v-if="index<hotLength && hot.siteAll.length>3">
+        <div class="hot" v-for="(hot,index) in tourList" @click="goToTicket(hot.id)">
             <div class="hot-left">
-                <img :src="hot.imgUrl" alt="">
+                <img :src="hot.other.imgUrl" alt="">
             </div>
             <div class="hot-right">
-                <p class="title">{{hot.title}}</p>
+                <p class="title">{{hot.other.title}}</p>
                 <!--{{item.siteAll[0].date}}-{{item.siteAll[item.siteAll.length-1].date}}-->
-                <p class="hot-date">{{hot.siteAll[0].date}}-{{hot.siteAll[hot.siteAll.length-1].date}}</p>
+                <p class="hot-date">{{hot.other.timePeriod}}</p>
                 <div class="hot-place">
-                    <span>[{{hot.siteAll[0].city}}]</span>
-                    <span>{{hot.siteAll[0].place}}</span>
+                    <span>[{{hot.site.city}}]</span>
+                    <span>{{hot.site.place}}</span>
                 </div>
                 <div class="hot-price">
-                    ¥ {{hot.newPrice}}-{{hot.oldPrice}}
+                    ¥ {{hot.other.newPrice}}-{{hot.other.oldPrice}}
                 </div>
             </div>
         </div>
@@ -25,8 +25,65 @@
     export default {
         name: "hot-performance",
         props:{
-            hotLength:Number,
-            tourList:Array,
+            hotLength:Number
+            // tourList:Array,
+        },
+        data(){
+          return{
+                tourList:[]
+          }
+        },
+        created(){
+            this.$http.get("/api/all").then(({data})=> {
+                if (data.status) {
+                    var res = [];
+                    res=data.allList;
+                    // this.tourList = res[0];
+                    // this.showCount=res[0].other.siteAll.length;
+                    var arr = [];
+                    res.forEach((value,index)=>{
+                        if(value.other.siteAll.length>=4){
+                            arr.push(value);
+                        }
+                    })
+                    //将对象元素转换成字符串以作比较
+                    function obj2key(obj, keys){
+                        var n = keys.length,
+                            key = [];
+                        while(n--){
+                            key.push(obj[keys[n]]);
+                        }
+                        return key.join('|');
+                    }
+                    //去重操作
+                    function uniqeByKeys(array,keys){
+                        var arr = [];
+                        var hash = {};
+                        for (var i = 0, j = array.length; i < j; i++) {
+                            var k = obj2key(array[i].other, keys);
+                            if (!(k in hash)) {
+                                hash[k] = true;
+                                arr .push(array[i]);
+                            }
+                        }
+                        return arr ;
+                    }
+                    var arr = uniqeByKeys(arr,['_id']);
+                    this.tourList=arr;
+
+                }
+            });
+        },
+        methods:{
+            goToTicket(item){
+                // this.$store.commit('getTicket',item);
+                this.$router.push({
+                    path:"/ticket",
+                    query:{
+                        id:item
+                    }
+                })
+            }
         }
     }
 </script>

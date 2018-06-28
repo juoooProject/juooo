@@ -16,7 +16,7 @@
                 <i class="icon ion-android-menu"></i>
             </div>
         </div>
-        <div class="sortWrap" v-show="sortShow">
+        <div class="sortWrap" v-show="sortShow" @click="sortShow=false">
              <ul class="sortType">
                  <span class="tri"></span>
                  <li @click="sortChange(0)">推荐排序<i class="icon ion-checkmark-round" v-show="isFlag"></i></li>
@@ -30,7 +30,7 @@
         </div>
         <div class="splite"></div>
         <div ref="listWrap" class="listWrap">
-            <router-view></router-view>
+            <router-view ref="listCon"></router-view>
         </div>
     </div>
 </template>
@@ -44,14 +44,15 @@
         name: 'Performance',
         data() {
             return {
-                curIndex: 0,
+                // curIndex: 0,
                 searchShow: false,
                 isFlag: true,
                 listArr: [],
                 allFlag: true,
                 sortShow: false,
                 type: ["全部", "演唱会", "音乐会", "话剧歌剧", "儿童亲子", "音乐剧", "舞蹈芭蕾", "戏曲综艺", "展览"],
-                sortType: 0
+                sortType: 0,
+                top:0
             }
         },
         created() {
@@ -69,8 +70,35 @@
             })
             let listWrap = this.$refs.listWrap;
             this.listScroll = new BScroll(listWrap, {
-                click: true
+                click: true,
+                probeType:3,
+                pullDownRefresh: {
+                    threshold: 50,
+                    stop: 20
+                },
+                mouseWheel: {
+                    speed: 20,
+                    invert: false,
+                    easeTime: 300
+                }
             })
+            this.listScroll.on('beforeScrollStart',()=>{
+
+            })
+            this.listScroll.on('scrollStart',()=>{
+                console.log(this.$refs.listCon);
+                this.top = Math.abs(this.$refs.listCon.offsetTop);
+                console.log(this.top);
+            })
+            this.listScroll.on('scroll',(pos)=>{
+                 // console.log(pos);
+                this.scrollY = Math.abs(pos.y);
+                if(this.scrollY - this.top >0){
+                    console.log(1);
+                }
+            })
+
+
 
 
         },
@@ -81,19 +109,18 @@
                 })
             },
             gotoList(index) {
-                this.curIndex = index;
                 if (this.sortType == 0) {
                     this.$router.push({
                         path: "/performance",
                         query: {
-                            id: this.curIndex - 1
+                            id: index - 1
                         }
                     });
                 } else {
                     this.$router.push({
                         path: "/performance",
                         query: {
-                            id: this.curIndex - 1,
+                            id: index - 1,
                             sort: 1
                         }
                     });
@@ -119,6 +146,12 @@
                         }
                     });
                 }
+            }
+        },
+        computed:{
+            curIndex(){
+                var cur=Number(this.$store.state.curType)+1;
+                return cur;
             }
         },
         components: {
@@ -267,8 +300,6 @@
                     }
                 }
 
-
-
             }
         }
         .splite{
@@ -277,6 +308,7 @@
             background-color: #F1F2F1;
         }
         .listWrap{
+            /*position: relative;*/
             height: 1050px;
             overflow: hidden;
         }

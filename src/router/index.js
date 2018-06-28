@@ -12,8 +12,11 @@ import Search from '../components/search/Search'
 import ShowPerform from "../components/showPerform/showPerform"
 
 import TourPerformanceDetail from "../components/indexRest/tourPerformanceDetail"
+import Ticket from "../components/goods/goodInfo"
+import HappyCard from "../components/happyCard/happyCard"
 
-
+import Price from "../components/goods/buyNow"
+import TourInfo from "../components/tourInfo/tourInfo"
 
 Vue.use(Router)
 
@@ -66,7 +69,28 @@ export default new Router({
           path:"/moreTour",
           name:"tour-performance-detail",
           component:TourPerformanceDetail
+      },
+      {
+          path:"/ticket",
+          name:"ticket",
+          component:Ticket
+      },
+      {
+          path:"/happyCard",
+          name:"happyCard",
+          component:HappyCard
+      },
+      {
+          path:"/price",
+          name:"price",
+          component:Price
+      },
+      {
+          path:"/tourInfo",
+          name:"tourInfo",
+          component:TourInfo
       }
+
 
   ]
 })

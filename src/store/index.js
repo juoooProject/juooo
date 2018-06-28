@@ -4,12 +4,17 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
-        sortType:0
+        sortType:0,
+        ticketCon:[],
+        curType:-1
     },
     mutations: {
-        // getSeller(state,seller){
-        //     state.seller = seller;
-        // },
+        getTicket(state,ticket){
+            state.ticketCon = ticket;
+        },
+        changeType(state,type){
+            state.curType=type;
+        }
         // cartListShow(state,item){
         //     if(item != ""){
         //         state.cartFlag = !state.cartFlag;
@@ -31,5 +36,6 @@ export default new Vuex.Store({
     //             console.error(err);
     //         })
     //     }
+
     }
 })
