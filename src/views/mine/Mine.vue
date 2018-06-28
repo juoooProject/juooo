@@ -69,7 +69,7 @@
               this.state++;
           },
           toHome(){
-              this.$router.push('/home')
+              this.$router.push('/')
           }
         },
         components:{

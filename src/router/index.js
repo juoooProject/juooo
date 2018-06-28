@@ -122,7 +122,6 @@ export default new Router({
           name:"timely-sale",
           component:TimelySale
 
-
       }
 
   ]

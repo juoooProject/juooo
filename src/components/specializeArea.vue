@@ -1,10 +1,10 @@
 <template>
-    <div class="specialize-wrapper">
+    <div class="specialize-wrapper" ref="specialize">
         <div class="wrapper">
             <div class="student-banner">
                 <span class="icon icon-arrow_lift" @click="goToBack"></span>
                 <span>聚特惠</span>
-                <div @click="isShowCover=!isShowCover"><span></span><span></span><span></span></div>
+                <div @click="isShowCover=true"><span></span><span></span><span></span></div>
             </div>
             <div class="student-lunbo" ref="lunbo">
                 <div class="container">
@@ -23,75 +23,42 @@
                 <div class="time">
                     <div class="time-wrapper">
                         <div class="time-every active" @click="check1()">
-                            <p>{{dateMonth}}月{{dateDay}}日 10:00</p>
+                            <p>{{month}}月{{day}}日 10:00</p>
                             <p class="onDoing">进行中</p>
                             <p class="time-arrow"></p>
                         </div>
-
                         <div class="time-every" @click="check2()">
-                            <p>{{dateMonth}}月{{dateDay+1}}日 10:00</p>
+                            <p>{{month}}月{{day+1}}日 10:00</p>
                             <p class="time-arrow"></p>
                         </div>
 
                         <div class="time-every" @click="check3()">
-                            <p>{{dateMonth}}月{{dateDay+2}}日 10:00</p>
+                            <p>{{month}}月{{day+2}}日 10:00</p>
                             <p class="time-arrow"></p>
                         </div>
                     </div>
-
-
                 </div>
 
                 <!--进行中-->
-                <div class="timely-pic">
-                    <div class="pic">
-                        <img :src="imgSrc1" alt="">
-
+                <keep-alive>
+                    <div class="wrapper-pic">
+                        <div class="timely-pic" v-show="timeShow[index]" v-for="(item,index) in doingList">
+                            <div class="pic">
+                                <img :src="item.other.imgUrl" alt="">
+                            </div>
+                            <p class="pic-title">
+                                <span>{{item.site.city}}</span>
+                                <span>{{item.other.title}}</span>
+                            </p>
+                            <p class="pic-price">
+                                <span>¥ {{item.other.newPrice}}</span>
+                                <span>¥ {{item.other.oldPrice}}</span>
+                            </p>
+                        </div>
                     </div>
-                    <p class="pic-title">
-                        <span>{{cityList[0]}}</span>
-                        <span>3D多媒体音乐剧《梵高》（中文版)</span>
-                    </p>
-                    <p class="pic-price">
-                        <span>¥ 50</span>
-                        <span>¥ 30</span>
-                    </p>
+                </keep-alive>
 
-                </div>
-
-                <div class="timely-pic">
-                    <div class="pic">
-                        <img :src="imgSrc2" alt="">
-
-                    </div>
-                    <p class="pic-title">
-                        <span>{{cityList[1]}}</span>
-                        <span>3D多媒体音乐剧《梵高》（中文版)</span>
-                    </p>
-                    <p class="pic-price">
-                        <span>¥ 50</span>
-                        <span>¥ 30</span>
-                    </p>
-
-                </div>
-
-                <div class="timely-pic">
-                    <div class="pic">
-                        <img :src="imgSrc3" alt="">
-
-                    </div>
-                    <p class="pic-title">
-                        <span>{{cityList[2]}}</span>
-                        <span>3D多媒体音乐剧《梵高》（中文版)</span>
-                    </p>
-                    <p class="pic-price">
-                        <span>¥ 50</span>
-                        <span>¥ 30</span>
-                    </p>
-
-                </div>
-
-                <div class="timely-more">
+                <div class="timely-more" @click="goToMoreTime">
                     更多秒杀
                     <span>> </span>
                 </div>
@@ -104,7 +71,6 @@
                     <p>热门活动</p>
                     <p>为您推荐最新最in的活动</p>
                 </div>
-
                 <div class="hot-doing">
                     <div>
                         <img src="../img/6.jpg" alt="">
@@ -121,10 +87,7 @@
 
 
                 </div>
-
-
             </div>
-
             <!--折扣区-->
             <div class="sale">
                 <div class="sale-title">
@@ -180,27 +143,27 @@
         },
         data(){
             return {
+                timeArr:[],
                 isShowCover:false,
                 isCheck1:false,
                 isCheck2:false,
                 isCheck3:false,
-                dateMonth:new Date().getMonth()+1,
-                dateDay:new Date().getDate(),
+                month:new Date().getMonth()+1,
+                day:new Date().getDate(),
                 dateTmp:[],
                 imgTmp:[],
                 imgList:[],
                 dateList:[],
                 cityList:[],
-                imgSrc1:"",
-                imgSrc2:"",
-                imgSrc3:"",
+                timeShow:[true,false,false],
                 cityTmp:[],
                 //存放所有的数据
                 allLists:[],
                 //存放变化的列表
                 allTmp:[],
             //    当前的城市
-                currentCity:[]
+                currentCity:[],
+                doingList:[]
             }
         },
         created(){
@@ -208,51 +171,78 @@
                 this.allLists = data.allList;
                 //默认的列表全部
                 this.allTmp = data.allList;
+                // console.log(this.allTmp)
                 data.allList.forEach((all)=>{
-                    this.imgList.push(all.imgUrl)
-
+                    // this.imgList.push(all.imgUrl)
                     all.siteAll.forEach((site)=>{
-                        this.dateTmp.push(site.date)
+                        // this.dateTmp.push(site.date)
                         this.cityTmp.push(site.city)
-                        // this.tmp[1].push(site)
                     })
                 })
-                const s = new Set();
-                this.dateTmp.forEach(x => s.add(x));
-                for (let i of s) {
-                    this.dateList.push(i)
+                if(this.month/10 < 1){
+                    this.month = "0"+this.month;
                 }
+                if(this.day/10 < 1){
+                    this.day = "0"+this.day;
+                }
+                if (this.day > 30){
+                    this.day = this.day - 30
+                }
+                // this.timeArr.push(this.month+"月"+this.day+"日",this.month+"月"+(this.day+1)+"日",this.month+"月"+(this.day+2)+"日");
+                var arr = [];
+                data.allList.forEach((item,i)=>{
+                    item.siteAll.forEach((value,index)=>{
+                        let o = {};
+                        o.site = value;
+                        o.other = item;
+                        arr.push(o)
+                    })
+                })
+                console.log(arr)
+                this.dateList = arr
+
+                // const s = new Set();
+                // this.dateTmp.forEach(x => s.add(x));
+                // for (let i of s) {
+                //     this.dateList.push(i)
+                // }
                 const c = new Set();
                 this.cityTmp.forEach(x => c.add(x));
                 for (let i of c) {
                     this.cityList.push(i)
                 }
-                // console.log(this.imgList)
-                // console.log(this.dateList)
-                // console.log(this.cityList)
-                console.log(data)
-                console.log(this.cityTmp)
 
                 this.$nextTick(()=>{
-                    $(".timely-pic").eq(2).css("display","none")
-                    $(".timely-pic").eq(1).css("display","none")
-                })
-                this.dateList.forEach((day,index)=>{
-                    if(this.dateMonth == day.substr(6,1) && this.dateDay == day.substr(8,2)){
-                        this.imgSrc1 = this.imgList[index-13];
-                    }
-                    if(this.dateMonth == day.substr(6,1) && this.dateDay+1 == day.substr(8,2)){
-                        this.imgSrc2 = this.imgList[index-13];
-                    }
-                    if(this.dateMonth == day.substr(6,1) && this.dateDay+2 == day.substr(8,2)){
-                        this.imgSrc3 = this.imgList[index-13];
-                    }
+                    var arr1=[],arr2=[],arr3=[];
+                    this.dateList.forEach((day,index)=>{
+                        if(this.month == day.site.date.substr(5,2) && this.day == day.site.date.substr(8,2)){
+
+                            arr1.push(day)
+                        }
+                        if(this.month == day.site.date.substr(5,2) && this.day+1 == day.site.date.substr(8,2)){
+
+                            arr2.push(day)
+                        }
+                        if(this.month == day.site.date.substr(5,2) && this.day+2 == day.site.date.substr(8,2)){
+                            arr3.push(day)
+                        }
+                    })
+                    this.doingList.push(arr1[0])
+                    this.doingList.push(arr2[0])
+                    this.doingList.push(arr3[0])
+                    console.log(this.doingList)
                 })
 
             })
         },
 
         methods:{
+            
+            goToMoreTime(){
+                this.$router.push({
+                    path:"/Timely"
+                })
+            },
             getShow(bol){
                 this.isShowCover =  bol;
             },
@@ -405,11 +395,13 @@
 
         },
         mounted(){
-
             new BScroll(this.$refs.navScroll,{
                 scrollX:true,
                 click:true
             })
+            // new BScroll(this.$refs.specialize,{
+            //     refresh:true
+            // })
 
         }
     }
@@ -486,20 +478,25 @@
 
     }
 
+    .wrapper-pic{
+        width: 100%;
+        overflow: hidden;
+    }
+    
     .timely-pic{
-        margin-bottom: 20px;
+        margin: 10px;
         text-align: left;
         padding: 20px;
-        width: 325px;
+        width: 310px;
+        float: left;
         background: white;
         .pic{
-            width: 280px;
+            width: 260px;
             height: 350px;
             margin: 10px auto;
             &>img{
                 width: 100%;
                 height: 100%;
-
             }
         }
         .pic-title{

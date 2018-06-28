@@ -10,7 +10,9 @@ export default new Vuex.Store({
         currentCity:'全国',
         calendarCity:'全国',
         showCalendarAddress:false,//演出日历地址显示
-        sortType:0
+        sortType:0,
+        isShowTour:true,
+
     },
     mutations: {
         // getSeller(state,seller){
@@ -24,6 +26,9 @@ export default new Vuex.Store({
         // },
         // disappear(state){
         //     state.cartFlag = false;
+        // }
+        // changeCity(state,item){
+        //     state.currentCity = item;
         // }
     },
     actions: {

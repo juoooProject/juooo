@@ -149,7 +149,7 @@
 
                 this.$nextTick(()=>{
                     console.log(arr1[0].site.time.substr(3,2))
-                    if(new Date().getHours() == arr1[0].site.time.substr(0,2) && new Date().getMinutes() == arr1[0].site.time.substr(3,2)){
+                    if(new Date().getHours() >= arr1[0].site.time.substr(0,2) && new Date().getMinutes() >= arr1[0].site.time.substr(3,2)){
                         $(".doing-time-detail-nav").find("div").eq(0).addClass("doing")
                         $(".box-circle").addClass("circle")
                     }else{

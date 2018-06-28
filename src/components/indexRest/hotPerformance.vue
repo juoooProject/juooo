@@ -1,24 +1,38 @@
 <template>
-    <div class="hot-wrapper" v-if="tourList[0]">
-        <div class="hot" v-for="(hot,index) in tourList" v-if="index<hotLength && hot.siteAll.length>3">
-            <div class="hot-left">
-                <img :src="hot.imgUrl" alt="">
-            </div>
-            <div class="hot-right">
-                <p class="title">{{hot.title}}</p>
-                <!--{{item.siteAll[0].date}}-{{item.siteAll[item.siteAll.length-1].date}}-->
-                <p class="hot-date">{{hot.siteAll[0].date}}--{{hot.siteAll[hot.siteAll.length-1].date}}</p>
-                <div class="hot-place">
-                    <span>[{{hot.siteAll[0].city}}]</span>
-                    <span>{{hot.siteAll[0].place}}</span>
+    <div class="hot-wrapper" v-if="tourList.length>0">
+        <!--<div class="box" v-for="p in Place">-->
+        <!--<p>{{tourList}}</p>-->
+        <ul>
+            <li class="hot" v-for="(hot,index) in tourList" v-if="index<hotLength && hot.hotData.siteAll.length>=2">
+                <!--<p>{{hot.hotData.imgUrl}}</p>-->
+
+                <div class="hot-left">
+                    <img :src="hot.hotData.imgUrl" alt="">
                 </div>
-                <div class="hot-price">
-                    ¥ {{hot.newPrice}}-{{hot.oldPrice}}
+                <div class="hot-right">
+                    <p class="title">{{hot.hotData.title}}</p>
+                    <!--{{item.siteAll[0].date}}-{{item.siteAll[item.siteAll.length-1].date}}-->
+                    <p class="hot-date">{{hot.hotData.siteAll[0].date}}--{{hot.hotData.siteAll[hot.hotData.siteAll.length-1].date}}</p>
+                    <div class="hot-place" v-if="$store.state.currentCity != '全国'">
+                        <span>[{{$store.state.currentCity}}]</span>
+                        <span>{{hot.place}}</span>
+                    </div>
+
+                    <div class="hot-place" v-else>
+                        <span>[{{hot.site.city}}]</span>
+                        <span>{{hot.place}}</span>
+                    </div>
+                    <div class="hot-price">
+                        ¥ {{hot.hotData.newPrice}}-{{hot.hotData.oldPrice}}
+                    </div>
                 </div>
-            </div>
-        </div>
+
+
+            </li>
+        </ul>
 
     </div>
+    <!--</div>-->
 </template>
 
 <script>
@@ -27,7 +41,18 @@
         props:{
             hotLength:Number,
             tourList:Array,
-        }
+        },
+        data(){
+            return {
+                City:"",
+                tour:[]
+            }
+        },
+        // created(){
+        //     console.log(this.tourList)
+        // }
+
+
     }
 </script>
 

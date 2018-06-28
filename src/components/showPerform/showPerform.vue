@@ -137,7 +137,6 @@
         position: relative;
         width: 100%;
         padding: 0 30px;
-        /*bottom: 50px;*/
         ul{
             .singleList{
                 display: flex;
