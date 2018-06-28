@@ -83,12 +83,14 @@
               console.log(this.addressScroll)
           },
             back(){
-              this.$router.push('/');
+              this.$router.go(-1)
             },
             checkPopular(city){
                 this.$router.go(-1)
                 console.log(1)
                 this.$store.state.currentCity = city;
+                // this.$store.commit('changeCity',city)
+                // console.log(this.$store.state.currentCity)
             }
         },
         mounted(){

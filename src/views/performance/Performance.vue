@@ -2,8 +2,8 @@
     <div class="performWrap">
         <foot></foot>
         <div class="navbar-top">
-            <div class="left">
-                <span>全国</span>
+            <div class="left" @click="goToAddress">
+                <span>{{$store.state.currentCity}}</span>
                 <i class="icon ion-chevron-down"></i>
             </div>
             <div class="right">
@@ -119,6 +119,11 @@
                         }
                     });
                 }
+            },
+            goToAddress(){
+                this.$router.push({
+                    path:'/address'
+                })
             }
         },
         components: {

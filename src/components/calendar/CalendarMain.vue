@@ -38,10 +38,11 @@
                 <!--渲染数据-->
                 <div class="filter-result">
                     <div class="perform-detail">
-                        <span class="time">{{defDate}}</span>
+                        <span v-if="!recommandShow" class="time">{{defDate}}</span>
+                        <span v-if="recommandShow" class="recommand">今天没有相关演出，为你推荐</span>
                         <div class="text">共有<span>{{filterData.length}}</span>场演出</div>
                         <!--//(主办演出<span>8</span>场)-->
-                        <span v-if="false">今天没有相关演出，为你推荐</span>
+
                     </div>
                     <ul>
                         <li class="perform-data"  v-for="list in filterData">
@@ -90,7 +91,6 @@
                     _year:2018,
                     _month:6,
                     _day:26,
-
                     timestamp:Date.now()
                 },
                 addressShow:false,
@@ -100,7 +100,8 @@
                 filterDatas:[],
                 defaultDatas:[],
                 perLen:0,
-                showTime:''
+                showTime:'',
+                recommandShow:false  //无数据则推荐
                 //computedDate:''
                 //this.$store.state.calendarCity
             }
@@ -145,7 +146,6 @@
                             o.all = list;
                             o.siteAll = site;
                             this.filterDatas.push(o)
-
                         }
                         if((this.$store.state.calendarCity == '全国') && (site.date == this.showTime )){
                             let o = {};
@@ -157,6 +157,11 @@
                 })
                 if(this.filterDatas.length == 0){
                     this.filterDatas = this.defaultDatas;
+                }
+                if(this.filterDatas == this.defaultDatas){
+                    this.recommandShow = true;
+                }else{
+                    this.recommandShow = false ;
                 }
                 return this.filterDatas;
             }
@@ -187,10 +192,7 @@
                 }).catch((err)=>{
                     console.error(err);
                 })
-
             })
-
-
         },
         mounted(){
             new BScroll(this.$refs.calendarContainer,{
@@ -314,6 +316,13 @@
                     font-weight: 500;
                     .time{
                         flex:0 0 20%;
+                        display: inline-block;
+                        color: #ff7919;
+                        text-align: left;
+                        margin-left: 30px;
+                    }
+                    .recommand{
+                        flex:0 0 60%;
                         display: inline-block;
                         color: #ff7919;
                         text-align: left;

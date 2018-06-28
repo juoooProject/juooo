@@ -12,7 +12,7 @@ import Search from '../components/search/Search'
 import ShowPerform from "../components/showPerform/showPerform"
 
 import TourPerformanceDetail from "../components/indexRest/tourPerformanceDetail"
-
+import TimelySale from "../components/indexRest/timelySale"
 
 import Register from '../components/register/Register'
 import FinishRegister from '../components/finishRegister/FinishRegister'
@@ -20,12 +20,12 @@ import FindBackPwd from '../components/findBackPwd/FindBackPwd'
 import AddressMain from '../components/address/AddressMain'
 import AccountSetting from '../components/accountSetting/AccountSetting'
 import CalendarMain from '../components/calendar/CalendarMain'
+import SaveAddress from '../components/saveAddress/SaveAddress'
 Vue.use(Router)
 
 
 export default new Router({
   mode:"history",
-
   routes: [
 
     {
@@ -106,6 +106,26 @@ export default new Router({
           path:"/moreTour",
           name:"tour-performance-detail",
           component:TourPerformanceDetail
+      },
+      {
+          path:'/specialize',
+          name:"specialize-area",
+          component:SpecializeArea
+      },
+      {
+          path:"/student",
+          name:"student-area",
+          component:StudentArea
+      },
+      {
+          path:"/timely",
+          name:"timely-sale",
+          component:TimelySale
+      },
+      {
+          path:"/saveAddress",
+          name:"saveAddress",
+          component:SaveAddress
       }
 
   ]

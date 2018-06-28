@@ -10,12 +10,31 @@ export default new Vuex.Store({
         currentCity:'全国',
         calendarCity:'全国',
         showCalendarAddress:false,//演出日历地址显示
-        sortType:0
+        sortType:0,
+        address:{
+            province:'',
+            city:'',
+            country:''
+        }
     },
     mutations: {
         // getSeller(state,seller){
         //     state.seller = seller;
         // },
+        changeStore(state){
+            state.footShow = !state.footShow;
+        },
+        changeCurrentCity(state,value){
+            state.currentCity = value;
+        },
+        changeCalendarCity(state,value){
+            state.calendarCity = value;
+        },
+        changeAddress(state,addressObj){
+            state.address.province = addressObj.province;
+            state.address.city = addressObj.city;
+            state.address.country = addressObj.country;
+        }
         // cartListShow(state,item){
         //     if(item != ""){
         //         state.cartFlag = !state.cartFlag;

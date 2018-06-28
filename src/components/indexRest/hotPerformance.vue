@@ -7,7 +7,7 @@
             <div class="hot-right">
                 <p class="title">{{hot.title}}</p>
                 <!--{{item.siteAll[0].date}}-{{item.siteAll[item.siteAll.length-1].date}}-->
-                <p class="hot-date">{{hot.siteAll[0].date}}-{{hot.siteAll[hot.siteAll.length-1].date}}</p>
+                <p class="hot-date">{{hot.siteAll[0].date}}--{{hot.siteAll[hot.siteAll.length-1].date}}</p>
                 <div class="hot-place">
                     <span>[{{hot.siteAll[0].city}}]</span>
                     <span>{{hot.siteAll[0].place}}</span>

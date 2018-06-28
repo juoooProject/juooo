@@ -3,8 +3,8 @@
         <div class="cover" >
         </div>
         <div class="go-back">
-            <p><span class="icon home"></span><span>首页</span></p>
-            <p><span class="icon mine"></span><span>我的聚橙</span></p>
+            <p @click="goToHome"><span class="icon home"></span><span>首页</span></p>
+            <p @click="goToMine"><span class="icon mine"></span><span>我的聚橙</span></p>
         </div>
     </div>
 </template>
@@ -18,6 +18,16 @@
             }
         },
         methods:{
+            goToMine(){
+                this.$router.push({
+                    path:"/mine"
+                })
+            },
+            goToHome(){
+                this.$router.push({
+                    path:"/"
+                })
+            },
             showCover(){
                 this.ShowCover = !this.ShowCover;
                 this.$emit('isShow',this.ShowCover);

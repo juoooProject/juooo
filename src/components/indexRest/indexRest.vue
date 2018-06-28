@@ -3,7 +3,7 @@
         <div class="limit-sale">
             <div class="limit-title">
                 <div class="limit-left">限时秒杀</div>
-                <div class="limit-right">更多秒杀 ></div>
+                <div class="limit-right" @click="goToMoreTime">更多秒杀 ></div>
             </div>
             <div class="limit-detail" v-if="tourList[10]">
                 <div class="limit-pic">
@@ -27,7 +27,7 @@
 
         <div class="hot-performance">
             <div class="hot-title"> 热门演出 </div>
-            <hot-performance :tourList="tourList" :hotLength="hotLength" :minLen="minLen"></hot-performance>
+            <hot-performance :tourList="tourList" :hotLength="hotLength"></hot-performance>
         </div>
 
         <div class="footer" @click="goToPerformance">查看全部演出 ></div>
@@ -51,7 +51,9 @@
               tourList:[],
               Len:4,
               hotLength:10,
-              minLen:5
+              minLen:5,
+              
+
           }
         },
         created(){
@@ -64,6 +66,11 @@
             })
         },
         methods:{
+            goToMoreTime(){
+              this.$router.push({
+                  path:"/Timely"
+              })
+            },
             goToPerformance(){
                 this.$router.push({
                     path:"/performance/showPerform?id=-1"

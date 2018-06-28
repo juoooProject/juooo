@@ -8,11 +8,6 @@
 
         <iframe id="iframe" src="http://www.17sucai.com/preview/869565/2017-11-08/CityPicker/example/cityPicker.html" frameborder="0"  width="100%"></iframe>
 
-
-
-
-
-
     </div>
 </template>
 

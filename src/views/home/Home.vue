@@ -61,7 +61,7 @@ import BScroll from "better-scroll"
 import Search from '../../components/search/Search'
 import Foot from '../../components/foot/foot'
 import OrderGoods from "../../components/orderGoods"
-
+import ChooseAddress from '../../components/saveAddress/ChooseAddress'
 export default {
   name: 'home',
     data(){
@@ -80,80 +80,83 @@ export default {
           searchShow:false
       }
     },
-    methods: {
-        show() {
-            this.showAddress = !this.showAddress;
-        },
-        init() {
-            this.scroll = new BScroll(this.$refs.slideWrap, {
-                click: true,
-                scrollX: true,
-                snap: {
-                    loop: true,
-                    threshold: 0,
-                    easing: {
-                        style: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-                        fn: function (t) {
-                            return t * (2 - t)
-                        }
-                    }
-                }
-            })
-            this.play();
-            this.scroll.on('scrollEnd', () => {
-                let pageIndex = this.scroll.getCurrentPage().pageX;
-                this.curIndex = pageIndex;
-                if (this.autoPlay) {
-                    this.play();
-                }
-            })
-            this.scroll.on('beforeScrollStart', () => {
-                if (this.autoPlay) {
-                    clearTimeout(this.timer);
-                }
-            })
-        },
-        play() {
-            let pageIndex = this.curIndex + 1
-            if (pageIndex == 7) {
-                pageIndex = 0;
-                this.scroll.goToPage(pageIndex, 0, 0.01);
-            }
-            var vm = this;
-            this.timer = setTimeout(() => {
-                this.scroll.goToPage(pageIndex, 0, 400);//跳转到的页数 初始化页数 滑动总时间
-            }, this.interval);
-        },
-        clickChange(index) {
-            this.scroll.goToPage(index, 0, 400)
-        },
-        gotoPage(index, key) {
-            this.$http.get(`api/search?keys=${key}`).then(({data}) => {
-                console.log(data.searchList);
-                this.curIndex = 1;
-                this.$router.push({
-                    path: "/performance/showPerform",
-                    query: {
-                        id: data.searchList[0].performType,
-                        key: key
-                    }
-                });
-            }).catch((err) => {
-                console.log(err);
-            })
-        },
-        gotoSearch() {
-            this.$store.state.footShow = false;
-            this.$router.push({
-                path: "/search"
-            })
-        },
-        goToAddress() {
-            console.log(1)
-            this.$store.state.footShow = false;
+   // methods: {
+        // show() {
+        //     this.showAddress = !this.showAddress;
+        // },
+        // init() {
+        //     this.scroll = new BScroll(this.$refs.slideWrap, {
+        //         click: true,
+        //         scrollX: true,
+        //         snap: {
+        //             loop: true,
+        //             threshold: 0,
+        //             easing: {
+        //                 style: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+        //                 fn: function (t) {
+        //                     return t * (2 - t)
+        //                 }
+        //             }
+        //         }
+        //     })
+        //     this.play();
+        //     this.scroll.on('scrollEnd', () => {
+        //         let pageIndex = this.scroll.getCurrentPage().pageX;
+        //         this.curIndex = pageIndex;
+        //         if (this.autoPlay) {
+        //             this.play();
+        //         }
+        //     })
+        //     this.scroll.on('beforeScrollStart', () => {
+        //         if (this.autoPlay) {
+        //             clearTimeout(this.timer);
+        //         }
+        //     })
+        // },
+        // play() {
+        //     let pageIndex = this.curIndex + 1
+        //     if (pageIndex == 7) {
+        //         pageIndex = 0;
+        //         this.scroll.goToPage(pageIndex, 0, 0.01);
+        //     }
+        //     var vm = this;
+        //     this.timer = setTimeout(() => {
+        //         this.scroll.goToPage(pageIndex, 0, 400);//跳转到的页数 初始化页数 滑动总时间
+        //     }, this.interval);
+        // },
+        // clickChange(index) {
+        //     this.scroll.goToPage(index, 0, 400)
+        // },
+        // gotoPage(index, key) {
+        //     this.$http.get(`api/search?keys=${key}`).then(({data}) => {
+        //         console.log(data.searchList);
+        //         this.curIndex = 1;
+        //         this.$router.push({
+        //             path: "/performance/showPerform",
+        //             query: {
+        //                 id: data.searchList[0].performType,
+        //                 key: key
+        //             }
+        //         });
+        //     }).catch((err) => {
+        //         console.log(err);
+        //     })
+        // },
+        // gotoSearch() {
+        //     //this.$store.state.footShow = false;
+        //     this.$router.push({
+        //         path: "/search"
+        //     })
+        // },
+        // goToAddress() {
+        //     // console.log(1)
+        //     // this.$store.state.footShow = false;
+        //     this.$router.push({
+        //         path:"/saveAddress"
+        //     })
+        // },
 
-        },
-    },
+   // },
   created(){
       this.$http.get("/api/slide").then(({data})=>{
           console.log(data);
@@ -177,9 +180,7 @@ export default {
   mounted(){
       console.log(this.slideimg)
        this.$nextTick(()=>{
-
           this.init();
-
       })
   },
   components: {
@@ -191,7 +192,8 @@ export default {
        IndexRest,
        OrderGoods,
        AddAddress,
-      CalendarMain
+      CalendarMain,
+      ChooseAddress
   },
   methods:{
       goToStudent(){
@@ -276,7 +278,12 @@ export default {
           this.$router.push({
               path:'/address'
           })
-      }
+      },
+      // goToSomewhere(){
+      //     this.$router.push({
+      //         path:'/saveAddress'
+      //     })
+      // }
     },
 }
 </script>

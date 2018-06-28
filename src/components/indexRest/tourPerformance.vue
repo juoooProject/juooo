@@ -8,7 +8,7 @@
             <div class="tour-right">
                 <p class="title">{{item.title}}</p>
 
-                <p class="tour-date">{{item.siteAll[0].date}}-{{item.siteAll[item.siteAll.length-1].date}}</p>
+                <p class="tour-date">{{item.siteAll[0].date}}--{{item.siteAll[item.siteAll.length-1].date}}</p>
                 <div class="tour-place">
                     <span v-for="(i,index) in item.siteAll" v-if="index<5">{{i.city}}</span>
                     <span>查看全部</span>
