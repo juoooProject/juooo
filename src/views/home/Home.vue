@@ -145,11 +145,7 @@ export default {
                 path: "/search"
             })
         },
-        goToAddress() {
-            console.log(1)
-            this.$store.state.footShow = false;
 
-        },
     },
   created(){
       this.$http.get("/api/slide").then(({data})=>{

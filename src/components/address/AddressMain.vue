@@ -63,7 +63,6 @@
         },
         created(){
             this.$http.get('/api/address').then(({data})=>{
-                console.log(data)
                 if(data.address){
                     this.cityAll = data.address.cityAll
                     data.address.cityAll.forEach((city)=>{
@@ -79,16 +78,14 @@
               let cityGroupList = this.$refs.cityGroup;
               let el = cityGroupList[index];
               this.addressScroll.scrollToElement(el,300);
-              console.log(el)
-              console.log(this.addressScroll)
           },
             back(){
               this.$router.go(-1)
             },
             checkPopular(city){
                 this.$router.go(-1)
-                console.log(1)
-                this.$store.state.currentCity = city;
+                // this.$store.state.currentCity = city;
+                this.$store.commit("changeCity",city);
                 console.log(city)
             }
         },

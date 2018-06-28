@@ -25,7 +25,8 @@
                 listArr:[],
                 sortType:0,
                 allList:[],
-                id:0
+                id:0,
+                arr:[]
             }
         },
         watch: {
@@ -33,9 +34,11 @@
                 // 对路由变化作出响应...
                 this.$store.commit('changeType',this.$route.query.id);
                 this.$http.get("/api/performances").then(({data})=>{
+                    console.log(this.$store.state.currentCity);
                     if(data.status){
                         var arr = [];
                         arr = this.sortList(data.allList);
+                        this.arr = arr;
                         if(this.$route.query.id==-1){
                             this.listArr=arr;
                         }else {
@@ -51,6 +54,11 @@
                             return value.realTime>=nowTime;
                         })
                     }
+                    if(this.$store.state.currentCity!="全国"){
+                        this.listArr=this.listArr.filter((value,index)=> {
+                            return value.site.city==this.$store.state.currentCity;
+                        })
+                    }
 
                 }).catch((err)=>{
                     console.error(err);
@@ -63,6 +71,7 @@
         created(){
             this.$store.commit('changeType',this.$route.query.id);
             this.$http.get("/api/performances").then(({data})=> {
+                console.log(this.$store.state.currentCity);
                 if (data.status) {
                     if (this.$route.query.id == -1) {
                         var arr = [];
@@ -75,7 +84,6 @@
                         this.listArr=arr.filter((value,index)=> {
                             return value.other.performType==this.$route.query.id;
                         })
-                        console.log(this.listArr)
                          var arr2 = [];
                          if(this.$route.query.key!=undefined){
                             this.listArr.forEach((value, index)=> {
@@ -87,8 +95,14 @@
                             })
                             this.listArr = arr2;
                         }
-                    }
+                        console.log(this.listArr)
 
+                    }
+                    if(this.$store.state.currentCity!="全国"){
+                        this.listArr=this.listArr.filter((value,index)=> {
+                            return value.site.city==this.$store.state.currentCity;
+                        })
+                    }
                 }
             });
 
@@ -105,6 +119,10 @@
             data(){
                 return this.$route.query.id;
             }
+            // listArr(){
+            //
+            // }
+
 
         },
         methods:{

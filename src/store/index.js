@@ -21,6 +21,9 @@ export default new Vuex.Store({
         },
         changeType(state,type){
             state.curType=type;
+        },
+        changeCity(state,city){
+            state.currentCity=city;
         }
         // cartListShow(state,item){
         //     if(item != ""){

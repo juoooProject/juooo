@@ -21,7 +21,7 @@
                 <div class="doing-time-detail" v-if="dateTmp.length>0" v-for="(date,index) in dateTmp" v-show="timeShow[index]">
                     <div class="doing-time-detail-nav"><div>{{date[1].site.time}}</div></div>
 
-                    <div class="detail-wrapper" v-for="item in date">
+                    <div class="detail-wrapper" v-for="item in date" @click="goToTicket(item)">
                         <div class="doing-time-box">
                             <div class="box-left">
                                 <img :src="item.other.imgUrl" alt="">
@@ -47,11 +47,11 @@
                     <div class="guess-title">猜你喜欢</div>
                     <div class="guess-title-box" ref="guess">
                         <div class="guess-title-con">
-                            <div class="guess" v-for="(item,index) in tourList" v-if="index<6">
+                            <div class="guess" v-for="(item,index) in tourList" @click="goToTicket(item)">
                                 <div class="guess-pic">
-                                    <img :src="item.imgUrl" alt="">
+                                    <img :src="item.other.imgUrl" alt="">
                                 </div>
-                                <p>{{item.title}}</p>
+                                <p>{{item.other.title}}</p>
 
                             </div>
                         </div>
@@ -94,7 +94,6 @@
         created(){
             this.timeArr.push(this.month+"月"+this.day+"日",this.month+"月"+(this.day+1)+"日",this.month+"月"+(this.day+2)+"日");
             this.$http.get("api/performances").then(({data})=>{
-                this.tourList = data.allList
                 console.log(data)
                 if(this.month/10 < 1){
                     this.month = "0"+this.month;
@@ -109,16 +108,19 @@
 
 
                 var arr = [];
+                var k = 1;
                 data.allList.forEach((item,i)=>{
                     item.siteAll.forEach((value,index)=>{
                         let o = {};
                         o.site = value;
                         o.other = item;
+                        o.id=k++;
                         arr.push(o)
                     })
                 })
                 this.timeList = arr;
-                console.log(this.timeList)
+                this.tourList = arr.slice(18,23);
+                console.log(this.tourList);
 
                 var arr1=[];
                 var arr2=[];
@@ -187,10 +189,19 @@
                     break;
                 }
             },
+            goToTicket(item){
+                this.$router.push({
+                    path:"/ticket",
+                    query:{
+                        id:item.id
+                    }
+                })
+            }
 
         },
         mounted(){
             new BScroll(this.$refs.guess,{
+                click:true,
                 scrollX:true,
             })
 
@@ -224,6 +235,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        padding: 0 30px;
         .icon{
             display: inline-block;
             width: 20px;
