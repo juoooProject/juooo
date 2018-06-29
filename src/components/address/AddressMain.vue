@@ -2,7 +2,7 @@
     <div class="address-wrapper" >
         <div class="mine-header">
             <div class="arrow-wrapper" @click="back">
-                <span class="icon-angle-left"></span>
+                <span class="icon ion-ios-arrow-left"></span>
             </div>
             <div class="text-wrapper">
                 <span class="text">切换城市</span>
@@ -121,7 +121,7 @@
         background:#fdfdfd;
         .arrow-wrapper{
             flex:0 0 10%;
-            .icon-angle-left{
+            .icon{
                 font-size: 60px;
                 line-height: 85px;
                 font-weight: 400;

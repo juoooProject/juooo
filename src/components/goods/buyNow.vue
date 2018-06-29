@@ -103,13 +103,11 @@
         created(){
             this.$http.get("/api/all").then(({data})=> {
                 if (data.status) {
-                    console.log(data);
                     var res = [];
                     res=data.allList.filter((value,index) =>{
                         return value.id==this.$route.query.id;
                     })
                     this.priceArr = res[0].site.price;
-                    console.log(this.priceArr);
                 }
             });
             var temp = []

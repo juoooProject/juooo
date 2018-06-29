@@ -3,7 +3,7 @@
         <ul>
             <li v-for="(item,index) in listArr" :key="index" class="singleList" @click="goToTicket(item)">
                 <div class="avatar">
-                    <img :src="item.other.imgUrl" alt="" width="89" height="119">
+                    <img :src="item.other.imgUrl" alt="">
                 </div>
                 <div class="detail-box">
                     <div class="title">{{item.other.title}}-{{item.site.city}}站</div>
@@ -92,7 +92,6 @@
                             })
                             this.listArr = arr2;
                         }
-                        console.log(this.listArr)
 
                     }
                     if(this.$store.state.currentCity!="全国"){
@@ -177,11 +176,12 @@
                 padding: 15px 0;
                 border-bottom: 1px solid #e6e6e6;
                .avatar{
-                   flex: 0 0 89px;
                    width: 178px;
                    height: 238px;
                    img{
                        display: block;
+                       width: 100%;
+                       height: 100%;
                    }
                }
                 .detail-box{

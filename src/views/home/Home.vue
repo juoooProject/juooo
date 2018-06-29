@@ -262,7 +262,7 @@ export default {
       gotoSearch(){
           this.$store.state.footShow = false;
           this.$router.push({
-              path: "/search"
+              path:'/search'
           })
         },
         goToCalendar(){
@@ -274,13 +274,8 @@ export default {
           this.$router.push({
               path:'/address'
           })
-      },
-      // goToSomewhere(){
-      //     this.$router.push({
-      //         path:'/saveAddress'
-      //     })
-      // }
-    },
+      }
+    }
 }
 </script>
 
@@ -300,10 +295,10 @@ export default {
             height: 90px;
             width: 100%;
             .left{
-                width: 120px;
+                width: 16%;
                 font-size: 0;
-                margin-right: 32px;
-                text-align: right;
+                margin-right: 2.26667%;
+                text-align: center;
                 span{
                     display: inline-block;
                     height: 100%;
@@ -321,7 +316,7 @@ export default {
                 display: flex;
                 justify-content: flex-start;
                 align-items: center;
-                width: 570px;
+                width: 76%;
                 height: 100%;
                 .search-btn{
                     width: 100%;
@@ -339,7 +334,7 @@ export default {
                     }
                     span{
                         display: inline-block;
-                        margin-left: 20px;
+                        margin-left: 2.66667%;
                     }
                 }
             }
@@ -369,11 +364,11 @@ export default {
                     position: absolute;
                     left: 0;
                     top: 0;
-                    /*width: 700%;*/
+                    width: 700%;
                     height: 310px;
                     display: flex;
                     img{
-                        width: 750px;
+                        flex: 1;
                         height: 100%;
                     }
                 }

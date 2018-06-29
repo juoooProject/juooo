@@ -134,7 +134,6 @@
         created(){
             this.$http.get("/api/all").then(({data})=> {
                 if (data.status) {
-                   console.log(data);
                    var res = [];
                    res=data.allList.filter((value,index) =>{
                         return value.id==this.$route.query.id;

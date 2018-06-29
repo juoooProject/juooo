@@ -46,7 +46,7 @@
                 <div class="guess-wrapper">
                     <div class="guess-title">猜你喜欢</div>
                     <div class="guess-title-box" ref="guess">
-                        <div class="guess-title-con">
+                        <div class="guess-title-con" >
                             <div class="guess" v-for="(item,index) in tourList" @click="goToTicket(item)">
                                 <div class="guess-pic">
                                     <img :src="item.other.imgUrl" alt="">

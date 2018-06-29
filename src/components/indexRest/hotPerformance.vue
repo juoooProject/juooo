@@ -12,7 +12,7 @@
                     <span>{{hot.site.place}}</span>
                 </div>
                 <div class="hot-price">
-                    ¥ {{hot.other.newPrice}}-{{hot.other.oldPrice}}
+                    ¥ {{hot.site.price[0]}}-{{hot.site.price[hot.site.price.length-1]}}
                 </div>
             </div>
         </div>
@@ -137,9 +137,10 @@
                 margin-bottom: 10px;
                 line-height: 30px;
             }
-            .hot-title{
-                font-size: 30px;
+            .title{
+                font-size: 28px;
                 margin-bottom: 20px;
+                line-height: 40px;
             }
             .hot-date{
                 color: #9A9B9A;
@@ -152,8 +153,9 @@
                 }
             }
             .hot-price{
-                color: red;
-                font-weight: 500;
+                margin-top: 25px;
+                color: #ff7919;
+                font-weight: 700;
                 font-size: 30px;
                 margin-top: 25px;
             }

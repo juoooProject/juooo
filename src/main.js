@@ -11,14 +11,15 @@ import './common/less/style.less'
 import 'mint-ui/lib/style.min.css'
 import axios from 'axios'
 import SIdentify from './components/identify/identify'
-//import Mint from 'mint-ui';
 
 
 import "./assets/css/mixin.less"
+
+import {saveSearch} from "./cache/index"
+
 import './assets/css/my-mint.css'
 Vue.use(SIdentify)
-// import {Picker} from 'mint-ui';
-// Vue.component(Picker.name, Picker);
+
 
 Vue.prototype.$http = axios;
 Vue.prototype.$api="/api";
