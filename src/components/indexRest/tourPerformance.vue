@@ -10,8 +10,7 @@
 
                 <p class="tour-date">{{item.siteAll[0].date}}--{{item.siteAll[item.siteAll.length-1].date}}</p>
                 <div class="tour-place">
-                    <span v-for="(i,index) in item.siteAll" v-if="index<5">{{i.city}}</span>
-                    <span @click="goToTour(item._id)">查看全部</span>
+                    <span v-for="(i,index) in item.siteAll" v-if="index<5">{{i.city}}</span><span @click="goToTour(item._id)">查看全部</span>
                 </div>
             </div>
         </div>
@@ -70,8 +69,8 @@
                 margin-bottom: 10px;
                 line-height: 30px;
             }
-            .tour-title{
-                font-size: 30px;
+            .title{
+                font-size: 28px;
             }
             .tour-date{
                 color: #9A9B9A;
@@ -80,12 +79,13 @@
                 span{
                     display: inline-block;
                     width: 134px;
-                    height: 52px;
-                    border: 1px solid #F5F6F5;
+                    height: 44px;
+                    border: 1px solid #e6e6e6;
                     text-align: center;
-                    line-height: 52px;
+                    line-height: 44px;
                     margin-bottom: 10px;
                     color: #9A9B9A;
+                    margin-right:20px ;
                 }
                 span:last-child{
                     background: #F4F5F4;

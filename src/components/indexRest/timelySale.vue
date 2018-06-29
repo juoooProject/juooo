@@ -19,7 +19,7 @@
                 </div>
 
                 <div class="doing-time-detail" v-if="dateTmp.length>0" v-for="(date,index) in dateTmp" v-show="timeShow[index]">
-                    <div class="doing-time-detail-nav"><div>{{date[1].site.time}}</div></div>
+                    <div class="doing-time-detail-nav" v-if="date[1]"><div>{{date[1].site.time}}</div></div>
 
                     <div class="detail-wrapper" v-for="item in date" @click="goToTicket(item)">
                         <div class="doing-time-box">
@@ -46,7 +46,7 @@
                 <div class="guess-wrapper">
                     <div class="guess-title">猜你喜欢</div>
                     <div class="guess-title-box" ref="guess">
-                        <div class="guess-title-con">
+                        <div class="guess-title-con" >
                             <div class="guess" v-for="(item,index) in tourList" @click="goToTicket(item)">
                                 <div class="guess-pic">
                                     <img :src="item.other.imgUrl" alt="">

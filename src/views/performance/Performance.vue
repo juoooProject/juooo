@@ -292,7 +292,7 @@
                 margin-left: 30px;
                 height: 75px;
                 display: flex;
-                width: 1200px;
+                width: 1280px;
                 li{
                     height: 69px;
                     padding: 0 28px;

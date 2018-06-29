@@ -258,7 +258,7 @@ export default {
       },
       gotoSearch(){
           this.$router.push({
-              path:'/home/address'
+              path:'/search'
           })
         },
         goToCalendar(){

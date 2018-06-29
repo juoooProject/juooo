@@ -12,7 +12,7 @@ import axios from 'axios'
 import SIdentify from './components/identify/identify'
 Vue.use(SIdentify)
 import "./assets/css/mixin.less"
-
+import {saveSearch} from "./cache/index"
 Vue.prototype.$http = axios;
 Vue.prototype.$api="/api";
 import $ from "jquery"

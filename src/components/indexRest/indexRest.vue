@@ -1,9 +1,9 @@
 <template>
     <div class="index-wrapper">
-        <div class="limit-sale">
+        <div class="limit-sale" @click.stop.prevent="goToTicket(39)">
             <div class="limit-title">
                 <div class="limit-left">限时秒杀</div>
-                <div class="limit-right" @click="goToMoreTime">更多秒杀 ></div>
+                <div class="limit-right" @click.stop.prevent="goToMoreTime">更多秒杀 ></div>
             </div>
             <div class="limit-detail" v-if="tourList[10]">
                 <div class="limit-pic">
@@ -79,6 +79,14 @@
                 this.$router.push({
                     path:"/moreTour",
 
+                })
+            },
+            goToTicket(index){
+                this.$router.push({
+                    path:"/ticket",
+                    query:{
+                        id:39
+                    }
                 })
             }
         }

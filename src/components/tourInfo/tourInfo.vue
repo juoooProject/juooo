@@ -6,8 +6,8 @@
         </div>
         <div class="wrapper">
             <div class="header">
-                <article class="poster_wrapper">
-                    <img :src="all.imgUrl" alt="" class="poster">
+                <article class="poster_wrapper" v-if="all.other">
+                    <img :src="all.other.imgUrl" alt="" class="poster">
                     <div class="poster_bg"></div>
                     <!--<div class="bg"></div>-->
                     <div class="poster_bg_footer"></div>
@@ -28,20 +28,20 @@
                 <ul class="round-list-wrapper">
                     <li class="round-item" v-for="(item,index) in siteArr">
                         <div class="round-item-left" :class="{active:item.curFlag}">
-                            <span class="round-item-day">{{item.date}}</span>
-                            <span class="round-item-time">{{item.time}}</span>
+                            <span class="round-item-day">{{item.site.date}}</span>
+                            <span class="round-item-time">{{item.site.time}}</span>
                         </div>
                         <div class="round-item-center">
                             <div class="line"></div>
                             <div class="dot" :class="{active:item.curFlag}"></div>
                         </div>
                         <div class="round-item-right">
-                            <span>{{item.city}}站</span>
+                            <span>{{item.site.city}}站</span>
                             <span class="round-item-locate">
-                                <i class="icon ion-location" style="font-size: 20px"></i>   {{item.place}}
+                                <i class="icon ion-location" style="font-size: 20px"></i>   {{item.site.place}}
                             </span>
                         </div>
-                        <div class="buy-btn" v-show="item.realTime>=item.nowTime">购票</div>
+                        <div class="buy-btn" v-show="item.realTime>=item.nowTime" @click="goToTicket(item)">购票</div>
                     </li>
                 </ul>
             </article>
@@ -92,17 +92,16 @@
 
         },
         created(){
-            this.$http.get("/api/performances").then(({data})=> {
+            this.$http.get("/api/all").then(({data})=> {
                 if (data.status) {
                     var res = [];
                     res=data.allList.filter((value,index) =>{
-                        return value._id==this.$route.query.tid;
+                        return value.other._id==this.$route.query.tid;
                     })
-                    this.siteArr=res[0].siteAll;
                     this.all=res[0];
-                    this.siteArr.forEach((value,index)=>{
-                        var str1 = value.date;
-                        var str2 = value.time;
+                    res.forEach((value,index)=>{
+                        var str1 = value.site.date;
+                        var str2 = value.site.time;
                         var str = str1 + " " + str2;
                         var date =  new Date(str);
                         var time = date.getTime();
@@ -111,6 +110,8 @@
                         value.nowTime = now.getTime();
                         value.curFlag=false;
                     })
+
+
                     function compare(property){
                         return function(a,b){
                             var value1 = a[property];
@@ -118,7 +119,7 @@
                             return value1 - value2;
                         }
                     }
-                    this.siteArr=this.siteArr.sort(compare('realTime'))
+                    this.siteArr=res.sort(compare('realTime'));
                     for(var i = 0;i < this.siteArr.length;i++){
                          if(this.siteArr[i].realTime>=this.siteArr[i].nowTime){
                              this.siteArr[i].curFlag=true;
@@ -137,6 +138,14 @@
         methods:{
             goToLast(){
                 this.$router.go(-1);
+            },
+            goToTicket(item){
+                this.$router.push({
+                    path:"/ticket",
+                    query:{
+                        id:item.id
+                    }
+                })
             }
         }
     }
