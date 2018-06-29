@@ -201,11 +201,6 @@
                 console.log(arr)
                 this.dateList = arr
 
-                // const s = new Set();
-                // this.dateTmp.forEach(x => s.add(x));
-                // for (let i of s) {
-                //     this.dateList.push(i)
-                // }
                 const c = new Set();
                 this.cityTmp.forEach(x => c.add(x));
                 for (let i of c) {
@@ -431,6 +426,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        padding: 0 30px;
         .icon{
             display: inline-block;
             width: 20px;

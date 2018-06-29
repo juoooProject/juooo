@@ -67,9 +67,7 @@
                     <p>取票地址:</p>
                     <p>北京市东城区东四北大街107号科林大厦B座B609</p>
                 </div>
-
             </div>
-
         </div>
         
         <div class="order-summation">
@@ -93,8 +91,6 @@
             }
         },
         methods:{
-
-
             showMethodsDetail(num){
                 this.$nextTick(()=>{
                     this.showMethods=[]

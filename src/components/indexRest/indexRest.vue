@@ -31,7 +31,7 @@
 
         <div class="hot-performance">
             <div class="hot-title"> 热门演出 </div>
-            <hot-performance :tourList="tourList" :hotLength="hotLength"></hot-performance>
+            <hot-performance :hotLength="hotLength"></hot-performance>
         </div>
 
         <div class="footer" @click="goToPerformance">查看全部演出 ></div>
@@ -69,7 +69,7 @@
                     this.tourTmpList = data.allList;
 
                 }
-                // console.log(data)
+
 
                 this.tourTmpList.forEach((item,i)=>{
                     item.siteAll.forEach((value,index)=>{
@@ -81,7 +81,7 @@
                         this.arr = this.arr.reverse()
                     })
                 })
-                // console.log(this.arr)
+
             })
         },
         watch:{
@@ -125,27 +125,18 @@
                     console.log("00")
                     this.touringTmp=this.arr
                     this.tourList = this.touringTmp
-                    // console.log(this.tourList)
-                }else{
 
+                }else{
                     this.arr.forEach((sites)=>{
-                        console.log("11")
-                        // sites.hotData.siteAll.forEach((i)=>{
                             if(this.$store.state.currentCity == sites.site.city){
-                                // console.log(sites)
-                                // console.log(i)
 
                                 this.touringTmp.push(sites)
                             }
-                        // })
                         this.tourList = this.touringTmp
                     })
 
                 }
-                // console.log(this.tourList)
-                // this.$store.state.List=this.tourList
-                // console.log(this.$store.state.List)
-                return this.tourList;
+              return this.tourList;
             },
 
 
@@ -187,9 +178,10 @@
         }
         .limit-detail{
             width: 600px;
-            background: #eff0ef;
+            background: #f5f5f5;
             overflow: hidden;
             text-align: left;
+            border-radius: 5px;
             .limit-pic{
                 float: left;
                 width: 180px;
@@ -204,13 +196,14 @@
                 width: 360px;
                 padding: 25px;
                 p:nth-child(1){
-                    height: 78px;
+                    min-height: 39px;
                     font-size: 28px;
+                    line-height: 39px;
                     /*font-weight: 500;*/
                 }
                 p:nth-child(2){
                     margin-top: 20px;
-                    color: red;
+                    color: #F7791B;
                     font-size: 30px;
                     font-weight: 700;
                 }
@@ -229,6 +222,7 @@
                         color: white;
                         margin-left: 140px;
                         background: #F7791B;
+                        border-radius: 10px;
                     }
                 }
             }

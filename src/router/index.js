@@ -12,6 +12,13 @@ import Search from '../components/search/Search'
 import ShowPerform from "../components/showPerform/showPerform"
 
 import TourPerformanceDetail from "../components/indexRest/tourPerformanceDetail"
+
+import Ticket from "../components/goods/goodInfo"
+import HappyCard from "../components/happyCard/happyCard"
+
+import Price from "../components/goods/buyNow"
+import TourInfo from "../components/tourInfo/tourInfo"
+
 import TimelySale from "../components/indexRest/timelySale"
 
 import Register from '../components/register/Register'
@@ -20,6 +27,7 @@ import FindBackPwd from '../components/findBackPwd/FindBackPwd'
 import AddressMain from '../components/address/AddressMain'
 import AccountSetting from '../components/accountSetting/AccountSetting'
 import CalendarMain from '../components/calendar/CalendarMain'
+
 Vue.use(Router)
 
 
@@ -108,6 +116,27 @@ export default new Router({
           component:TourPerformanceDetail
       },
       {
+          path:"/ticket",
+          name:"ticket",
+          component:Ticket
+      },
+      {
+          path:"/happyCard",
+          name:"happyCard",
+          component:HappyCard
+      },
+      {
+          path:"/price",
+          name:"price",
+          component:Price
+      },
+      {
+          path: "/tourInfo",
+          name: "tourInfo",
+          component: TourInfo
+      },
+      {
+
           path:'/specialize',
           name:"specialize-area",
           component:SpecializeArea
@@ -123,6 +152,7 @@ export default new Router({
           component:TimelySale
 
       }
+
 
   ]
 })

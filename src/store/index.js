@@ -6,6 +6,9 @@ Vue.use(Vuex)
 Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
+        sortType:0,
+        ticketCon:[],
+        curType:-1,
         footShow:true,
         currentCity:'全国',
         calendarCity:'全国',
@@ -15,9 +18,12 @@ export default new Vuex.Store({
 
     },
     mutations: {
-        // getSeller(state,seller){
-        //     state.seller = seller;
-        // },
+        getTicket(state,ticket){
+            state.ticketCon = ticket;
+        },
+        changeType(state,type){
+            state.curType=type;
+        }
         // cartListShow(state,item){
         //     if(item != ""){
         //         state.cartFlag = !state.cartFlag;
@@ -42,5 +48,6 @@ export default new Vuex.Store({
     //             console.error(err);
     //         })
     //     }
+
     }
 })

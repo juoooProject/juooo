@@ -10,8 +10,13 @@
                 <p class="title">{{item.hotData.title}}</p>
                 <p class="tour-date">{{item.hotData.siteAll[0].date}}--{{item.hotData.siteAll[item.hotData.siteAll.length-1].date}}</p>
                 <div class="tour-place">
+
                     <span v-for="(i,index) in item.hotData.siteAll" v-if="index<5">{{i.city}}</span>
-                    <span>查看全部</span>
+                    <!--<span>查看全部</span>-->
+
+                    <!--<span v-for="(i,index) in item.siteAll" v-if="index<5">{{i.city}}</span>-->
+                    <span @click="goToTour(item.hotData._id)">查看全部</span>
+
                 </div>
             </div>
         </div>
@@ -27,6 +32,21 @@
             minLen:Number
 
         },
+
+        methods:{
+            goToTour(id){
+                this.$router.push({
+                    path:"/tourInfo",
+                    query:{
+                        tid:id
+                    }
+                })
+            }
+        }
+
+
+
+
     }
 </script>
 

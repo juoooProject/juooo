@@ -31,14 +31,14 @@
                     <div class="watching-top"><img src="../img/3.png" alt=""></div>
                     <div class="student-show" ref="imgsList">
                         <ul >
-                            <li v-for="(item,index) in studentList" v-if="index<=4">
-                                <img :src="item.imgUrl" alt="">
+                            <li v-for="(item,index) in studentList" v-if="index<=4" @click="goToTicket(item)">
+                                <img :src="item.other.imgUrl" alt="">
                                 <p>
-                                    <span>[{{item.siteAll[0].city}}]</span>
-                                    {{item.title}}
+                                    <span>[{{item.other.siteAll[0].city}}]</span>
+                                    {{item.other.title}}
                                 </p>
                                 <p>
-                                    学生价 <span>¥{{item.newPrice}}</span> 起
+                                    学生价 <span>¥{{item.other.newPrice}}</span> 起
                                 </p>
                             </li>
                         </ul>
@@ -88,19 +88,19 @@
                     <div class="student-list-wrapper">
                         <div class="student-list">
                             <!--学生票列表1-->
-                            <div class="student-list-container" v-for="list in studentTmp">
+                            <div class="student-list-container" v-for="list in studentTmp" @click="goToTicket(list)">
                                 <div class="student-left">
-                                    <img :src="list.imgUrl" alt="">
+                                    <img :src="list.other.imgUrl" alt="">
                                 </div>
                                 <div class="student-right">
-                                    <p>{{list.title}}-{{list.siteAll[0].city}}站</p>
-                                    <p>{{list.siteAll[0].date}} {{list.siteAll[0].time}}</p>
+                                    <p>{{list.other.title}}-{{list.other.siteAll[0].city}}站</p>
+                                    <p>{{list.other.siteAll[0].date}} {{list.other.siteAll[0].time}}</p>
                                     <p>
                                         <span v-if="currentCityList!=''">[{{currentCityList}}]</span>
-                                        <span v-else>[{{list.siteAll[0].city}}]</span>
-                                        <span>{{list.siteAll[0].place}}</span>
+                                        <span v-else>[{{list.site.city}}]</span>
+                                        <span>{{list.site.place}}</span>
                                     </p>
-                                    <p>学生价: <span>¥ {{list.newPrice}}</span>起</p>
+                                    <p>学生价: <span>¥ {{list.other.newPrice}}</span>起</p>
                                 </div>
 
                             </div>
@@ -139,51 +139,76 @@ var timer = null;
                tmp:[],
                studentTmp:[],
                currentCityList:[],
-               listList:["戏曲综艺","音乐剧","音乐会","话剧歌剧","演唱会","舞蹈芭蕾"],
+               listList:["演唱会","音乐会","话剧歌剧","儿童亲子","音乐剧","舞蹈芭蕾","戏曲综艺","展览"],
                listType:[],
                flag:true
            }
 
         },
 
-        created(){
+        created() {
             //console.log(this.isShowCover)
-            this.$nextTick(()=>{
-                //是监听当前组件发布的事件
 
-                // this.$on('isShow',(isShow)=>{
-                //     this.isShowCover = isShow;
-                // })
-            })
-
-            this.$http.get("api/student").then(({data})=>{
-                if (data.status == 1){
-                    this.studentList = data.stuList;
-                    this.studentTmp = data.stuList;
-
-                    data.stuList.forEach((citys)=>{
-
-                        citys.siteAll.forEach((items)=>{
-                            this.tmp.push(items.city);
+            this.$nextTick(() => {
+                this.$on('isShow', (isShow) => {
+                    this.isShowCover = isShow;
+                })
+                this.$http.get("api/all").then(({data}) => {
+                    if (data.status) {
+                        var res = [];
+                        res = data.allList;
+                        // this.tourList = res[0];
+                        // this.showCount=res[0].other.siteAll.length;
+                        var arr = [];
+                        res.forEach((value, index) => {
+                            if (value.other.stuSupports == true) {
+                                arr.push(value);
+                            }
                         })
-                    })
-                    const s = new Set();
 
-                    this.tmp.forEach(x => s.add(x));
+                        //将对象元素转换成字符串以作比较
+                        function obj2key(obj, keys) {
+                            var n = keys.length,
+                                key = [];
+                            while (n--) {
+                                key.push(obj[keys[n]]);
+                            }
+                            return key.join('|');
+                        }
 
-                    for (let i of s) {
+                        //去重操作
+                        function uniqeByKeys(array, keys) {
+                            var arr = [];
+                            var hash = {};
+                            for (var i = 0, j = array.length; i < j; i++) {
+                                var k = obj2key(array[i].other, keys);
+                                if (!(k in hash)) {
+                                    hash[k] = true;
+                                    arr.push(array[i]);
+                                }
+                            }
+                            return arr;
+                        }
 
-                        this.cityList.push(i)
+                        var arr = uniqeByKeys(arr, ['_id']);
+                        this.studentList = arr;
+                        this.studentTmp = arr;
+                        arr.forEach((value) => {
+                            this.tmp.push(value.site.city);
+                        })
+                        const s = new Set();
+
+                        this.tmp.forEach(x => s.add(x));
+
+                        for (let i of s) {
+
+                            this.cityList.push(i)
+                        }
+
                     }
 
-
-                }
-
-                console.log(this.tmp)
-                console.log(data)
-                console.log(this.studentList)
+                })
             })
-
         },
 
         mounted(){
@@ -295,7 +320,6 @@ var timer = null;
                         this.isShowCity = false
                     },2000)
                     let con = $.trim(e.target.innerText)
-                    console.log(con)
                     $(e.target).find(".icon").css({
                         color:"#F77B1E"
                     }).parent().siblings().find(".icon").css({
@@ -308,14 +332,16 @@ var timer = null;
                     this.currentCityList = con
 
                     this.studentList.forEach((student)=>{
-                        student.siteAll.forEach((site)=>{
-                            if(con == site.city){
-                                this.studentTmp.push(student)
-                            }
-
-
-                        })
-                        console.log(this.studentTmp)
+                        // student.siteAll.forEach((site)=>{
+                        //     if(con == site.city){
+                        //         this.studentTmp.push(student)
+                        //     }
+                        //
+                        //
+                        // })
+                        if(con == student.site.city){
+                            this.studentTmp.push(student)
+                        }
                         return this.studentTmp
                     })
 
@@ -339,7 +365,7 @@ var timer = null;
                     this.listList.forEach((list,index)=>{
                         if (list == c){
                             this.studentList.forEach((type)=>{
-                                if (type.performType == index){
+                                if (type.other.performType == index){
                                     this.studentTmp.push(type)
                                 }
                             })
@@ -360,10 +386,17 @@ var timer = null;
                 $(".city").css("display","none")
                 $(".list").css("display","block").siblings(".classify0").find("p").eq(1).addClass("active-choose").siblings().removeClass("active-choose")
 
+            },
+            goToTicket(item){
+                // this.$store.commit('getTicket',item);
+                this.$router.push({
+                    path:"/ticket",
+                    query:{
+                        id:item.id
+                    }
+                })
             }
         }
-
-
 
 
     }
@@ -404,6 +437,7 @@ var timer = null;
         display: flex;
         justify-content: space-between;
         align-items: center;
+        padding:0 30px;
         .icon{
             display: inline-block;
             width: 20px;
@@ -522,7 +556,6 @@ var timer = null;
                 width: 100%;
                 ul{
                     width: 1300px;
-
                     display: flex;
                     justify-content: space-around;
                     li{

@@ -12,7 +12,6 @@ module.exports = {
     devServer:{
         proxy:{
             '/api': {
-
                 target: 'http://10.80.13.228:8088',
                 changeOrigin:true,
                 pathRewrite:{
