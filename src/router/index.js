@@ -27,13 +27,13 @@ import FindBackPwd from '../components/findBackPwd/FindBackPwd'
 import AddressMain from '../components/address/AddressMain'
 import AccountSetting from '../components/accountSetting/AccountSetting'
 import CalendarMain from '../components/calendar/CalendarMain'
-
+import SaveAddress from '../components/saveAddress/SaveAddress'
+import OrderGoods from '../components/orderGoods'
 Vue.use(Router)
 
 
 export default new Router({
   mode:"history",
-
   routes: [
 
     {
@@ -128,7 +128,12 @@ export default new Router({
       {
           path:"/price",
           name:"price",
-          component:Price
+          component:Price,
+      },
+      {
+          path:"/orderGoods",
+          name:"orderGoods",
+          component:OrderGoods
       },
       {
           path: "/tourInfo",
@@ -151,8 +156,12 @@ export default new Router({
           name:"timely-sale",
           component:TimelySale
 
-      }
-
+      },
+      {
+          path:"/saveAddress",
+          name:"saveAddress",
+          component:SaveAddress
+      },
 
   ]
 })

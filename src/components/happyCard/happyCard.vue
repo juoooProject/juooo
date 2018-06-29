@@ -98,7 +98,6 @@
     .happy-card{
         width: 100%;
         height: 100%;
-        font-family:Arial,"微软雅黑",sans-serif;
         .topbar{
             position: fixed;
             display: flex;
@@ -165,6 +164,21 @@
                     height: 360px;
                     margin-bottom:20px;
                     border-radius: 40px;
+                    &:nth-child(3){
+                        .card-box{
+                            background: rgba(242,185,87,0.8)
+                        }
+                    }
+                    &:nth-child(4){
+                        .card-box{
+                            background: rgba(217,89,110,0.8)
+                        }
+                    }
+                    &:nth-child(5){
+                      .card-box{
+                        background: rgba(178,113,152,0.8)
+                      }
+                    }
                     img{
                         position: absolute;
                         left: 0;
@@ -188,6 +202,7 @@
                         height: 100%;
                         color: white;
                         background: rgba(240,135,51,0.8);
+                        font-family:Arial,"微软雅黑",sans-serif;
                         .title{
                             display: flex;
                             justify-content: space-between;
@@ -203,6 +218,7 @@
                                 font-size: 28px;
                                 height: 37px;
                                 line-height: 37px;
+                                font-weight: 400;
                             }
                         }
                         .supports{
@@ -232,7 +248,8 @@
                         .price{
                             display: flex;
                             justify-content: space-between;
-                            margin-top: 60px;
+                            align-items: center;
+                            margin-top: 40px;
                             .left{
                                 span:first-child{
                                     font-size: 20px;

@@ -28,12 +28,11 @@
                             <p class="time-arrow"></p>
                         </div>
                         <div class="time-every" @click="check2()">
-                            <p>{{month}}月{{day+1}}日 10:00</p>
+                            <p>{{month2}}月{{day1}}日 10:00</p>
                             <p class="time-arrow"></p>
                         </div>
-
                         <div class="time-every" @click="check3()">
-                            <p>{{month}}月{{day+2}}日 10:00</p>
+                            <p>{{month1}}月{{day2}}日 10:00</p>
                             <p class="time-arrow"></p>
                         </div>
                     </div>
@@ -42,7 +41,8 @@
                 <!--进行中-->
                 <keep-alive>
                     <div class="wrapper-pic">
-                        <div class="timely-pic" v-show="timeShow[index]" v-for="(item,index) in doingList">
+
+                        <div class="timely-pic" v-show="timeShow[index]" v-for="(item,index) in doingList" @click="goToTicket(item)">
                             <div class="pic">
                                 <img :src="item.other.imgUrl" alt="">
                             </div>
@@ -103,21 +103,21 @@
                 </div>
 
                 <div class="sale-list">
-                    <div class="timely-pic sale-pic" v-for="pics in allTmp">
+                    <div class="timely-pic sale-pic" v-for="pics in allTmp" @click="goToTicket(pics)">
                         <!--<div v-for="pic in allLists.siteAll">-->
-                            <div class="pic">
-                                <img :src="pics.imgUrl" alt="">
+                        <div class="pic">
+                            <img :src="pics.other.imgUrl" alt="">
 
-                            </div>
-                            <p class="pic-title">
-                                <span v-if="currentCity!=''">{{currentCity}}</span>
-                                <span v-else>{{pics.siteAll[0].city}}</span>
-                                <span>{{pics.title}}</span>
-                            </p>
-                            <p class="pic-price">
-                                <span>¥ {{pics.newPrice}}</span>
-                                <span>¥ {{pics.oldPrice}}</span>
-                            </p>
+                        </div>
+                        <p class="pic-title">
+                            <span v-if="currentCity!=''">{{currentCity}}</span>
+                            <span v-else>{{pics.site.city}}</span>
+                            <span>{{pics.other.title}}</span>
+                        </p>
+                        <p class="pic-price">
+                            <span>¥ {{pics.other.newPrice}}</span>
+                            <span>¥ {{pics.other.oldPrice}}</span>
+                        </p>
                         <!--</div>-->
 
                     </div>
@@ -139,7 +139,7 @@
 
         name: "specialize-area",
         components:{
-          CoverChoose
+            CoverChoose
         },
         data(){
             return {
@@ -161,46 +161,94 @@
                 allLists:[],
                 //存放变化的列表
                 allTmp:[],
-            //    当前的城市
+
+
+                //    当前的城市
                 currentCity:[],
-                doingList:[]
+                doingList:[],
+                day1:"",
+                day2:"",
+                month1:"",
+                month2:""
             }
         },
         created(){
             this.$http.get("api/performances").then(({data})=>{
                 this.allLists = data.allList;
                 //默认的列表全部
-                this.allTmp = data.allList;
-                // console.log(this.allTmp)
+                // this.allTmp = data.allList;
                 data.allList.forEach((all)=>{
-                    // this.imgList.push(all.imgUrl)
                     all.siteAll.forEach((site)=>{
-                        // this.dateTmp.push(site.date)
                         this.cityTmp.push(site.city)
                     })
                 })
+                this.day1 = this.day+1;
+                this.day2 = this.day+2;
+                this.month1 = this.month;
+                this.month2 = this.month;
                 if(this.month/10 < 1){
                     this.month = "0"+this.month;
                 }
                 if(this.day/10 < 1){
                     this.day = "0"+this.day;
                 }
-                if (this.day > 30){
-                    this.day = this.day - 30
+                if(this.day1/10 < 1){
+                    this.day1 = "0"+this.day1;
                 }
+
+                if (this.day2 > 30){
+                    this.day2 = 1
+                    this.month1 = Number(this.month)+1
+                }
+                if(this.day2/10 < 1){
+                    this.day2 = "0"+this.day2;
+                }
+                if (this.day1 > 30){
+                    this.day1 = 1
+                    this.month2 = Number(this.month)+1
+                }
+                if(this.month1/10 < 1){
+                    this.month1 = "0"+this.month1;
+                }
+                if(this.month2/10 < 1){
+                    this.month2 = "0"+this.month2;
+                }
+
+
+                // if(this.month/10 < 1){
+                //     this.month = "0"+this.month;
+                //
+                // }
+                //
+                // if(this.day/10 < 1){
+                //     this.day = "0"+this.day;
+                // }
+                // if (this.day > 30){
+                //     this.day = this.day - 30
+                // }
                 // this.timeArr.push(this.month+"月"+this.day+"日",this.month+"月"+(this.day+1)+"日",this.month+"月"+(this.day+2)+"日");
                 var arr = [];
+                var k = 1;
                 data.allList.forEach((item,i)=>{
                     item.siteAll.forEach((value,index)=>{
                         let o = {};
                         o.site = value;
                         o.other = item;
+
+                //         arr.push(o)
+                //     })
+                // })
+                // console.log(arr)
+                // this.dateList = arr
+
+
+                        o.id = k++;
                         arr.push(o)
                     })
                 })
-                console.log(arr)
                 this.dateList = arr
-
+                this.allLists = arr;
+                this.allTmp = arr.slice(11,40);
                 const c = new Set();
                 this.cityTmp.forEach(x => c.add(x));
                 for (let i of c) {
@@ -214,25 +262,28 @@
 
                             arr1.push(day)
                         }
-                        if(this.month == day.site.date.substr(5,2) && this.day+1 == day.site.date.substr(8,2)){
+                        if(this.month2 == day.site.date.substr(5,2) && this.day1 == day.site.date.substr(8,2)){
 
                             arr2.push(day)
                         }
-                        if(this.month == day.site.date.substr(5,2) && this.day+2 == day.site.date.substr(8,2)){
+                        if(this.month1 == day.site.date.substr(5,2) && this.day2 == day.site.date.substr(8,2)){
                             arr3.push(day)
                         }
                     })
                     this.doingList.push(arr1[0])
                     this.doingList.push(arr2[0])
                     this.doingList.push(arr3[0])
-                    console.log(this.doingList)
+
+                    // console.log(this.doingList)
+
+
                 })
 
             })
         },
 
         methods:{
-            
+
             goToMoreTime(){
                 this.$router.push({
                     path:"/Timely"
@@ -246,17 +297,17 @@
             },
 
             isAll(e){
-              this.$nextTick(()=>{
-                  $(e.target).css({
-                      color:"#F66048",
-                      borderBottom:"1px solid #F66048"
-                  }).siblings().css({
-                      color:"black",
-                      borderBottom:"none"
-                  })
-                  this.currentCity=[];
-                  this.allTmp = this.allLists
-              })
+                this.$nextTick(()=>{
+                    $(e.target).css({
+                        color:"#F66048",
+                        borderBottom:"1px solid #F66048"
+                    }).siblings().css({
+                        color:"black",
+                        borderBottom:"none"
+                    })
+                    this.currentCity=[];
+                    this.allTmp = this.allLists.slice(11,40);
+                })
             },
             isClick(e){
                 this.$nextTick(()=>{
@@ -268,21 +319,23 @@
                         color:"black",
                         borderBottom:"none"
                     })
-                    console.log(con)
                     //方法1
                     this.allTmp=[];
                     this.currentCity = [];
                     this.currentCity = con
-                    for (var i=0;i<this.allLists.length;i++){
-
-                        var citys = this.allLists[i].siteAll;
-                        // console.log(citys)
-                        for (var j=0;j<citys.length;j++){
-                            if (con == citys[j].city){
-                                this.allTmp.push(this.allLists[i])
-                            }
-                        }
-                    }
+                    // for (var i=0;i<this.allLists.length;i++){
+                    //
+                    //     var citys = this.allLists[i].siteAll;
+                    //     // console.log(citys)
+                    //     for (var j=0;j<citys.length;j++){
+                    //         if (con == citys[j].city){
+                    //             this.allTmp.push(this.allLists[i])
+                    //         }
+                    //     }
+                    // }
+                    this.allTmp = this.allLists.filter((value,index)=>{
+                        return value.site.city==con;
+                    })
                     console.log(this.allTmp)
                     return this.allTmp;
 
@@ -386,6 +439,15 @@
 
                     })
                 }
+            },
+            goToTicket(item){
+                // this.$store.commit('getTicket',item);
+                this.$router.push({
+                    path:"/ticket",
+                    query:{
+                        id:item.id
+                    }
+                })
             }
 
         },
@@ -478,7 +540,6 @@
         width: 100%;
         overflow: hidden;
     }
-    
     .timely-pic{
         margin: 10px;
         text-align: left;

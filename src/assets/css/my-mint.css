@@ -1,0 +1,19 @@
+.picker{
+    background: #fff
+}
+.picker-slot{
+    text-align: center;
+    font-size: 26px;
+}
+.picker-center-highlight{
+    /*margin-top: 0 !important;*/
+    /*height: 72px !important;*/
+    /*line-height: 72px !important;*/
+    z-index: 100;
+    border-top: 1px solid rgba(7,17,27,0.5);
+    border-bottom: 1px solid rgba(7,17,27,0.5);
+}
+.picker-items{
+    display: flex;
+    overflow: hidden;
+}

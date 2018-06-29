@@ -45,7 +45,6 @@
       <my-page :phoneNumber="phoneNumber" :logined="logined" v-if="logined"></my-page>
       <div class="input-main">
       </div>
-      <foot></foot>
     </div>
 </template>
 

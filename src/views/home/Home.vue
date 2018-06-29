@@ -1,7 +1,10 @@
 <template>
   <div class="home">
 
-<router-view></router-view>
+    <keep-alive>
+        <router-view ></router-view>
+    </keep-alive>
+
 
       <div class="head-wrap">
           <!--顶部导航-->
@@ -58,7 +61,7 @@ import BScroll from "better-scroll"
 import Search from '../../components/search/Search'
 import Foot from '../../components/foot/foot'
 import OrderGoods from "../../components/orderGoods"
-
+import ChooseAddress from '../../components/saveAddress/ChooseAddress'
 export default {
   name: 'home',
     data(){
@@ -146,11 +149,7 @@ export default {
                 path: "/search"
             })
         },
-        goToAddress() {
-            console.log(1)
-            this.$store.state.footShow = false;
 
-        },
     },
   created(){
       this.$http.get("/api/slide").then(({data})=>{
@@ -171,9 +170,7 @@ export default {
   },
   mounted(){
        this.$nextTick(()=>{
-
           this.init();
-
       })
   },
   components: {
@@ -185,7 +182,8 @@ export default {
        IndexRest,
        OrderGoods,
        AddAddress,
-      CalendarMain
+      CalendarMain,
+      ChooseAddress
   },
   methods:{
       goToStudent(){
@@ -262,8 +260,9 @@ export default {
           })
       },
       gotoSearch(){
+          this.$store.state.footShow = false;
           this.$router.push({
-              path:'/home/address'
+              path: "/search"
           })
         },
         goToCalendar(){
@@ -275,7 +274,12 @@ export default {
           this.$router.push({
               path:'/address'
           })
-      }
+      },
+      // goToSomewhere(){
+      //     this.$router.push({
+      //         path:'/saveAddress'
+      //     })
+      // }
     },
 }
 </script>

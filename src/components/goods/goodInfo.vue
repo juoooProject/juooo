@@ -142,6 +142,7 @@
                    this.ticketCon = res[0];
                    this.showCount=res[0].other.siteAll.length;
                    this.priceLen=res[0].site.price.length;
+
                 }
             });
 
@@ -150,14 +151,17 @@
              this.$nextTick(()=>{
                  let ticketWrap = this.$refs.ticketWrap;
              })
-            $(document).scroll(function () {
-                if($(document).scrollTop()>10){
-                    console.log($(document).scrollTop())
+            console.log($('.root'))
+            $('.root').scroll(function () {
+                console.log($('.root'))
+                if($('.root').scrollTop()>10){
+                    console.log($('.root').scrollTop())
+
                     $(".goods_navbar").css({
-                        'background':'white',
+                        'background':'#fff',
                         'border-bottom':'1px solid #ebebeb',
                     });
-                    $(".icon-arrow-left2").css('color','#212121')
+                    $(".ion-ios-arrow-left").css('color','#212121')
                     $(".icon-more").css('color','#212121')
                     $(".center").css("display",'block')
                 }else {
@@ -165,8 +169,8 @@
                         'background':'transparent',
                         'border-bottom':'none',
                     });
-                    $(".icon-arrow-left2").css('color','white')
-                    $(".icon-more").css('color','white')
+                    $(".ion-ios-arrow-left").css('color','#fff')
+                    $(".icon-more").css('color','#fff')
                     $(".center").css("display",'none')
                 }
             })
@@ -187,7 +191,7 @@
                 this.isShow = !this.isShow;
             },
             goToLast(){
-                this.$router.go(-1);
+                this.$router.push('/');
             },
             goToHome(){
                 this.showCover=false;
@@ -202,10 +206,20 @@
                 })
             },
             goToPrice(){
+                this.$store.commit('saveOne',{
+                    title:this.ticketCon.other.title,
+                    city:this.ticketCon.site.city,
+                    imgUrl:this.ticketCon.other.imgUrl,
+                    place:this.ticketCon.site.place,
+                    time:{
+                        ymd:this.ticketCon.site.date,
+                        ms:this.ticketCon.site.time
+                    }
+                })
                 this.$router.push({
                     path:"/price",
                     query:{
-                        pid:this.$route.query.id
+                        id:this.$route.query.id
                     }
                 })
             },

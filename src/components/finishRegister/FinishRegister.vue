@@ -32,7 +32,7 @@
                     <p class="prompt-text"><i class="icon ion-help-circled"></i>{{showPrompt}}</p>
                 </div>
                 <div class="submit">
-                    <button @click="register" class="submit-btn" :class="{'active':couldRegister}">完成注册</button>
+                    <button @click="register" class="submit-btn" :class="{'active':!showSign}">完成注册</button>
                 </div>
             </div>
         </div>
@@ -41,6 +41,7 @@
 
 <script>
     import {pwdReg} from '../../common/js/inputReg'
+    var PWD_ERROR = '密码只能是不包含空格的6-20位字符';
     export default {
         name: "FinishRegister",
         data(){
@@ -48,13 +49,18 @@
                 phoneNumber:this.$route.query.phoneNum,
                 password:'',
                 showSign:false,
-                couldRegister:false
+                couldRegister:false,
+                hasExist:false,
+                existPhone:''
             }
         },
         computed:{
             showPrompt(){
-                if(this.showSign == true){
-                    return '密码只能是不包含空格的6-20位字符';
+                if(this.couldRegister == false){
+                    return PWD_ERROR;
+                }
+                if(this.hasExist == true){
+                    return this.existPhone;
                 }
             }
         },
@@ -62,13 +68,23 @@
             register(){
                 if(this.couldRegister == true){
                     console.log(1)
-                    this.$router.push('/mine')
+
                     let param = new URLSearchParams()
                     param.append('phoneNum',this.phoneNumber)
                     param.append('passWord',this.password)
                     this.$http.post('/api/register',param).then((response) => {
                         console.log(response.data)
+                        if(response.data.status == 0){
+                            this.hasExist = true
+                            this.showSign = true;
+                            this.existPhone = response.data.msg;
+                            console.log(this.existPhone)
+                        }
+                        if(response.data.status == 1){
+                            this.$router.push('/mine')
+                        }
                     })
+
                 }
             },
             back(){
@@ -81,6 +97,7 @@
                 pwdVal.on('input',()=>{
                     if(!pwdReg.test(this.password) && this.password !== ''){
                         this.showSign = true;
+                        this.couldRegister = false;
                     }else{
                         this.showSign = false;
                         this.couldRegister = true;

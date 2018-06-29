@@ -2,8 +2,8 @@
     <div class="performWrap">
         <foot></foot>
         <div class="navbar-top">
-            <div class="left">
-                <span>全国</span>
+            <div class="left" @click="goToAddress">
+                <span>{{$store.state.currentCity}}</span>
                 <i class="icon ion-chevron-down"></i>
             </div>
             <div class="right">
@@ -86,9 +86,7 @@
 
             })
             this.listScroll.on('scrollStart',()=>{
-                console.log(this.$refs.listCon);
                 this.top = Math.abs(this.$refs.listCon.offsetTop);
-                console.log(this.top);
             })
             this.listScroll.on('scroll',(pos)=>{
                  // console.log(pos);
@@ -146,6 +144,11 @@
                         }
                     });
                 }
+            },
+            goToAddress(){
+                this.$router.push({
+                    path:'/address'
+                })
             }
         },
         computed:{

@@ -19,9 +19,9 @@
                 </div>
 
                 <div class="doing-time-detail" v-if="dateTmp.length>0" v-for="(date,index) in dateTmp" v-show="timeShow[index]">
-                    <div class="doing-time-detail-nav"><div>{{date[1].site.time}}</div></div>
+                    <div class="doing-time-detail-nav" v-if="date[1]"><div>{{date[1].site.time}}</div></div>
 
-                    <div class="detail-wrapper" v-for="item in date">
+                    <div class="detail-wrapper" v-for="item in date" @click="goToTicket(item)">
                         <div class="doing-time-box">
                             <div class="box-left">
                                 <img :src="item.other.imgUrl" alt="">
@@ -47,11 +47,11 @@
                     <div class="guess-title">猜你喜欢</div>
                     <div class="guess-title-box" ref="guess">
                         <div class="guess-title-con">
-                            <div class="guess" v-for="(item,index) in tourList" v-if="index<6">
+                            <div class="guess" v-for="(item,index) in tourList" @click="goToTicket(item)">
                                 <div class="guess-pic">
-                                    <img :src="item.imgUrl" alt="">
+                                    <img :src="item.other.imgUrl" alt="">
                                 </div>
-                                <p>{{item.title}}</p>
+                                <p>{{item.other.title}}</p>
 
                             </div>
                         </div>
@@ -88,37 +88,68 @@
                 dateTmp:[],
                 placeTmp:[],
                 timeShow:[true,false,false],
-                guessList:[]
+                guessList:[],
+                day1:"",
+                day2:"",
+                month1:"",
+                month2:""
             }
         },
         created(){
-            this.timeArr.push(this.month+"月"+this.day+"日",this.month+"月"+(this.day+1)+"日",this.month+"月"+(this.day+2)+"日");
+
+
             this.$http.get("api/performances").then(({data})=>{
-                this.tourList = data.allList
                 console.log(data)
+                this.day1 = this.day+1;
+                this.day2 = this.day+2;
+                this.month1 = this.month;
+                this.month2 = this.month;
                 if(this.month/10 < 1){
                     this.month = "0"+this.month;
                 }
                 if(this.day/10 < 1){
                     this.day = "0"+this.day;
                 }
-                if (this.day > 30){
-                    this.day = this.day - 30
+                if(this.day1/10 < 1){
+                    this.day1 = "0"+this.day1;
                 }
+
+                if (this.day2 > 30){
+                    this.day2 = 1
+                    this.month1 = Number(this.month)+1
+                }
+                if(this.day2/10 < 1){
+                    this.day2 = "0"+this.day2;
+                }
+                if (this.day1 > 30){
+                    this.day1 = 1
+                    this.month2 = Number(this.month)+1
+                }
+                if(this.month1/10 < 1){
+                    this.month1 = "0"+this.month1;
+                }
+                if(this.month2/10 < 1){
+                    this.month2 = "0"+this.month2;
+                }
+
+                this.timeArr.push(this.month+"月"+this.day+"日",this.month2+"月"+(this.day1)+"日",this.month1 +"月"+(this.day2)+"日");
                 console.log(this.month,this.day)
 
 
                 var arr = [];
+                var k = 1;
                 data.allList.forEach((item,i)=>{
                     item.siteAll.forEach((value,index)=>{
                         let o = {};
                         o.site = value;
                         o.other = item;
+                        o.id=k++;
                         arr.push(o)
                     })
                 })
                 this.timeList = arr;
-                console.log(this.timeList)
+                this.tourList = arr.slice(18,23);
+                console.log(this.tourList);
 
                 var arr1=[];
                 var arr2=[];
@@ -129,10 +160,10 @@
                         if (this.month == city.site.date.substr(5,2) && this.day == city.site.date.substr(8,2)){
                             arr1.push(city)
                         }
-                    if (this.month == city.site.date.substr(5,2) && this.day+1 == city.site.date.substr(8,2)){
+                    if (this.month2 == city.site.date.substr(5,2) && this.day1 == city.site.date.substr(8,2)){
                         arr2.push(city)
                     }
-                    if (this.month == city.site.date.substr(5,2) && this.day+2 == city.site.date.substr(8,2)){
+                    if (this.month1 == city.site.date.substr(5,2) && this.day2 == city.site.date.substr(8,2)){
                         arr3.push(city)
                     }
 
@@ -187,10 +218,19 @@
                     break;
                 }
             },
+            goToTicket(item){
+                this.$router.push({
+                    path:"/ticket",
+                    query:{
+                        id:item.id
+                    }
+                })
+            }
 
         },
         mounted(){
             new BScroll(this.$refs.guess,{
+                click:true,
                 scrollX:true,
             })
 
@@ -224,6 +264,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        padding: 0 30px;
         .icon{
             display: inline-block;
             width: 20px;

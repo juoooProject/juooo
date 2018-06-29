@@ -157,8 +157,6 @@ var timer = null;
                     if (data.status) {
                         var res = [];
                         res = data.allList;
-                        // this.tourList = res[0];
-                        // this.showCount=res[0].other.siteAll.length;
                         var arr = [];
                         res.forEach((value, index) => {
                             if (value.other.stuSupports == true) {

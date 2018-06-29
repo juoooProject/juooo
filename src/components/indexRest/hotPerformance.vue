@@ -29,17 +29,25 @@
             // tourList:Array,
         },
         data(){
-            return{
+
+          return{
                 data:[]
-            }
+          }
+        },
+        watch:{
+           city(){
+
+           }
         },
         created(){
             this.$http.get("/api/all").then(({data})=> {
+
                 console.log(data);
 
                 if (data.status) {
                     this.data = data.allList;
                     console.log(this.data);
+
                 }
             });
         },
@@ -65,7 +73,6 @@
             tourList(){
                 var arr = [];
                 if(this.$store.state.currentCity == "全国"){
-                    console.log(1);
                     arr = this.data;
                 }else {
                     arr = this.data.filter((value,index)=>{
@@ -95,10 +102,8 @@
                     return arr ;
                 }
                 var arr = uniqeByKeys(arr,['_id']);
-                // this.tourList=arr;
-                // var city = "";
-                // city = this.$store.state.currentCity;
-                return arr;
+
+                 return arr;
             }
 
 

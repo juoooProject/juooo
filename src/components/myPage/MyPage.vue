@@ -22,19 +22,19 @@
             </div>
             <div class="my-wealth">
                 <div class="wealth-wrapper">
-                    <div class="over block">
+                    <div class="over v-block">
                         <span class="imp">0.00元</span>
                         <span>余额</span>
                     </div>
-                    <div class="integral block">
+                    <div class="integral v-block">
                         <span class="imp">22分</span>
                         <span>积分</span>
                     </div>
-                    <div class="card block">
+                    <div class="cards v-block">
                         <span class="imp">0张</span>
                         <span>橙卡</span>
                     </div>
-                    <div class="coupon block">
+                    <div class="coupon v-block">
                         <span class="imp">0张</span>
                         <span>优惠券</span>
                     </div>
@@ -204,7 +204,7 @@
                     border: none;
                 }
             }
-            .block{
+            .v-block{
                 font-weight: 700;
                 &>span{
                     display: block;
