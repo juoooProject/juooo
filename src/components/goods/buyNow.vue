@@ -356,7 +356,7 @@
                 box-shadow: 4px 29px 65px #333;
                 background: white;
                 position: absolute;
-                bottom: 150px;
+                bottom: 100px;
                 .row{
                     display: flex;
                     justify-content: space-between;

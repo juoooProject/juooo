@@ -353,14 +353,15 @@
                         width: 270px;
                         height: 372px;
                         position: absolute;
-                        left: 235px;
+                        left: 0;
+                        right: 0;
                         top:114px;
                         z-index: 9;
                         border: .064rem solid #fff;
                         outline: 0;
                         -webkit-tap-highlight-color:transparent;
                         padding: 0;
-                        margin: 0;
+                        margin: auto;
                     }
                     .poster_bg_footer{
                         overflow: hidden;
@@ -574,10 +575,11 @@
                     background: #ECECEC;
                 }
                 .brief-intro{
-                    width: 690px;
+                    width: 100%;
                     padding: 0 30px;
                     margin-top: 22px;
                     margin-bottom: 22px;
+
                     h3{
                         padding-top: 40px;
                         font-size: 32px;
@@ -665,11 +667,14 @@
                 font-weight: 500;
                 display: flex;
                 .service-btn{
+                    flex: 0 0 20%;
                     width: 130px;
                     height: 100%;
                     line-height: 100px;
+                    font-size: 24px;
                 }
                 .buy-now{
+                    flex: 1;
                     display: block;
                     height: 100%;
                     line-height: 100px;
@@ -679,6 +684,7 @@
                     color: #666;
                 }
                 .seat-online{
+                    flex: 1;
                     display: block;
                     height: 100%;
                     line-height: 100px;

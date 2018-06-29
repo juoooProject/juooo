@@ -10,7 +10,6 @@
                 <article class="poster_wrapper" v-if="all.other">
                     <img :src="all.other.imgUrl" alt="" class="poster">
                     <div class="poster_bg"></div>
-                    <!--<div class="bg"></div>-->
                     <div class="poster_bg_footer"></div>
                     <div class="bg_shadow"></div>
                     <div class="poster_img">
@@ -21,13 +20,13 @@
                     </div>
                 </article>
             </div>
-            <article class="title">
-                <h3>{{all.title}}</h3>
-                <div class="date-time">时间：<span class="time">{{all.timePeriod}}</span></div>
+            <article class="title" v-if="all.other">
+                <h3>{{all.other.title}}</h3>
+                <div class="date-time">时间：<span class="time">{{all.other.timePeriod}}</span></div>
             </article>
             <article class="round-list">
                 <ul class="round-list-wrapper">
-                    <li class="round-item" v-for="(item,index) in siteArr">
+                    <li class="round-item" v-for="(item,index) in siteArr" @click="goToTicket(item)">
                         <div class="round-item-left" :class="{active:item.curFlag}">
                             <span class="round-item-day">{{item.site.date}}</span>
                             <span class="round-item-time">{{item.site.time}}</span>
@@ -42,7 +41,7 @@
                                 <i class="icon ion-location" style="font-size: 20px"></i>   {{item.site.place}}
                             </span>
                         </div>
-                        <div class="buy-btn" v-show="item.realTime>=item.nowTime" @click="goToTicket(item)">购票</div>
+                        <div class="buy-btn" v-show="item.realTime>=item.nowTime">购票</div>
                     </li>
                 </ul>
             </article>
@@ -122,6 +121,7 @@
                         return value.other._id==this.$route.query.tid;
                     })
                     this.all=res[0];
+                    console.log(this.all);
                     res.forEach((value,index)=>{
                         var str1 = value.site.date;
                         var str2 = value.site.time;
@@ -134,7 +134,6 @@
                         value.curFlag=false;
                     })
 
-
                     function compare(property){
                         return function(a,b){
                             var value1 = a[property];
@@ -143,6 +142,7 @@
                         }
                     }
                     this.siteArr=res.sort(compare('realTime'));
+                    console.log(this.siteArr)
                     for(var i = 0;i < this.siteArr.length;i++){
                          if(this.siteArr[i].realTime>=this.siteArr[i].nowTime){
                              this.siteArr[i].curFlag=true;
@@ -247,14 +247,15 @@
                     width: 270px;
                     height: 372px;
                     position: absolute;
-                    left: 235px;
+                    left: 0;
+                    right: 0;
                     top:114px;
                     z-index: 9;
                     border: .064rem solid #fff;
                     outline: 0;
                     -webkit-tap-highlight-color:transparent;
                     padding: 0;
-                    margin: 0;
+                    margin: auto;
                 }
                 .poster_bg_footer{
                     overflow: hidden;
@@ -321,9 +322,10 @@
             }
         }
         .title{
-            width: 700px;
+            width: 100%;
+            box-sizing: border-box;
             background: white;
-            padding: 0 20px 10px 30px;
+            padding: 0 30px 10px 30px;
             text-align: left;
             h3{
                 font-size: 33px;
@@ -340,7 +342,7 @@
             }
         }
             .round-list{
-                width: 750px;
+                width: 100%;
                 padding-top: 20px;
                 margin-top: 20px;
                 background: white;
@@ -352,7 +354,7 @@
 
                     .round-item-left{
                         padding-top: 10px;
-                        width:150px;
+                        flex:0 0 24%;
                         height: 155px;
                         text-align: center;
                         &.active{
@@ -360,22 +362,23 @@
                         }
                         .round-item-day{
                             padding-top: 25px;
-                            width: 150px;
+                            /*width: 150px;*/
                             display: block;
                             line-height: 40px;
-                            font-size: 20px;
+                            font-size: 28px;
                             font-weight: 500;
                         }
                         .round-item-time{
-                            width: 150px;
+                            /*width: 150px;*/
                             display: block;
-                            font-size: 24px;
+                            font-size: 28px;
                         }
                     }
                     .round-item-center{
                         padding-top: 10px;
                         position: relative;
                         width: 30px;
+                        flex:0 0 30px;
                         .line{
                             width: 2px;
                             height: 100%;
@@ -399,8 +402,8 @@
                         }
                     }
                     .round-item-right{
+                        flex:1;
                         padding-top: 20px;
-                        width: 530px;
                         height: 114px;
                         border-bottom: 1px solid #e6e6e6;
                         padding-left: 20px;

@@ -12,6 +12,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "better-scroll": "^1.12.1",
+    "good-storage": "^1.0.1",
     "jquery": "^3.3.1",
     "lib-flexible": "^0.3.2",
     "mint-ui": "^2.2.13",

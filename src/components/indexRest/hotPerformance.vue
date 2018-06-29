@@ -29,6 +29,7 @@
             // tourList:Array,
         },
         data(){
+
           return{
                 data:[]
           }
@@ -40,9 +41,9 @@
         },
         created(){
             this.$http.get("/api/all").then(({data})=> {
-
                 if (data.status) {
                     this.data = data.allList;
+
                 }
             });
         },
@@ -97,9 +98,7 @@
                     return arr ;
                 }
                 var arr = uniqeByKeys(arr,['_id']);
-                // this.tourList=arr;
-                 // var city = "";
-                 // city = this.$store.state.currentCity;
+
                  return arr;
             }
 

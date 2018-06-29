@@ -12,7 +12,6 @@ import 'mint-ui/lib/style.min.css'
 import axios from 'axios'
 import SIdentify from './components/identify/identify'
 
-
 import "./assets/css/mixin.less"
 
 import {saveSearch} from "./cache/index"

@@ -304,7 +304,6 @@
                 li{
                     flex: 1;
                     height: 69px;
-                    padding: 0 28px;
                     line-height: 75px;
                     &.active{
                         border-bottom: 1px solid orangered;

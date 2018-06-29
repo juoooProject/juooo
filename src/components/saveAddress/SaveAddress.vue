@@ -13,7 +13,7 @@
         <div class="message">
             <div class="username">
                 <input type="text" placeholder="姓名" v-model="username">
-                <i v-if="user" @click="move" class="icon ion-close-circled"></i>
+                <i v-if="username" @click="move" class="icon ion-close-circled"></i>
             </div>
             <div class="phone" >
                 <input class="phone-input" type="number" placeholder="手机号" v-model="phoneNumber">

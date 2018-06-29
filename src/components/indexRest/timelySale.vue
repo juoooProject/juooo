@@ -88,22 +88,51 @@
                 dateTmp:[],
                 placeTmp:[],
                 timeShow:[true,false,false],
-                guessList:[]
+                guessList:[],
+                day1:"",
+                day2:"",
+                month1:"",
+                month2:""
             }
         },
         created(){
-            this.timeArr.push(this.month+"月"+this.day+"日",this.month+"月"+(this.day+1)+"日",this.month+"月"+(this.day+2)+"日");
+
+
             this.$http.get("api/performances").then(({data})=>{
                 console.log(data)
+                this.day1 = this.day+1;
+                this.day2 = this.day+2;
+                this.month1 = this.month;
+                this.month2 = this.month;
                 if(this.month/10 < 1){
                     this.month = "0"+this.month;
                 }
                 if(this.day/10 < 1){
                     this.day = "0"+this.day;
                 }
-                if (this.day > 30){
-                    this.day = this.day - 30
+                if(this.day1/10 < 1){
+                    this.day1 = "0"+this.day1;
                 }
+
+                if (this.day2 > 30){
+                    this.day2 = 1
+                    this.month1 = Number(this.month)+1
+                }
+                if(this.day2/10 < 1){
+                    this.day2 = "0"+this.day2;
+                }
+                if (this.day1 > 30){
+                    this.day1 = 1
+                    this.month2 = Number(this.month)+1
+                }
+                if(this.month1/10 < 1){
+                    this.month1 = "0"+this.month1;
+                }
+                if(this.month2/10 < 1){
+                    this.month2 = "0"+this.month2;
+                }
+
+                this.timeArr.push(this.month+"月"+this.day+"日",this.month2+"月"+(this.day1)+"日",this.month1 +"月"+(this.day2)+"日");
                 console.log(this.month,this.day)
 
 
@@ -131,10 +160,10 @@
                         if (this.month == city.site.date.substr(5,2) && this.day == city.site.date.substr(8,2)){
                             arr1.push(city)
                         }
-                    if (this.month == city.site.date.substr(5,2) && this.day+1 == city.site.date.substr(8,2)){
+                    if (this.month2 == city.site.date.substr(5,2) && this.day1 == city.site.date.substr(8,2)){
                         arr2.push(city)
                     }
-                    if (this.month == city.site.date.substr(5,2) && this.day+2 == city.site.date.substr(8,2)){
+                    if (this.month1 == city.site.date.substr(5,2) && this.day2 == city.site.date.substr(8,2)){
                         arr3.push(city)
                     }
 
@@ -151,7 +180,7 @@
 
                 this.$nextTick(()=>{
                     console.log(arr1[0].site.time.substr(3,2))
-                    if(new Date().getHours() == arr1[0].site.time.substr(0,2) && new Date().getMinutes() == arr1[0].site.time.substr(3,2)){
+                    if(new Date().getHours() >= arr1[0].site.time.substr(0,2) && new Date().getMinutes() >= arr1[0].site.time.substr(3,2)){
                         $(".doing-time-detail-nav").find("div").eq(0).addClass("doing")
                         $(".box-circle").addClass("circle")
                     }else{

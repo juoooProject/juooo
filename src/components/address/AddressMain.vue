@@ -86,11 +86,10 @@
                 this.$router.go(-1)
                 console.log(1)
                 this.$store.state.currentCity = city;
-                // this.$store.commit('changeCity',city)
-                // console.log(this.$store.state.currentCity)
+
                 // this.$store.state.currentCity = city;
-                this.$store.commit("changeCity",city);
-                console.log(city)
+                // this.$store.commit("changeCity",city);
+                // console.log(city)
             }
         },
         mounted(){

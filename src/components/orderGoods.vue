@@ -24,11 +24,10 @@
             </div>
 
             <div class="order-sale-detail" v-show="ShowDetail">
-                <div class="sale-left">¥ 80.00 x 1</div>
-                <div class="sale-right">¥ 80.00</div>
+                <div class="sale-left">¥ {{this.$store.state.total.totalPrice}} x {{this.$store.state.total.totalCount}}</div>
+                <div class="sale-right">¥ {{this.$store.state.total.totalPrice}}</div>
             </div>
         </div>
-
         <div class="order-discount">
             <div class="discount-left">活动/优惠</div>
             <div class="discount-right">活动/优惠券/优购码 ></div>
@@ -70,9 +69,7 @@
                     <p>取票地址:</p>
                     <p>北京市东城区东四北大街107号科林大厦B座B609</p>
                 </div>
-
             </div>
-
         </div>
         
         <div class="order-summation">
@@ -81,7 +78,11 @@
             <p><span>优惠</span><span>¥ 0.00</span></p>
         </div>
 
-        <div class="order-bottom"></div>
+        <div class="order-sure">
+            <div class="order-sure-left"> <span>应付:</span> <span>¥ {{this.$store.state.total.totalPrice*this.$store.state.total.totalCount}}.00</span></div>
+            <div class="order-sure-right">确定</div>
+        </div>
+
     </div>
 </template>
 
@@ -96,6 +97,7 @@
             }
         },
         methods:{
+
             back(){
                 this.$router.push({
                     path:'/price',
@@ -142,6 +144,7 @@
         background: #FCFDFC;
         top: 0;
         left: 0;
+        padding: 0 56px;
         z-index: 555;
         width: 100%;
         height: 87px;
@@ -166,6 +169,8 @@
     .order-wrapper{
         background: #EFF0EF;
         width: 100%;
+        height: 100%;
+        overflow: scroll;
     }
 
     .order-goods{
@@ -316,6 +321,7 @@
             border-radius: 10px;
             background: #F4F5F4;
             color: #989998;
+            position: relative;
             &:before{
                 content: "+";
                 display: inline-block;
@@ -323,20 +329,19 @@
                 height: 30px;
                 border-radius: 50%;
                 text-align: center;
-                line-height: 30px;
                 color: #F68B41;
                 border: 2px solid #F68B41;
                 margin-right: 10px;
             }
             &:after{
                 content: ">";
-                display: inline-block;
-                margin-left: 400px;
+                position: absolute;
+                top: 25px;
+                right: 15px;
                 color: #BBBCBB;
                 font-size: 30px;
             }
         }
-
         .delivery-methods-visit,.delivery-methods-live{
             padding: 25px;
             border-radius: 10px;
@@ -409,7 +414,35 @@
             justify-content: space-between;
         }
     }
-    .order-bottom{
-        height: 200px;
+    .order-sure{
+        display: flex;
+        margin-top: 30px;
+        justify-content: space-around;
+        .order-sure-left{
+            width: 50%;
+            text-align: center;
+            line-height: 110px;
+            background: white;
+            span:nth-child(1){
+                font-size: 30px;
+                color: black;
+            }
+            span:nth-child(2){
+                font-size: 30px;
+                color: #ff7919;
+                font-weight: 700;
+            }
+
+        }
+        .order-sure-right{
+            width: 50%;
+            text-align: center;
+            line-height: 110px;
+            color: white;
+            background: #ff7919;
+            font-size: 30px;
+            font-weight: 700;
+        }
     }
+
 </style>

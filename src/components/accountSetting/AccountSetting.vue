@@ -20,11 +20,11 @@
         </div>
         <div class="box nickname">
             <div class="left">昵称</div>
-            <div class="right">18380591638</div>
+            <div class="right">{{$route.query.username}}</div>
         </div>
         <div class="box phone">
             <div class="left">手机号</div>
-            <div class="right">183****1638</div>
+            <div class="right">{{curname}}</div>
         </div>
         <div class="box">
             <div class="left">邮箱</div>
@@ -90,6 +90,11 @@
             this.$nextTick(() => {
 
             })
+        },
+        computed:{
+            curname(){
+                return this.$route.query.username.substr(0,3)+"****"+this.$route.query.username.substr(7,4)
+            }
         }
     }
 </script>

@@ -1,17 +1,17 @@
 <template>
     <div class="wrapper">
-        <div class="student-banner">
-            <span class="icon icon-arrow_lift" @click="goToBack"></span>
-            <span>巡回演出</span>
-            <div @click.stop.prevent="isShowCover = !isShowCover"><span></span><span></span><span></span></div>
+        <div class="box">
+            <div class="student-banner">
+                <span class="icon icon-arrow_lift" @click="goToBack"></span>
+                <span>巡回演出</span>
+                <div @click.stop.prevent="isShowCover = true"><span></span><span></span><span></span></div>
+            </div>
+            <div class="tour-performance-detail">
+                <tour-performance :length="Len" :tourList="tourList" :minLen="minLen"></tour-performance>
+                <div class="no-more">没有更多了</div>
+            </div>
         </div>
-        <div class="tour-performance-detail">
-            <tour-performance :length="Len" :tourList="tourList" :minLen="minLen"></tour-performance>
-            <div class="no-more">没有更多了</div>
-        </div>
-
-
-        <cover-choose v-if="isShowCover" :isShowCover="isShowCover"></cover-choose>
+        <cover-choose v-if="isShowCover" @isShow="getShow"></cover-choose>
     </div>
 </template>
 
@@ -27,20 +27,37 @@
         data(){
             return {
                 tourList:[],
+                touringTmpList:[],
                 Len:29,
                 isShowCover:false,
-                minLen:13
+                minLen:13,
+                arr:[]
             }
         },
         created(){
             this.$http.get("api/performances").then(({data})=>{
                 if (data.status == 1){
-                    this.tourList = data.allList
+                    this.touringTmpList = data.allList
+                    this.touringTmpList.forEach((item,i)=>{
+                        item.siteAll.forEach((value,index)=>{
+                            let o = {};
+                            o.site = value
+                            o.hotData = item;
+                            o.place = value.place;
+                            this.arr.push(o);
+                            this.arr = this.arr.reverse()
+                        })
+                    })
+                    this.tourList = this.arr
+                    console.log(this.arr);
                 }
                 console.log(data)
             })
         },
         methods:{
+            getShow(bol){
+                this.isShowCover =  bol;
+            },
             goToBack(){
                 this.$router.go(-1)
             }
@@ -50,6 +67,12 @@
 
 <style scoped lang="less">
     @import "../../css/style.css";
+    .box{
+        position: absolute;
+        overflow: scroll;
+        height: 100%;
+        padding: 20px;
+    }
     .student-banner{
         position: fixed;
         background: white;

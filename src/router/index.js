@@ -155,6 +155,7 @@ export default new Router({
           path:"/timely",
           name:"timely-sale",
           component:TimelySale
+
       },
       {
           path:"/saveAddress",

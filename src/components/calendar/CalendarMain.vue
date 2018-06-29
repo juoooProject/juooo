@@ -45,18 +45,18 @@
 
                     </div>
                     <ul>
-                        <li class="perform-data"  v-for="list in filterData">
+                        <li class="perform-data"  v-for="list in filterData" @click="goToTicket(list)">
                             <div class="left-image">
                                 <img width="86" height="115" :src="list.all.imgUrl" alt="">
                             </div>
                             <div class="right-data">
                                 <div class="title">{{list.all.title}} -{{$store.state.calendarCity}}站</div>
                                 <div class="detail">
-                                    <p class="time">{{list.siteAll.date}}</p>
-                                    <p>场馆：{{list.siteAll.place}}</p>
+                                    <p class="time">{{list.site.date}}</p>
+                                    <p>场馆：{{list.site.place}}</p>
                                 </div>
                                 <div class="price">
-                                    <span>￥{{list.siteAll.price[0]}} - {{list.siteAll.price[list.siteAll.price.length-1]}}</span>
+                                    <span>￥{{list.site.price[0]}} - {{list.site.price[list.site.price.length-1]}}</span>
                                 </div>
                             </div>
                         </li>
@@ -129,6 +129,14 @@
             },
             computedDate(defTime){
 
+            },
+            goToTicket(item){
+                this.$router.push({
+                    path:"/ticket",
+                    query:{
+                        id:item.id
+                    }
+                })
             }
         },
         computed:{
@@ -139,22 +147,22 @@
                 this.showTime =  dateArr[0]+'-'+mon+'-'+day;
 
                 this.filterDatas=[];
-                this.dataAll.forEach((list)=>{
-                    list.siteAll.forEach((site)=>{
-                        if((site.city == this.$store.state.calendarCity)  && (this.$store.state.calendarCity !=='全国') && (site.date ==this.showTime )){
-                            let o = {};
-                            o.all = list;
-                            o.siteAll = site;
-                            this.filterDatas.push(o)
+                this.defaultDatas.forEach((list)=>{
+                    // list.all.siteAll.forEach((site)=>{
+                        if((list.site.city == this.$store.state.calendarCity)  && (this.$store.state.calendarCity !=='全国') && (list.site.date ==this.showTime )){
+                            // let o = {};
+                            // o.all = list;
+                            // o.siteAll = site;
+                            this.filterDatas.push(list)
                         }
-                        if((this.$store.state.calendarCity == '全国') && (site.date == this.showTime )){
-                            let o = {};
-                            o.all = list;
-                            o.siteAll = site;
-                            this.filterDatas.push(o)
+                        if((this.$store.state.calendarCity == '全国') && (list.site.date == this.showTime )){
+                            // let o = {};
+                            // o.all = list;
+                            // o.siteAll = site;
+                            this.filterDatas.push(list)
                         }
                     })
-                })
+                // })
                 if(this.filterDatas.length == 0){
                     this.filterDatas = this.defaultDatas;
                 }
@@ -177,16 +185,40 @@
                 this.$http.get('/api/performances').then((data) => {
                     if(data.data.status == 1){
                         this.dataAll = data.data.allList;
+                        var k = 1;
                         this.dataAll.forEach((list)=>{
-                            if(list.siteAll.length >= 10){
                                 list.siteAll.forEach((site)=>{
                                     let o = {};
                                     o.all = list;
-                                    o.siteAll = site;
+                                    o.site = site;
+                                    o.id=k++;
                                     this.defaultDatas.push(o)
                                 })
-                            }
                         })
+                        //将对象元素转换成字符串以作比较
+                        function obj2key(obj, keys){
+                            var n = keys.length,
+                                key = [];
+                            while(n--){
+                                key.push(obj[keys[n]]);
+                            }
+                            return key.join('|');
+                        }
+                        //去重操作
+                        function uniqeByKeys(array,keys){
+                            var arr = [];
+                            var hash = {};
+                            for (var i = 0, j = array.length; i < j; i++) {
+                                var k = obj2key(array[i].all, keys);
+                                if (!(k in hash)) {
+                                    hash[k] = true;
+                                    arr .push(array[i]);
+                                }
+                            }
+                            return arr ;
+                        }
+                        this.defaultDatas = uniqeByKeys(this.defaultDatas,['_id']);
+                        console.log(this.defaultDatas)
                         return this.defaultDatas;
                     }
                 }).catch((err)=>{

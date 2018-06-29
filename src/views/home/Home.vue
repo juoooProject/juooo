@@ -41,7 +41,7 @@
                <li @click="goToStudent"><img src="../../assets/img/student.png" alt=""><span>学生专区</span></li>
                <li @click="goToCard"><img src="../../assets/img/card.png" alt=""><span>欢聚橙卡</span></li>
            </ul>
-           <index-rest></index-rest>
+           <index-rest :currentCity="currentCity"></index-rest>
        </div>
        
 
@@ -77,7 +77,8 @@ export default {
           interval:2000,
           dots:[],
           classMap:[{src:'http://10.80.13.228:8088/img/sing.png',word:'演唱会'},{src:'http://10.80.13.228:8088/img/music.png',word:'音乐会'},{src:'http://10.80.13.228:8088/img/show.png',word:'舞台剧'},{src:'http://10.80.13.228:8088/img/drama.png',word:'音乐剧'},{src:'http://10.80.13.228:8088/img/child.png',word:'儿童'}],
-          searchShow:false
+          searchShow:false,
+          currentCity:this.$store.state.currentCity
       }
     },
     methods: {
