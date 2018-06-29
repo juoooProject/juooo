@@ -27,7 +27,7 @@
           </p>
         </div>
         <div class="submit">
-          <button class="submit-btn" :class="{'click':loginClick}" @click.stop.prevent="login">登录</button>
+          <button class="submit-btn" :class="{'click':existUser&&existPwd}" @click.stop.prevent="login">登录</button>
         </div>
       </form>
     </div>
@@ -110,17 +110,7 @@
             }
         },
         mounted(){
-            //手机正则："^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\\d{8}$"
-            //邮箱正则：^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$
-            // pwd : ^[A-Z0-9[^ ]]{6,20}$
             this.$nextTick(() => {
-                //获取登录状态
-
-
-                // var phoneReg = /^(13[0-9]|14[5|7]|15[0-3]|[5-9]|18[0-9])\d{8}$/;
-                // // var emailReg = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;
-                // var pwdReg = /^[\\p{Punct}a-zA-Z0-9]{6,20}$/;
-                // var isMatch = false;
                 //密码输入框失去焦点,检查用户名和密码是否符合规范
                 let loginBtn = $('.submit-btn');
                 loginBtn.on('touchstart',()=>{

@@ -8,11 +8,19 @@ import './common/less/reset.less'
 import 'lib-flexible/flexible'
 import  "./assets/js/tween"
 import './common/less/style.less'
+import 'mint-ui/lib/style.min.css'
 import axios from 'axios'
 import SIdentify from './components/identify/identify'
-Vue.use(SIdentify)
+
+
 import "./assets/css/mixin.less"
+
 import {saveSearch} from "./cache/index"
+
+import './assets/css/my-mint.css'
+Vue.use(SIdentify)
+
+
 Vue.prototype.$http = axios;
 Vue.prototype.$api="/api";
 import $ from "jquery"

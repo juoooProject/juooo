@@ -1,24 +1,24 @@
 <template>
     <div class="order-wrapper">
         <div class="student-banner">
-            <span class="icon icon-arrow_lift"></span>
+            <span class="icon icon-arrow_lift" @click="back"></span>
             <span>确认订单</span>
             <div></div>
         </div>
 
         <div class="order-goods">
             <div class="order-detail">
-                <div class="order-left"><img src="../img/00.jpg" alt=""></div>
+                <div class="order-left"><img :src="this.$store.state.good.imgUrl" alt=""></div>
                 <div class="order-right">
-                    <p>hhhj</p>
-                    <p>dsa</p>
-                    <p>fff</p>
+                    <p>{{this.$store.state.good.title}} {{this.$store.state.good.city}}站</p>
+                    <p>时间：{{this.$store.state.good.time.ymd}} {{this.$store.state.good.time.ms}}</p>
+                    <p>场馆：{{this.$store.state.good.place}}</p>
                 </div>
             </div>
             <div class="order-price">
-                <div class="price-left">合计(1张) :</div>
+                <div class="price-left">合计({{this.$store.state.total.totalCount}}张) :</div>
                 <div class="price-right">
-                    <span>¥ 80.00</span>
+                    <span>¥ {{this.$store.state.total.totalPrice}}</span>
                     <span @click="ShowDetail=!ShowDetail" :class="{active:ShowDetail}"> ^ </span>
                 </div>
             </div>
@@ -39,8 +39,11 @@
             <div class="delivery-methods">
                 <span v-for="(item,index) in methods" :class="{methodsActive:showMethods[index]}" @click="showMethodsDetail(index)">{{item}}</span>
             </div>
-            <div class="delivery-methods-express" v-show="showMethods[0]">
+            <div class="delivery-methods-express" v-show="showMethods[0]" @click="chooseAddress">
                 完善配送信息
+                <p>{{$store.state.sendAddress.username}} {{$store.state.sendAddress.phone}}</p>
+                <p>{{$store.state.address.province}} {{$store.state.address.city}} {{$store.state.address.country}}</p>
+                <p>{{$store.state.sendAddress.detail}}</p>
             </div>
             <div class="delivery-methods-visit" v-show="showMethods[1]">
                 <p class="visit-title">请填写姓名和手机号，该信息将作为取票凭证</p>
@@ -73,7 +76,7 @@
         </div>
         
         <div class="order-summation">
-            <p><span>商品合计:</span><span>¥ 80.00</span></p>
+            <p><span>商品合计:</span><span>¥ {{this.$store.state.total.totalPrice}}</span></p>
             <p><span>运费合计:</span><span>¥ 0.00</span></p>
             <p><span>优惠</span><span>¥ 0.00</span></p>
         </div>
@@ -93,12 +96,25 @@
             }
         },
         methods:{
-
-
+            back(){
+                this.$router.push({
+                    path:'/price',
+                    query:{
+                        id:this.$route.query.id
+                    }
+                })
+            },
+            chooseAddress(){
+                this.$router.push({
+                    path:'/saveAddress',
+                    query:{
+                        id:this.$route.query.id
+                    }
+                })
+            },
             showMethodsDetail(num){
                 this.$nextTick(()=>{
                     this.showMethods=[]
-
                     switch (num){
                         case 0:this.showMethods.push(true,false,false);
                         break;

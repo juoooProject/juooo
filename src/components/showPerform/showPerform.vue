@@ -65,9 +65,6 @@
                 });
             }
         },
-        methods:{
-
-        },
         created(){
             this.$store.commit('changeType',this.$route.query.id);
             this.$http.get("/api/performances").then(({data})=> {
@@ -95,7 +92,6 @@
                             })
                             this.listArr = arr2;
                         }
-                        console.log(this.listArr)
 
                     }
                     if(this.$store.state.currentCity!="全国"){

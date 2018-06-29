@@ -3,7 +3,7 @@
         <foot></foot>
         <div class="navbar-top">
             <div class="left" @click="goToAddress">
-                <span>{{this.$store.state.currentCity}}</span>
+                <span>{{$store.state.currentCity}}</span>
                 <i class="icon ion-chevron-down"></i>
             </div>
             <div class="right">

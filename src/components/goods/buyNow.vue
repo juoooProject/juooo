@@ -55,10 +55,11 @@
                 <span class="line"></span>
                 <div class="allPrice">￥<div class="p-num">{{totalPrice}}</div></div>
             </div>
-            <div class="buy-button">
+            <div class="buy-button" @click="goToBuy">
                 确定
             </div>
         </div>
+        <router-view></router-view>
     </div>
 </template>
 
@@ -100,19 +101,14 @@
             },
         },
         created(){
-
             this.$http.get("/api/all").then(({data})=> {
                 if (data.status) {
-                    console.log(data);
                     var res = [];
                     res=data.allList.filter((value,index) =>{
-                        return value.id==this.$route.query.pid;
+                        return value.id==this.$route.query.id;
                     })
                     this.priceArr = res[0].site.price;
-                    console.log(this.priceArr);
                 }
-
-
             });
             var temp = []
             this.arr2.forEach((arr)=>{
@@ -186,7 +182,28 @@
                 this.goodsList.splice(index,1);
             },
             goToLast(){
-                this.$router.go(-1);
+                //this.$router.go(-1);
+                this.$router.push({
+                    path:"/ticket",
+                    query:{
+                        id:this.$route.query.id
+                     }
+                })
+            },
+            goToBuy(){
+                console.log(1)
+                this.$nextTick(()=>{
+                    this.$store.commit('calculateTotalPrice',{
+                        totalPrice:this.totalPrice,
+                        totalCount:this.totalCount
+                    })
+                })
+                this.$router.push({
+                    path:"/orderGoods",
+                    query:{
+                        id:this.$route.query.id
+                    }
+                })
             }
         }
 
@@ -194,8 +211,9 @@
 </script>
 
 <style scoped lang="less">
-
         .wrapper{
+            position: relative;
+            z-index: 10;
             background: #f6f6f6;
             height: 1334px;
             width: 750px;
@@ -338,7 +356,7 @@
                 box-shadow: 4px 29px 65px #333;
                 background: white;
                 position: absolute;
-                bottom: 100px;
+                bottom: 150px;
                 .row{
                     display: flex;
                     justify-content: space-between;

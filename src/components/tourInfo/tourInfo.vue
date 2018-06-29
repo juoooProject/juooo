@@ -1,8 +1,9 @@
 <template>
     <div class="tourWrap">
         <div class="navbar">
-            <div class="navber-left" @click="goToLast"><span class="icon ion-ios-arrow-left"></span></div>
+            <div class="navbar-left" @click="goToLast"><span class="icon ion-ios-arrow-left"></span></div>
             <div class="navbar-center">巡演详情</div>
+            <div class="right" @click=""><div class="link"><span class="icon-more">...</span></div></div>
         </div>
         <div class="wrapper">
             <div class="header">
@@ -91,6 +92,28 @@
         computed:{
 
         },
+        mounted(){
+            $('.tourWrap').scroll(function () {
+                if($('.tourWrap').scrollTop()>20){
+
+                    $(".navbar").css({
+                        'color':'#000',
+                        'background':'#fff',
+                        'border-bottom':'1px solid #ebebeb',
+                    });
+                    $(".ion-ios-arrow-left").css('color','#212121')
+                    $(".icon-more").css('color','#212121')
+                }else {
+                    $(".navbar").css({
+                        'background':'transparent',
+                        'border-bottom':'none',
+                        'color':'#fff'
+                    });
+                    $(".ion-ios-arrow-left").css('color','#fff')
+                    $(".icon-more").css('color','#fff')
+                }
+            })
+        },
         created(){
             this.$http.get("/api/all").then(({data})=> {
                 if (data.status) {
@@ -127,8 +150,6 @@
                          }
                     }
                 }
-
-
             });
 
             this.arr.forEach((item)=>{
@@ -161,16 +182,36 @@
             top: 0;
             display: flex;
             align-items: center;
-            width: 688px;
+            padding: 0 30px 0 20px;
+            width: 100%;
             height: 87.984px;
-            padding: 0 32px 0 30px;
-            font-size: 40px;
+            font-size: 36px;
             color: white;
             z-index: 10000;
+            transition: all 1s cubic-bezier(0,0,.25,1);
             .navbar-center{
-                width: 200px;
-                text-align: right;
+                flex:1;
+                text-align: center;
                 margin: auto;
+            }
+            .navbar-left{
+                flex: 0 0 10%;
+                text-align: center;
+                height: 87.984px;
+                line-height:87.984px ;
+                .ion-ios-arrow-left{
+                    vertical-align: text-top;
+                    width: 40px;
+                    height: 100%;
+                    display: block;
+                    font-size: 40px;
+                    line-height: 87.98px;
+                    color: white;
+                }
+            }
+            .right{
+                flex: 0 0 10%;
+                text-align: center;
             }
 
         }

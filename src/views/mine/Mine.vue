@@ -3,7 +3,7 @@
       <div class="mine-wrapper" v-if="!logined">
         <div class="mine-header">
           <div class="arrow-wrapper" @click="toHome">
-            <span class="icon-angle-left"></span>
+            <span class="icon ion-ios-arrow-left"></span>
           </div>
           <div class="logo-wrapper">
             <span class="logo"></span>
@@ -45,7 +45,6 @@
       <my-page :phoneNumber="phoneNumber" :logined="logined" v-if="logined"></my-page>
       <div class="input-main">
       </div>
-      <foot></foot>
     </div>
 </template>
 
@@ -120,7 +119,7 @@
           background: #fdfdfd;
           .arrow-wrapper {
             flex: 0 0 10%;
-            .icon-angle-left {
+            .icon {
               font-size: 60px;
               line-height: 85px;
               font-weight: 400;
