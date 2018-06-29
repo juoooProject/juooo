@@ -181,17 +181,17 @@
             height: 90px;
             width: 100%;
             .left{
-                width: 120px;
+                width: 13%;
                 font-size: 0;
                 margin-right: 15px;
-                text-align: right;
+                text-align:center;
                 span{
                     display: inline-block;
                     height: 100%;
                     font-size: 28px;
                     line-height:90px;
                     text-align: center;
-                    margin-right: 10px;
+                    margin-right: 1.33333%;
                 }
                 .icon{
                     font-size:14px;
@@ -202,7 +202,7 @@
                 display: flex;
                 justify-content: flex-start;
                 align-items: center;
-                width: 530px;
+                width: 70.66666%;
                 height: 100%;
                 .search-btn{
                     width: 100%;
@@ -225,7 +225,7 @@
                 }
             }
             .menus{
-                width: 50px;
+                width: 6.6666%;
                 height: 100%;
                 line-height: 90px;
                 .icon{
@@ -292,8 +292,9 @@
                 margin-left: 30px;
                 height: 75px;
                 display: flex;
-                width: 1280px;
+                width: 1300px;
                 li{
+                    flex: 1;
                     height: 69px;
                     padding: 0 28px;
                     line-height: 75px;
