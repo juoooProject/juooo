@@ -82,6 +82,14 @@
                     easeTime: 300
                 }
             })
+            this.listScroll.on('pullingDown', () => {
+                // 刷新数据的过程中，回弹停留在距离顶部还有20px的位置
+                this.$http.get("/api/performances").then(({data}) => {
+                    this.listArr = data.allList;
+                }).catch((err) => {
+                    console.error(err);
+                });
+            })
             this.listScroll.on('beforeScrollStart',()=>{
 
             })

@@ -701,7 +701,7 @@
                 position: absolute;
                 top: 0;
                 z-index: 1000000000000000000000000000000000000;
-                background: rgba(0,0,0,0.85);
+                background: rgba(0,0,0,0.6);
             }
             .mask-link{
                 width: 280px;

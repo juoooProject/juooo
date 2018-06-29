@@ -226,7 +226,7 @@
                     this.doingList.push(arr1[0])
                     this.doingList.push(arr2[0])
                     this.doingList.push(arr3[0])
-
+                    console.log(this.doingList)
                 })
 
             })
